@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.LogMapper">
+
+	<resultMap type="com.java.po.Log" id="logResultMap">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="operation" column="operation" />
+		<result property="state" column="state" />
+		<result property="uptime" column="uptime" />
+	</resultMap>
+
+	<insert id="insertLog" parameterType="Log">
+		insert into
+		log(id,name,operation,state,uptime)
+		values(null,#{name},#{operation},#{state},NOW())
+	</insert>
+
+	<delete id="deleteLog" parameterType="int">
+		delete from log where id =
+		#{id}
+	</delete>
+
+</mapper>

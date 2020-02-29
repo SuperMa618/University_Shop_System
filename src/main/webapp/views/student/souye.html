@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>首页内容</title>
+<link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
+<script src="/js/layui-2.5.4/layui.js"></script>
+</head>
+<body>
+
+	<div>
+		<!-- 		<div class="layui-row">
+			<div class="layui-col-md12 layui-bg-gray" style="padding: 20px">
+				<span class="layui-breadcrumb"> <a href="">首页</a> <a><cite>正文</cite></a>
+				</span>
+			</div>
+		</div> -->
+		<div class="layui-row">
+			<div class="layui-carousel" id="test1">
+				<div carousel-item>
+					<div>
+						<img alt="1" src="/images/index-student/r-1.jpg"
+							style="width: 100%; height: 100%;">
+					</div>
+					<div>
+						<img alt="2" src="/images/index-student/r-2.jpg"
+							style="width: 100%; height: 100%;">
+					</div>
+					<div>
+						<img alt="3" src="/images/index-student/r-3.jpg"
+							style="width: 100%; height: 100%;">
+					</div>
+					<div>
+						<img alt="4" src="/images/index-student/r-4.jpg"
+							style="width: 100%; height: 100%;">
+					</div>
+					<div>
+						<img alt="2" src="/images/index-student/r-2.jpg"
+							style="width: 100%; height: 100%;">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row layui-col-space10">
+			<div class="layui-card layui-col-md6"
+				style="padding: 15px; border: 1px solid #c2c2c2; height: 262px;">
+				<div class="layui-card-header"
+					style="border-bottom: 1px solid #c2c2c2;">学校新闻</div>
+				<div class="layui-card-body" style="padding: 20px;">
+					<ul>
+						<li><a><i class="layui-icon layui-icon-next"></i>
+								我校召开“不忘初心、牢记使命”主题教育总结大会</a></li>
+						<li><a><i class="layui-icon layui-icon-next"></i>
+								我校召开“不忘初心、牢记使命”主题教育总结大会</a></li>
+						<li><a><i class="layui-icon layui-icon-next"></i>
+								我校召开“不忘初心、牢记使命”主题教育总结大会</a></li>
+						<li><a><i class="layui-icon layui-icon-next"></i>
+								我校召开“不忘初心、牢记使命”主题教育总结大会</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-card layui-col-md6"
+				style="padding: 15px; border: 1px solid #c2c2c2; height: 262px;">
+				<div class="layui-card-header"
+					style="border-bottom: 1px solid #c2c2c2;">代办事项</div>
+				<div class="layui-card-body">
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th>事项</th>
+								<th>进度</th>
+								<th>状态</th>
+								<th>时间</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>报到</td>
+								<td>100%</td>
+								<td>完成</td>
+								<td>2020-1~2020-3</td>
+							</tr>
+							<tr>
+								<td>报到</td>
+								<td>100%</td>
+								<td>完成</td>
+								<td>2020-1~2020-3</td>
+							</tr>
+							<tr>
+								<td>报到</td>
+								<td>100%</td>
+								<td>完成</td>
+								<td>2020-1~2020-3</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		layui
+				.use([ 'jquery', 'layer', 'form', 'laydate', 'element',
+						'carousel' ], function() {
+					// 加载layui模块，使用其推荐的【预先加载】方式，详见官网【模块规范】一节
+					var $ = layui.$;
+					var layer = layui.layer;
+					var form = layui.form;
+					var laydate = layui.laydate;
+					var element = layui.element;
+
+					var carousel = layui.carousel;
+					//建造实例
+					carousel.render({
+						elem : '#test1',
+						width : '100%',//设置容器宽度
+						autoplay : true,
+						interval : 2500,
+						arrow : 'always' //始终显示箭头
+					//,anim: 'updown' //切换动画方式
+					});
+				});
+	</script>
+</body>
+</html>

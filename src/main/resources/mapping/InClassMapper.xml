@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.InClassMapper">
+
+	<!-- 查询 多条数据 -->
+	<select id="findList" parameterType="String"
+		resultType="inclass">
+		select * from inclass where 1 = 1
+		<if test="inclassName != null and inclassName != ''">
+			and inclassName like '%${inclassName}%'
+		</if>
+		<if test="page!=null and limit!=null">
+			limit #{page},#{limit}
+		</if>
+
+	</select>
+</mapper>

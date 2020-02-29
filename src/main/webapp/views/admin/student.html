@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<title>用户页面</title>
+<link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
+<script src="/js/layui-2.5.4/layui.js"></script>
+<script type="text/javascript" src="/js/my_js/student.js"></script>
+<script type="text/javascript" src="/js/layui-2.5.4/xm-select.js"></script>
+<style type="text/css">
+body .to-fix-select .layui-layer-content {overflow: visible;}
+</style>
+</head>
+
+<body>
+	<!-- 页面结构 -->
+	<div>
+		<!--class="layui-main"  -->
+		<!-- 表格上方标题 -->
+		<blockquote class="layui-elem-quote">用户列表</blockquote>
+		<form class="layui-form">
+			<div class="demoTable">
+				搜索用户：
+				<div class="layui-inline">
+					<input class="layui-input" name="username" id="usernameS"
+						placeholder="姓名" autocomplete="off" maxlength="20">
+				</div>
+				<div class="layui-inline">
+					<input class="layui-input" name="studentid" id="studentidS"
+						placeholder="学号" onkeyup="value=value.replace(/[^\d]/g,'')"
+						autocomplete="off" maxlength="20">
+				</div>
+				<div class="layui-inline">
+					<input class="layui-input" name="inclass" id="inclassS"
+						placeholder="班级" autocomplete="off" maxlength="20">
+				</div>
+				<div class="layui-input-inline">
+					<select id="stateS" name="state" lay-filter="">
+						<option value="">启用状态</option>
+						<option value="1">启用</option>
+						<option value="0">禁用</option>
+					</select>
+				</div>
+				<button id="domew" class="layui-btn" class="layui-btn" type="button">搜索</button>
+				<button id="resetD" type="reset" class="layui-btn layui-btn-normal">重置</button>
+			</div>
+		</form>
+		<br>
+		<!-- 添加按钮 -->
+		<a class="layui-btn layui-btn-sm" id="add-student-btn">添加用户</a>
+		<!-- 添加按钮 -->
+		<a class="layui-btn layui-btn-sm layui-btn-danger"
+			id="del-students-btn">批量删除</a>
+		<!-- 用户表 -->
+		<table id="student-tbl" lay-filter="student-tbl"></table>
+		<script type="text/html" id="student-tbl-toolbar">
+      <a class="layui-btn layui-btn-xs" lay-event="updateStudent">编辑</a>
+      <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="deleteStudent">删除</a>
+    </script>
+		<!-- 数据序号 -->
+		<script type="text/html" id="indexTpl">
+    	{{d.LAY_TABLE_INDEX+1}}
+	</script>
+	</div>
+
+	<!-- 添加用户弹出层 -->
+	<div id="add-student-layer"
+		style="display: none; padding: 20px;">
+		<form id="add-student-form" class="layui-form layui-form-pane"
+			lay-filter="add-student-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-block">
+					<input id="username3" type="text" name="username"
+						class="layui-input" autocomplete="off" placeholder="请输入姓名"
+						lay-verify="required" maxlength="20">
+				</div>
+			</div>
+			<div class="layui-form-item" style="z-index: 9999;">
+				<label class="layui-form-label">班级</label>
+				<div class="layui-input-block">
+					<div id="demo2" class="xm-select-demo demo2"></div>
+				</div>
+			</div>
+			<div class="layui-form-item"
+				style="text-align: center; margin-top: 50px">
+				<button class="layui-btn" lay-submit
+					lay-filter="add-student-form-submit">提交</button>
+				<button id="resetAddStu" class="layui-btn layui-btn-primary"
+					type="reset">重置</button>
+			</div>
+		</form>
+	</div>
+
+	<!-- 更新用户弹出层 -->
+	<div id="update-student-layer" style="display: none; padding: 20px">
+		<div class="layui-form-item" style="display: none;">
+			<label class="layui-form-label">id</label>
+			<div class="layui-input-block">
+				<input id="idS" type="text" name="id" class="layui-input" readonly>
+			</div>
+		</div>
+		<form id="update-student-form" class="layui-form layui-form-pane"
+			lay-filter="update-student-form">
+			<table class="layui-table" lay-skin="row">
+				<tbody>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">姓名</label>
+								<div class="layui-input-block">
+									<input type="text" name="username" class="layui-input"
+										autocomplete="off" placeholder="请输入姓名" maxlength="20">
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">学号</label>
+								<div class="layui-input-block">
+									<input type="text" name="studentid" class="layui-input"
+										onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入学号"
+										autocomplete="off" maxlength="20">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">密码</label>
+								<div class="layui-input-block">
+									<input type="text" name="password" class="layui-input"
+										placeholder="请输入密码" maxlength="20">
+								</div>
+							</div>
+						</td>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">电话</label>
+								<div class="layui-input-block">
+									<input type="text" name="phone" class="layui-input"
+										placeholder="请输入联系电话"
+										onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+										maxlength="13">
+								</div>
+							</div></td>
+					</tr>
+					<tr>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">地址</label>
+								<div class="layui-input-block">
+									<input type="text" name="address" class="layui-input"
+										placeholder="请输入家庭地址" autocomplete="off" maxlength="20">
+								</div>
+							</div></td>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">Q&nbsp;Q</label>
+								<div class="layui-input-block">
+									<input type="text" name="qq" class="layui-input"
+										placeholder="请输入QQ" onkeyup="value=value.replace(/[^\d]/g,'')"
+										autocomplete="off" maxlength="20">
+								</div>
+							</div></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">学院</label>
+								<div class="layui-input-block">
+									<input type="text" class="layui-input" autocomplete="off"
+										placeholder="学院随班级修改而修改" readonly>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">班级</label>
+								<div class="layui-input-block">
+									<div id="demo3" class="xm-select-demo demo2"></div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">生日</label>
+								<div class="layui-input-block">
+									<input id="birthdateS" type="text" name="birthdate"
+										class="layui-input" placeholder="yyyy-MM-dd"
+										autocomplete="off" placeholder="请输入生日">
+								</div>
+							</div></td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">性别</label>
+								<div class="layui-input-block">
+									<input type="radio" name="sex" value="1" title="男"> <input
+										type="radio" name="sex" value="2" title="女">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">图片位置</label>
+								<div class="layui-input-block">
+									<input type="text" name="images" class="layui-input"
+										autocomplete="off" placeholder="请输入图片位置">
+								</div>
+							</div></td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">启用状态</label>
+								<div class="layui-input-block">
+									<input type="radio" name="state" value="1" title="启用">
+									<input type="radio" name="state" value="0" title="禁用">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="layui-form-item" style="text-align: center;">
+				<button class="layui-btn" lay-submit
+					lay-filter="update-student-form-submit">提交</button>
+				<button class="layui-btn layui-btn-primary" type="reset">清空</button>
+			</div>
+		</form>
+
+	</div>
+</body>
+
+</html>

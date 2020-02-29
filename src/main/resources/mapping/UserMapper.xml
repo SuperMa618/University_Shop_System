@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.UserMapper">
+	<!-- 用户登录的方法 -->
+	<select id="findUserByName" parameterType="User" resultType="User">
+        select * from s_user where username=#{userName}
+    </select>
+
+	<insert id="saveUser" parameterType="User">
+        insert into s_user(username,password,tel,head)
+        values(#{user.userName},#{user.passWord},#{user.tel},#{user.head})
+    </insert>
+
+	<update id="updateUser" parameterType="User">
+        update s_user
+        set username=#{user.userName},password=#{user.passWord},
+            tel=#{user.tel},head=#{user.head}
+        where id=#{user.id}
+    </update>
+</mapper>

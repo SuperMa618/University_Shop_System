@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>新生报到系统</title>
+<link rel="stylesheet" href="js/layui-2.5.4/css/layui.css">
+<script src="js/layui-2.5.4/layui.js"></script>
+<style type="text/css">
+input:focus {
+	border-style: solid;
+	border-color: #03a9f4;
+	box-shadow: 0 0 15px #03a9f4;
+}
+
+label {
+	width: 50px
+}
+</style>
+</head>
+<body
+	style="background: url(../../images/login/305197.jpg) no-repeat; background-size: 100%;">
+	<div class="layui-layout layui-layout-admin">
+		<h1 style="position: fixed; left: 65%; top: 10%; color: white;">新生报到系统</h1>
+		<div class="layui-tab layui-tab-brief layui-col-md5"
+			lay-filter="docDemoTabBrief"
+			style="border: 1px solid #e9d7ad; background: white; position: fixed; left: 50%; top: 20%; box-shadow: 1px 1px 1px #e9d7ad;">
+			<ul class="layui-tab-title">
+				<li class="layui-this layui-col-md6">报到</li>
+				<li class="layui-col-md6">登陆</li>
+			</ul>
+			<div class="layui-tab-content">
+				<!-- 报到界面 -->
+				<div class="layui-tab-item layui-show">
+					<form class="layui-form layui-col-md9 " id="report-to"
+						lay-filter="report-student-form">
+						<div class="layui-form-item " style="margin-top: 50px"></div>
+						<div class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label ">姓名：</label>
+							<div class="layui-input-block ">
+								<input id="username1" type="text" name="username"
+									lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+									class="layui-input" maxlength="20">
+							</div>
+						</div>
+						<div class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label">学号：</label>
+							<div class="layui-input-block">
+								<input id="studentid1" type="text" name="studentid"
+									lay-verify="required" placeholder="请输入学号"
+									onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+									class="layui-input" maxlength="20">
+							</div>
+						</div>
+						<div id="inputAndcode"
+							class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label ">验证码：</label>
+							<div class="layui-input-block">
+								<input id="code1" type="text" name="code" lay-verify="required"
+									placeholder="请输入验证码" autocomplete="off"
+									class="layui-input layui-col-md6" maxlength="4"
+									style="width: 50%;"> <img
+									src="../system/get_cpacha?vl=4&w=144&h=37&type=accountLoginCpacha"
+									class="code" style="cursor: pointer;" width="100px" />
+								<!-- position: absolute; right: 0px; top: 150px; -->
+							</div>
+
+						</div>
+						<div class="layui-form-item"
+							style="text-align: center; margin-top: 50px">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit
+									lay-filter="report-student-form-submit">报到</button>
+								<button type="reset" class="layui-btn layui-btn-primary cz">重置</button>
+								<!-- <button id="button" type="button" class="layui-btn">显示</button> -->
+							</div>
+						</div>
+					</form>
+				</div>
+
+				<!--  登陆界面-->
+				<div class="layui-tab-item">
+					<form class="layui-form layui-col-md9 " id="login-to"
+						lay-filter="login-student-form">
+						<div class="layui-form-item " style="margin-top: 50px"></div>
+						<div class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label ">姓名：</label>
+							<div class="layui-input-block ">
+								<input id="username2" type="text" name="username"
+									lay-verify="required" placeholder="请输入姓名" autocomplete="off"
+									class="layui-input" maxlength="20">
+							</div>
+						</div>
+						<div class="layui-form-item layui-col-md-offset1 noneAndblock">
+							<label class="layui-form-label">学号：</label>
+							<div class="layui-input-block">
+								<input id="studentid2" type="text" name="studentid"
+									placeholder="请输入学号" onkeyup="value=value.replace(/[^\d]/g,'')"
+									autocomplete="off" class="layui-input" maxlength="20">
+							</div>
+						</div>
+						<div class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label">密码：</label>
+							<div class="layui-input-block">
+								<input id="password2" type="password" name="password"
+									lay-verify="required" placeholder="请输入密码" class="layui-input"
+									maxlength="20">
+							</div>
+						</div>
+
+						<div id="inputAndcode1"
+							class="layui-form-item layui-col-md-offset1">
+							<label class="layui-form-label ">验证码：</label>
+							<div class="layui-input-block">
+								<input id="code2" type="text" name="code" lay-verify="required"
+									placeholder="请输入验证码" autocomplete="off"
+									class="layui-input layui-col-md6" maxlength="4"
+									style="width: 50%;"> <img id="cpacha-img1"
+									src="../system/get_cpacha?vl=4&w=144&h=37&type=accountLoginCpacha"
+									class="code" style="cursor: pointer;" width="100px" />
+								<!-- position: absolute; right: 0px; top: 150px; -->
+							</div>
+						</div>
+						<div class="layui-form-item pane">
+							<label class="layui-form-label layui-col-md-offset1">登陆方式：</label>
+							<div class="layui-input-block" id="IsPurchased">
+								<input id="student" type="radio" name="loginType"
+									lay-filter="loginType" value="s" title="学生" checked> <input
+									id="teacher" type="radio" name="loginType"
+									lay-filter="loginType" value="t" title="教师"> <input
+									id="admin" type="radio" name="loginType" lay-filter="loginType"
+									value="a" title="管理员">
+							</div>
+						</div>
+						<div class="layui-form-item"
+							style="text-align: center; margin-top: 40px; padding-left: 100px;">
+							<div class="layui-input-block">
+								<button class="layui-btn " lay-submit
+									lay-filter="login-student-form-submit">登录</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								<a id="upwd" href="javascript:void(0);" style="cursor: pointer;">忘记密码？</a>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</div>
+		<!-- 		<div class="layui-footer"
+			style="background-color: transparent; text-align: center;">
+			底部固定区域
+			------------------------------------------------------------©
+			yunyiqing.com - 底部固定区域
+		</div> -->
+	</div>
+
+	<!-- 更新用户弹出层 -->
+	<div id="update-student-layer" style="display: none; padding: 20px">
+		<form id="content-student-form" class="layui-form layui-form-pane"
+			lay-filter="content-student-form">
+			<div class="layui-form-item" style="display: none;">
+				<label class="layui-form-label">id</label>
+				<div class="layui-input-block">
+					<input id="id3" type="text" name="id" class="layui-input" readonly>
+				</div>
+			</div>
+			<table class="layui-table" lay-skin="row">
+				<tbody>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">姓名</label>
+								<div class="layui-input-block">
+									<input id="username3" type="text" name="username"
+										class="layui-input" autocomplete="off" readonly>
+								</div>
+							</div>
+						</td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">学号</label>
+								<div class="layui-input-block">
+									<input id="studentid3" type="text" name="studentid"
+										class="layui-input" autocomplete="off" readonly>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</form>
+		<form id="update-student-form" class="layui-form layui-form-pane"
+			lay-filter="update-student-form">
+			<table class="layui-table" lay-skin="row">
+				<tbody>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">密码</label>
+								<div class="layui-input-block">
+									<input type="password" name="password" class="layui-input"
+										placeholder="请输入密码" lay-verify="required" maxlength="20">
+								</div>
+							</div>
+						</td>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">电话</label>
+								<div class="layui-input-block">
+									<input type="text" name="phone" class="layui-input"
+										placeholder="请输入联系电话" lay-verify="required"
+										onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+										maxlength="13">
+								</div>
+							</div></td>
+					</tr>
+					<tr>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">地址</label>
+								<div class="layui-input-block">
+									<input type="text" name="address" class="layui-input"
+										placeholder="请输入家庭地址" lay-verify="required" autocomplete="off"
+										maxlength="20">
+								</div>
+							</div></td>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">Q&nbsp;Q</label>
+								<div class="layui-input-block">
+									<input type="text" name="qq" class="layui-input"
+										placeholder="请输入QQ,用于重置密码" lay-verify="required"
+										onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+										maxlength="20">
+								</div>
+							</div></td>
+					</tr>
+					<tr>
+						<td><div class="layui-form-item">
+								<label class="layui-form-label">生日</label>
+								<div class="layui-input-block">
+									<input id="birthdate" type="text" name="birthdate"
+										class="layui-input" placeholder="yyyy-MM-dd"
+										lay-verify="required" autocomplete="off">
+								</div>
+							</div></td>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">性别</label>
+								<div class="layui-input-block">
+									<input type="radio" name="sex" value="1" title="男" checked>
+									<input type="radio" name="sex" value="2" title="女">
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="layui-form-item" style="text-align: center;">
+				<button class="layui-btn" lay-submit
+					lay-filter="update-student-form-submit">提交</button>
+				<button class="layui-btn layui-btn-primary" type="reset">重置</button>
+			</div>
+		</form>
+
+	</div>
+	<!-- 更新密码弹出层 -->
+	<div id="update-password-layer" style="display: none; padding: 20px">
+		<form id="update-password-form" class="layui-form layui-form-pane"
+			lay-filter="update-password-form">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-block">
+					<input  type="text" name="username"
+						class="layui-input" lay-verify="required" placeholder="请输入姓名"
+						autocomplete="off" maxlength="20">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">电话</label>
+				<div class="layui-input-block">
+					<input type="text" name="phone" class="layui-input"
+						placeholder="请输入联系电话" lay-verify="required"
+						onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+						maxlength="20">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">Q&nbsp;Q</label>
+				<div class="layui-input-block">
+					<input type="text" name="qq" class="layui-input"
+						placeholder="请输入QQ,将通过邮箱发送给您！" lay-verify="required"
+						onkeyup="value=value.replace(/[^\d]/g,'')" autocomplete="off"
+						maxlength="20">
+				</div>
+			</div>
+			<div class="layui-form-item pane" style="text-align: center;">
+				<input id="upstudent" type="radio" name="upType" lay-filter="upType"
+					value="s" title="学生" checked> <input id="upteacher"
+					type="radio" name="upType" lay-filter="upType" value="t" title="教师">
+				<input id="upadmin" type="radio" name="upType" lay-filter="upType"
+					value="a" title="管理员">
+			</div>
+			<div class="layui-form-item" style="text-align: center;">
+				<button class="layui-btn" lay-submit
+					lay-filter="update-password-form-submit">提交</button>
+				<button class="layui-btn layui-btn-primary" type="reset">重置</button>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		layui
+				.use(
+						[ 'jquery', 'layer', 'form', 'laydate', 'element' ],
+						function() {
+							// 加载layui模块，使用其推荐的【预先加载】方式，详见官网【模块规范】一节
+							var $ = layui.$;
+							var layer = layui.layer;
+							var form = layui.form;
+							var laydate = layui.laydate;
+							var element = layui.element;
+							/* 日期选择器 */
+							laydate.render({
+								elem : '#birthdate' //指定元素
+							});
+							/* 登陆选择事件 */
+							//此处即为 radio 的监听事件
+							form.on('radio(loginType)', function(data) {
+								console.log(data.elem); //得到radio原始DOM对象
+								console.log(data.value); //被点击的radio的value值
+								var level = data.value;//被点击的radio的value值
+								$(this).attr("checked", "checked")
+								if (level != 's') {
+									$(".noneAndblock").hide();//隐藏
+								} else {
+									$(".noneAndblock").show();//显示
+								}
+							});
+							//开启修改密码信息界面
+							$('#upwd').on('click', function() {
+								layer.open({
+									type : 1,
+									title : '请输入验证信息',
+									skin : 'layui-layer-molv',
+									area : [ '400px' ],
+									content : $('#update-password-layer')
+								});
+							})
+							/* 设置验证码宽高 */
+							var input_width = $("input[name=code]").width();//获取当前文本框的长度
+							var code_width = parseInt(input_width + 7);
+							//console.log(input_width);
+							$(".code").attr({
+								"width" : code_width,
+								"height" : "50px"
+							});
+							/*加载验证码  */
+							$('.code')
+									.on(
+											'click',
+											function() {
+												$(".code")
+														.attr(
+																"src",
+																'../system/get_cpacha?vl=4&w=144&h=40&type=accountLoginCpacha&t='
+																		+ new Date()
+																				.getTime());
+											});
+			
+							// 用户登陆表单提交
+							form
+									.on(
+											'submit(login-student-form-submit)',
+											function(data) {
+												// ajax方式添加用户
+												var data = {
+													username : $('#username2')
+															.val(),
+													studentid : $('#studentid2')
+															.val(),
+													password : $('#password2')
+															.val(),
+													code : $('#code2').val(),
+													logintype : JSON
+															.stringify(data.field.loginType)
+												};
+												$
+														.ajax({
+															url : "/report/login",
+															type : "GET",
+															data : data,
+															//data :JSON.stringify(data.field),
+															contentType : 'application/json',
+															dataType : 'json',
+															success : function(
+																	data) {
+																console.log(data)
+																if (data.status == 1) {
+																	//创建永久化数据
+																	layer
+																			.open({
+																				title : '欢迎进入系统！',
+																				content : data.msg,
+																				shade : 0.3,
+																				time : 3000,
+																				end : function() {
+																					location.href = "/student/index";
+																				}
+																			});
+
+																	//location.href = "/student/index";
+																} else {
+																	parent.layer
+																			.msg(
+																					data.msg,
+																					{
+																						icon : 2,
+																						shade : 0.3,
+																						time : 2000
+																					});
+																	$('.code')
+																			.click();
+																}
+															},
+															error : function() {
+																layer
+																		.open({
+																			title : '系统提示',
+																			content : '发生未知错误，请联系管理员！'
+																		});
+																$('.code')
+																		.click();
+															}
+
+														});
+												// 阻止表单跳转
+												return false;
+											});
+
+							// 用户报到表单提交
+							form
+									.on(
+											'submit(report-student-form-submit)',
+											function(data) {
+												// ajax方式添加用户
+												var data = {
+													username : $('#username1')
+															.val(),
+													studentid : $('#studentid1')
+															.val(),
+													code : $('#code1').val()
+												}
+												$
+														.ajax({
+															url : "/report",
+															type : "GET",
+															data : data,
+															//data :JSON.stringify(data.field)
+															contentType : 'application/json',
+															dataType : 'json',
+															success : function(
+																	data) {
+																if (data.status == 1) {
+																	// 每次显示更新用户的表单前自动为表单填写该行的数据
+																	form
+																			.val(
+																					'content-student-form',
+																					{
+																						"id" : data.id,
+																						"username" : $(
+																								'#username1')
+																								.val(),
+																						"studentid" : $(
+																								'#studentid1')
+																								.val()
+																					//"name" : data.name,
+																					//"info" : data.info
+																					});
+
+																	// 显示更新用户表单的弹出层
+																	layer
+																			.open({
+																				type : 1,
+																				title : '请完善信息',
+																				skin : 'layui-layer-molv',
+																				area : [ '750px' ],
+																				content : $('#update-student-layer')
+																			});
+																	parent.layer
+																			.msg(
+																					data.msg,
+																					{
+																						icon : 1,
+																						shade : 0.3,
+																						time : 2000
+																					})
+																} else if (data.status == 2) {
+																	parent.layer
+																			.msg(
+																					data.msg,
+																					{
+																						icon : 6,
+																						shade : 0.3,
+																						time : 2000
+																					})
+																} else {
+																	parent.layer
+																			.msg(
+																					data.msg,
+																					{
+																						icon : 2,
+																						shade : 0.3,
+																						time : 2000
+																					});
+																	$('.code')
+																			.click();
+																}
+															},
+															error : function() {
+																layer
+																		.open({
+																			title : '系统提示',
+																			content : '发生未知错误，请联系管理员！'
+																		});
+															}
+														});
+												// 阻止表单跳转
+												return false;
+											});
+
+							// 用户信息表单提交
+							form.on('submit(update-student-form-submit)',
+									function(data) {
+										// ajax方式更新用户
+										data.field.id = $('#id3').val();
+										data.field.username = $('#username3')
+												.val();
+										/* data.field.studentid = $('#studentid3')
+												.val(); */
+										$.ajax({
+											url : "/report/update",
+											type : "PUT",
+											//data : data,
+											data : JSON.stringify(data.field),
+											contentType : 'application/json',
+											dataType : 'json',
+											success : function(data) {
+												if (data.status == 1) {
+													layer.close(layer.index);
+													parent.layer.msg(data.msg,
+															{
+																icon : 1,
+																shade : 0.3,
+																time : 2000
+															})
+												} else {
+													parent.layer.msg(data.msg,
+															{
+																icon : 2,
+																shade : 0.3,
+																time : 2000
+															});
+												}
+											},
+											error : function() {
+												layer.open({
+													title : '系统提示',
+													content : '发生未知错误，请联系管理员！'
+												});
+											}
+										});
+										// 阻止表单跳转
+										return false;
+									});
+
+							// 密码重置表单提交
+							form.on('submit(update-password-form-submit)',
+									function(data) {
+										parent.layer.msg('过程可能需要10几秒...', {
+											icon : 16,
+											shade : 0.3,
+											time : 3000
+										});
+										$.ajax({
+											url : "/report/uppwd",
+											type : "PUT",
+											data : JSON.stringify(data.field),
+											contentType : 'application/json',
+											dataType : 'json',
+											success : function(data) {
+												if (data.status == 1) {
+													layer.close(layer.index);
+													parent.layer.msg(data.msg,
+															{
+																icon : 1,
+																shade : 0.3,
+																time : 3000
+															});
+
+												} else {
+													parent.layer.msg(data.msg,
+															{
+																icon : 2,
+																shade : 0.3,
+																time : 2000
+															});
+												}
+											},
+											error : function() {
+												layer.close(layer.index);
+												layer.open({
+													title : '系统提示',
+													content : '发生未知错误，请联系管理员！'
+												});
+											}
+
+										});
+										// 阻止表单跳转
+										return false;
+									});
+
+						});
+	</script>
+</body>
+</html>
