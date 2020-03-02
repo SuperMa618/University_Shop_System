@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.UserMapper">
+    <!-- 提交要发布的商品 -->
+    <insert id="saveGoods" parameterType="Goods">
+        insert into goods(userId,goodsName,types,describes,picture,time)
+        values(#{goods.userId},#{goods.goodsName},#{goods.types},#{goods.describes},#{goods.picture},#{goods.time})
+    </insert>
+    <!--查找商品-->
+    <select id="findAllGoods" resultType="Goods">
+        select * from goods
+    </select>
+</mapper>

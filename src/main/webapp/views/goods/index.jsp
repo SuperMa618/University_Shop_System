@@ -10,12 +10,6 @@
     <link rel="stylesheet" href="/js/layui-2.5.4/css/main.css">
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
-
-    <style type="text/css">
-        li {
-            line-height: 2;
-        }
-    </style>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
@@ -26,7 +20,7 @@
             &nbsp校园二手交易平台
         </div>
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">
+            <li class="layui-nav-item"><a href="/page/index">
                 <i class="layui-icon layui-icon-home" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp首页</a>
             </li>
             <li class="layui-nav-item"><a href="">
@@ -62,29 +56,6 @@
                     </c:otherwise>
                 </c:choose>
             </li>
-            <li class="layui-nav-item"><a href="">
-                <i class="layui-icon layui-icon-component" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp个人中心</a>
-                <dl class="layui-nav-child">
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-face-smile"
-                                      style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人信息</a>
-                    </dd>
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-cart-simple"
-                                      style="font-size: 20px; color: #1E9FFF;"></i>商品管理</a>
-                    </dd>
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-file-b"
-                                      style="font-size: 20px; color: #1E9FFF;"></i>订单管理</a>
-                    </dd>
-                    <c:if test="${user.userName!=null}">
-                        <dd>
-                            <a href=""><i class="layui-icon layui-icon-file-b"
-                                          style="font-size: 20px; color: #1E9FFF;"></i></a>
-                        </dd>
-                    </c:if>
-                </dl>
-            </li>
         </ul>
     </div>
 
@@ -93,18 +64,57 @@
             <div class="product-list-box">
                 <div class="product-list w1200">
                     <div class="tab-title">
-                        <a href="javascript:;" class="active tuang" data-content="tuangou">今日团购</a>
+                        <a href="javascript:;" class="active tuang">商品</a>
                     </div>
-                    <div class="list-cont" cont='tuangou'>
+                    <div class="list-cont">
                         <div class="item-box layui-clear">
                             <div class="item">
-                                <div height="250px">
-                                    <img src="/Ushop-image/head/mrsptp202002021817.png" >
-                                </div>
+                                    <img src="/Ushop-image/head/BaiduShurufa.jpg" style="height: 310px;width: 290px;object-fit: cover">
                                 <div class="text-box">
                                     <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
                                     <p class="plic">
                                         <span class="ciur-pic">￥100.00</span>
+                                        <span>2019.12.12</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="/Ushop-image/head/mrsptp202002021817.png" style="height: 310px;width: 290px;object-fit: cover">
+                                <div class="text-box">
+                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
+                                    <p class="plic">
+                                        <span class="ciur-pic">￥100.00</span>
+                                        <span>2019.12.12</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="/Ushop-image/head/xyjy.png" style="height: 310px;width: 290px;object-fit: cover">
+                                <div class="text-box">
+                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
+                                    <p class="plic">
+                                        <span class="ciur-pic">￥100.00</span>
+                                        <span>2019.12.12</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="/Ushop-image/head/BaiduShurufa_2020-3-2_9-6-29.png" style="height: 310px;width: 290px;object-fit: cover">
+                                <div class="text-box">
+                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
+                                    <p class="plic">
+                                        <span class="ciur-pic">￥100.00</span>
+                                        <span>2019.12.12</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="/Ushop-image/head/mrsptp202002021817.png" style="height: 310px;width: 290px;object-fit: cover">
+                                <div class="text-box">
+                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
+                                    <p class="plic">
+                                        <span class="ciur-pic">￥100.00</span>
+                                        <span>2019.12.12</span>
                                     </p>
                                 </div>
                             </div>
@@ -117,7 +127,7 @@
     </div>
 
     <div class="layui-footer" style="left: 0px" align="center">
-        © myj.com 二手交易系统
+        © xyjy.com 2019-2020 MYJ.All Right Reserved.
     </div>
 </div>
 

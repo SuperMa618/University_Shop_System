@@ -128,14 +128,14 @@ i{font-style: normal;}
 .commodity-content .commod-cont .left-nav .title{color: #fff; font-size: 16px; background: #333333; text-align: center;} 
 .commodity-content .commod-cont .left-nav .list-box dt,.commodity-content .commod-cont .left-nav .list-box dd{border-bottom:1px dashed #eeeeee; cursor: pointer;}
 .commodity-content .commod-cont .left-nav .list-box dd:hover a{color:#ff5500;}
-.commodity-content .commod-cont .left-nav .list-box dt{font-size: 14px; color: #333; padding-left: 30px; background: url(../img/off-icon.png) 8px -2px no-repeat; cursor: pointer;}
+.commodity-content .commod-cont .left-nav .list-box dt{font-size: 14px; color: #333; padding-left: 30px; cursor: pointer;}
 .commodity-content .commod-cont .left-nav .list-box dt.active{background-position: 8px -40px;}
 .commodity-content .commod-cont .left-nav .list-box dd a{padding-left: 42px; color: #888888;}
 .commodity-content .commod-cont .left-nav .list-box dl:last-child dd:last-child{border-bottom: 0;}
 .commodity-content .commod-cont .right-cont-wrap{float:  left; width: 940px;}
 .commodity-content .commod-cont .right-cont{width: 1000px;}
 .commodity-content .commod-cont .right-cont .sort{margin-top: 5px;}
-.commodity-content .commod-cont .right-cont .sort a{width: 58px; height: 26px; line-height: 26px; font-size: 14px; color: #333333; border:1px solid #eaeaea; margin-left: -1px; float: left; background: #fff; background:#fff url(../img/sort-arrow.png) no-repeat 41px 0; text-indent: 9px;}
+.commodity-content .commod-cont .right-cont .sort a{width: 58px; height: 26px; line-height: 26px; font-size: 14px; color: #333333; border:1px solid #eaeaea; margin-left: -1px; float: left; background: #fff; text-indent: 9px;}
 .commodity-content .commod-cont .right-cont .sort a.active{background-position: 41px -26px;}
 .commodity-content .commod-cont .right-cont .prod-number{line-height: 44px; font-size: 16px; padding-left: 7px;}
 .commodity-content .commod-cont .right-cont .cont-list .item{float: left; width: 280px; height: 366px; border:1px solid #eaeaea; background: #fff; margin:0 47px 60px 0;}
@@ -223,7 +223,7 @@ i{font-style: normal;}
 
 
 /*buytoday*/
-.buytoday-content .banner{height: 380px; background: url(../img/tuan_img_banner.jpg) no-repeat; background-size: cover; cursor: pointer;}
+.buytoday-content .banner{height: 380px; background-size: cover; cursor: pointer;}
 .buytoday-content .product-list-box{background: #f8f8f8; padding-bottom: 50px;}
 .buytoday-content .product-list .tab-title{padding:60px 0 66px 0;}
 .buytoday-content .product-list .tab-title a{line-height: 56px; color: #666666; font-size: 20px; display: inline-block;}
@@ -259,12 +259,12 @@ i{font-style: normal;}
 
 
 /*about*/
-.about-content .banner-box .banner{height: 750px; width: 100%; background: url(../img/us_banner.jpg) no-repeat; background-size: cover;}
+.about-content .banner-box .banner{height: 750px; width: 100%; background-size: cover;}
 .about-content .brief-content{padding:198px 0 280px 0;}
 .about-content .brief-content .img-box{float: left; width: 630px; height: 640px; position: relative; padding-right: 100px;}
 .about-content .brief-content .img-box .top{position: absolute; right: 100px; bottom: 0;}
 .about-content .brief-content .text{line-height: 45px; font-size: 20px; color: #888; padding-top: 130px;}
-.about-content .banner-text{height: 760px; width: 100%; background: url(../img/us_img3.png) no-repeat; background-size: cover;}
+.about-content .banner-text{height: 760px; width: 100%; background-size: cover;}
 .about-content .banner-text p{width: 446px; font-size: 20px; line-height: 45px; color: #888888; padding: 210px 0 0 55px;}
 .about-content .after-sale{padding-bottom: 204px;}
 .about-content .after-sale h4{font-size: 46px; color: #555; letter-spacing:8px; padding:190px 0 100px 0; text-align: center;}
@@ -281,7 +281,7 @@ i{font-style: normal;}
 
 
 /*login*/
-.login-content .login-bg{width: 100%; background: url(../img/load_bg.jpg) no-repeat; background-size: cover;}
+.login-content .login-bg{width: 100%; background-size: cover;}
 .login-content .login-bg .login-cont{ height: 772px; position: relative;}
 .login-content .login-bg .login-cont .form-box{width: 300px; height: 390px; border:1px solid #d9dadc; background: #fff; position: absolute; top: 196px; right: 90px; padding:0 30px;}
 .login-content .login-bg .login-cont .form-box legend{font-size: 20px; color: #323232; text-align: center; padding:50px 0;}
@@ -301,7 +301,7 @@ i{font-style: normal;}
 
 
 /*shopcart-content*/
-.shopcart-content .banner-bg{height: 180px; background: url(../img/buy_banner.jpg) no-repeat; margin:50px auto; padding-left: 68px; box-sizing: border-box; color: #fff}
+.shopcart-content .banner-bg{height: 180px;margin:50px auto; padding-left: 68px; box-sizing: border-box; color: #fff}
 .shopcart-content .banner-bg h3{font-size: 36px; padding:40px 0 20px 0;}
 .shopcart-content .banner-bg p{font-size: 20px; }
 .shopcart-content .cart{padding-bottom: 180px;}

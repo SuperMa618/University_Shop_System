@@ -56,8 +56,8 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
-                <li class="layui-nav-item"><a href="/page/index">返回主页</a></li>
-                <li class="layui-nav-item"><a class="javascript:;" href="javascript:;">我的信息</a>
+                <li class="layui-nav-item layui-nav-itemed"><a href="/page/index">返回主页</a></li>
+                <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">我的信息</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="/page/user/update">修改信息</a>
@@ -67,17 +67,23 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a data-url=""
-                                              data-id="userInformation" data-title="用户信息"
-                                              class="site-demo-active" href="javascript:;" data-type="tabAdd">用户信息</a>
+
+                <li class="layui-nav-item layui-nav-itemed"><a >我的商品</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="/page/user/submitGoods">提交商品</a>
+                        </dd>
+                        <dd>
+                            <a href="">已发布商品</a>
+                        </dd>
+                        <dd>
+                            <a href="">已购商品</a>
+                        </dd>
+                    </dl>
                 </li>
-                <li class="layui-nav-item"><a data-url=""
-                                              data-id="roleInformation" data-title="我的订单"
-                                              class="site-demo-active" href="javascript:;" data-type="tabAdd">我的订单</a>
+                <li class="layui-nav-item"><a >我的订单</a>
                 </li>
-                <li class="layui-nav-item"><a data-url=""
-                                              data-id="3" data-title="我的留言" class="site-demo-active"
-                                              href="javascript:;" data-type="tabAdd">我的留言</a></li>
+                <li class="layui-nav-item"><a >我的留言</a></li>
                 <li class="layui-nav-item" style="display: none;"><a
                         data-url="" data-id="4" data-title="test"
                         id="test" class="site-demo-active" href="javascript:;"
@@ -98,7 +104,7 @@
 
     </div>
     <div class="layui-footer" align="center">
-        © myj.com 二手交易系统
+        © xyjy.com 2019-2020 MYJ.All Right Reserved.
     </div>
 </div>
 

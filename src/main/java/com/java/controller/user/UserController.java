@@ -237,6 +237,11 @@ public class UserController {
         return map;
     }
 
+    /**
+     * 找回密码
+     * @param data
+     * @return
+     */
     @RequestMapping(value = "findpwd", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
     @ResponseBody
     public Map<String,Object> findpwd(@RequestBody Map<String,String> data) {

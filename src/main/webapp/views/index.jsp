@@ -12,7 +12,7 @@
 
     <style type="text/css">
         li {
-            line-height: 2;
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -28,7 +28,7 @@
             <li class="layui-nav-item"><a href="">
                 <i class="layui-icon layui-icon-home" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp首页</a>
             </li>
-            <li class="layui-nav-item"><a href="/page/shop/index">
+            <li class="layui-nav-item"><a href="/page/goods/index">
                 <i class="layui-icon layui-icon-cart" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品</a>
             </li>
             <li class="layui-nav-item"><a href="">
@@ -40,16 +40,16 @@
             <li class="layui-nav-item">
                 <c:choose>
                     <c:when test="${user.userName!=null}">
-                    <a href="javascript:0">
-                        <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
-                    </a>
+                        <a href="javascript:0">
+                            <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
+                        </a>
                         <dl class="layui-nav-child">
                             <dd>
                                 <a href="/page/user/index"><i class="layui-icon layui-icon-face-smile"
-                                              style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人中心</a>
+                                                              style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人中心</a>
                             </dd>
                             <dd>
-                                <a href="/user/out"><i class="layui-icon layui-icon-face-smile"
+                                <a href="/user/out"><i class="layui-icon layui-icon-return"
                                                        style="font-size: 15px; color: #1E9FFF;"></i>&nbsp退出登录</a>
                             </dd>
                         </dl>
@@ -61,48 +61,61 @@
                     </c:otherwise>
                 </c:choose>
             </li>
-            <li class="layui-nav-item"><a href="">
-                <i class="layui-icon layui-icon-component" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp个人中心</a>
-                <dl class="layui-nav-child">
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-face-smile"
-                                      style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人信息</a>
-                    </dd>
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-cart-simple"
-                                      style="font-size: 20px; color: #1E9FFF;"></i>商品管理</a>
-                    </dd>
-                    <dd>
-                        <a href=""><i class="layui-icon layui-icon-file-b"
-                                      style="font-size: 20px; color: #1E9FFF;"></i>订单管理</a>
-                    </dd>
-                    <c:if test="${user.userName!=null}">
-                        <dd>
-                            <a href=""><i class="layui-icon layui-icon-file-b"
-                                          style="font-size: 20px; color: #1E9FFF;"></i></a>
-                        </dd>
-                    </c:if>
-                </dl>
-            </li>
+            <%--            <li class="layui-nav-item"><a href="">--%>
+            <%--                <i class="layui-icon layui-icon-component" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp个人中心</a>--%>
+            <%--                <dl class="layui-nav-child">--%>
+            <%--                    <dd>--%>
+            <%--                        <a href=""><i class="layui-icon layui-icon-face-smile"--%>
+            <%--                                      style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人信息</a>--%>
+            <%--                    </dd>--%>
+            <%--                    <dd>--%>
+            <%--                        <a href=""><i class="layui-icon layui-icon-cart-simple"--%>
+            <%--                                      style="font-size: 20px; color: #1E9FFF;"></i>商品管理</a>--%>
+            <%--                    </dd>--%>
+            <%--                    <dd>--%>
+            <%--                        <a href=""><i class="layui-icon layui-icon-file-b"--%>
+            <%--                                      style="font-size: 20px; color: #1E9FFF;"></i>订单管理</a>--%>
+            <%--                    </dd>--%>
+            <%--                </dl>--%>
+            <%--            </li>--%>
         </ul>
     </div>
     <div class="layui-row">
         <div class="layui-col-md3" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
-            <li>电子产品</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/phone.png">电子产品</a><span
+                    style="font-size: 13px;color: #999999">  手机 笔记本 主机 显示器 相机 平板 外设</span></li>
             <hr class="layui-bg-red">
-            <li>书籍资料</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/book.png"> 书籍资料</a><span
+                    style="font-size: 13px;color: #999999">  教材 复习资料 其他</span></li>
             <hr>
-            <li>时尚装配</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/zs.png"> 时尚装饰</a><span
+                    style="font-size: 13px;color: #999999">  时尚饰品 珠宝首饰 手链手镯 潮流眼镜 奇珍异宝 其他</span></li>
+
+            <hr>
+            <li><a href="/page/goods/index"><img src="../images/icon/xz.png"> 男装鞋包</a><span
+                    style="font-size: 13px;color: #999999">  男装 男裤 男鞋 衬衫 T恤 男包 腰带 手套 帽子 其他</span></li>
+
+            <hr>
+            <li><a href="/page/goods/index"><img src="../images/icon/qz.png"> 女装鞋包</a><span
+                    style="font-size: 13px;color: #999999">  女装 女裤 女鞋 衬衫 T恤 女包 腰带 手套 帽子 其他</span></li>
+
+            <hr>
+            <li><a href="/page/goods/index"><img src="../images/icon/kh.png"> 护肤彩妆</a><span
+                    style="font-size: 13px;color: #999999">  化妆品 美发造型 美容护肤 其他</span></li>
             <hr class="layui-bg-blue">
-            <li>生活用品</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/bz.png"> 生活用品</a><span
+                    style="font-size: 13px;color: #999999">  文具 电器 耗材 其他</span></li>
             <hr class="layui-bg-green">
-            <li>运动用品</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/lq.png"> 运动用品</a><span
+                    style="font-size: 13px;color: #999999">  运动鞋 运动服 运动装备 健身用品 其他</span></li>
             <hr class="layui-bg-red">
-            <li>有趣玩意</li>
-            <hr class="layui-bg-red">
-            <li>有趣玩意</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/td.png"> 寝室用品</a><span
+                    style="font-size: 13px;color: #999999">  桌椅 挂件 帘子 收纳盒 其他</span></li>
+            <hr>
+            <li><a href="/page/goods/index"><img src="../images/icon/vip.png"> 限时票卡</a><span
+                    style="font-size: 13px;color: #999999">  健身卡 会员卡 电影票 优惠券 其他</span></li>
             <hr class="layui-bg-orange">
-            <li>其他</li>
+            <li><a href="/page/goods/index"><img src="../images/icon/kh.png">其他</a></li>
         </div>
 
         <div style="background-color: #009f95;margin: 10px 1px;position: relative;
@@ -111,11 +124,16 @@
                         float: left;width: 47%">
             <div class="layui-carousel" id="test1">
                 <div carousel-item>
-                    <div style="background-color: #9F9F9F">1111</div>
-                    <div style="background-color: #9F9F9F">2222</div>
-                    <div style="background-color: #9F9F9F">333</div>
-                    <div style="background-color: #9F9F9F">44444</div>
-                    <div>5555</div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_9-6-29.png" style="width: 100%;height: 100%">
+                    </div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-29.png"
+                              style="width: 100%;height: 100%"></div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-44.png"
+                              style="width: 100%;height: 100%"></div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-53.png"
+                              style="width: 100%;height: 100%"></div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-29.png"
+                              style="width: 100%;height: 100%"></div>
                 </div>
             </div>
         </div>
@@ -150,7 +168,7 @@
     </div>
 
     <div class="layui-footer" style="left: 0px" align="center">
-        © myj.com 二手交易系统
+        © xyjy.com 2019-2020 MYJ.All Right Reserved.
     </div>
 </div>
 
