@@ -7,6 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>首页内容</title>
+    <link rel="stylesheet" href="/js/layui-2.5.4/css/main.css">
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
 
@@ -16,7 +17,7 @@
         }
     </style>
 </head>
-<body class="layui-layout-body">
+<body>
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header" style="background-color: #426078">
@@ -28,7 +29,7 @@
             <li class="layui-nav-item"><a href="">
                 <i class="layui-icon layui-icon-home" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp首页</a>
             </li>
-            <li class="layui-nav-item"><a href="/page/shop/index">
+            <li class="layui-nav-item"><a href="">
                 <i class="layui-icon layui-icon-cart" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品</a>
             </li>
             <li class="layui-nav-item"><a href="">
@@ -40,13 +41,13 @@
             <li class="layui-nav-item">
                 <c:choose>
                     <c:when test="${user.userName!=null}">
-                    <a href="javascript:0">
-                        <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
-                    </a>
+                        <a href="javascript:0">
+                            <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
+                        </a>
                         <dl class="layui-nav-child">
                             <dd>
                                 <a href="/page/user/index"><i class="layui-icon layui-icon-face-smile"
-                                              style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人中心</a>
+                                                              style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人中心</a>
                             </dd>
                             <dd>
                                 <a href="/user/out"><i class="layui-icon layui-icon-face-smile"
@@ -86,64 +87,30 @@
             </li>
         </ul>
     </div>
-    <div class="layui-row">
-        <div class="layui-col-md3" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
-            <li>电子产品</li>
-            <hr class="layui-bg-red">
-            <li>书籍资料</li>
-            <hr>
-            <li>时尚装配</li>
-            <hr class="layui-bg-blue">
-            <li>生活用品</li>
-            <hr class="layui-bg-green">
-            <li>运动用品</li>
-            <hr class="layui-bg-red">
-            <li>有趣玩意</li>
-            <hr class="layui-bg-red">
-            <li>有趣玩意</li>
-            <hr class="layui-bg-orange">
-            <li>其他</li>
-        </div>
 
-        <div style="background-color: #009f95;margin: 10px 1px;position: relative;
-                        display: block;
-                        box-sizing: border-box;
-                        float: left;width: 47%">
-            <div class="layui-carousel" id="test1">
-                <div carousel-item>
-                    <div style="background-color: #9F9F9F">1111</div>
-                    <div style="background-color: #9F9F9F">2222</div>
-                    <div style="background-color: #9F9F9F">333</div>
-                    <div style="background-color: #9F9F9F">44444</div>
-                    <div>5555</div>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md3" style="background-color: #fafffb;
-                                          margin: 10px 8px;border:1px solid #c5cbc9;
-                                          padding: 25px 15px">
-            <!--            <i style="width:5px;height:5px;border-radius:50%;background-color:orange;display: block"></i>-->
-            <ul>校园大新闻滴滴滴</ul>
-            <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
-            <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
-            <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
-            <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
-            <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
-        </div>
-        <div class="layui-col-md8" style="margin: 0px 0px;border:1px solid #c5cbc9;">
-            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">网站设置</li>
-                    <li>用户管理</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">内容1</div>
-                    <div class="layui-tab-item">内容2</div>
+    <div class="content content-nav-base buytoday-content">
+        <div id="list-cont">
+            <div class="product-list-box">
+                <div class="product-list w1200">
+                    <div class="tab-title">
+                        <a href="javascript:;" class="active tuang" data-content="tuangou">今日团购</a>
+                    </div>
+                    <div class="list-cont" cont='tuangou'>
+                        <div class="item-box layui-clear">
+                            <div class="item">
+                                <div height="250px">
+                                    <img src="/Ushop-image/head/mrsptp202002021817.png" >
+                                </div>
+                                <div class="text-box">
+                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
+                                    <p class="plic">
+                                        <span class="ciur-pic">￥100.00</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="demo0" style="text-align: center;"></div>
+                    </div>
                 </div>
             </div>
         </div>

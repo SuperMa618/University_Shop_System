@@ -32,9 +32,9 @@ public class PageController {
 	}
 	
 	/** 跳转至查询student页 */
-	@RequestMapping("/admin/findstudent")
+	@RequestMapping("/shop/index")
 	public String tofindStudent() {
-		return "admin/student";
+		return "shop/index";
 	}
 
 }

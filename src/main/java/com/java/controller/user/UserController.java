@@ -296,7 +296,7 @@ public class UserController {
                 String uuid = UUID.randomUUID() + "";
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 dateStr = simpleDateFormat.format(date);
-                String filepath = "E:\\IDEAspace\\Graduation project\\Ushop-image\\" + dateStr + "-" + uuid + "." + prefix;
+                String filepath = "E:\\IDEAspace\\Graduation project\\Ushop-image\\head\\" + dateStr + "-" + uuid + "." + prefix;
                 File files = new File(filepath);
                 //打印查看上传路径
                 System.out.println(filepath);
@@ -309,7 +309,7 @@ public class UserController {
                 map.put("code", 0);
                 map.put("msg", "");
                 map.put("data", map2);
-                map2.put("src", "/Ushop-image/" + dateStr + "-" + uuid + "." + prefix);
+                map2.put("src", "/Ushop-image/head/" + dateStr + "-" + uuid + "." + prefix);
                 return map;
             }
 
