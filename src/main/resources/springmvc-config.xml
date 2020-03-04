@@ -25,6 +25,12 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/goods/**"/>
+			<bean id="goodsInterceptor" class="com.java.interceptor.GoodsInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	<!--    配置文件上传最大值-->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<!-- 请求编码格式 -->

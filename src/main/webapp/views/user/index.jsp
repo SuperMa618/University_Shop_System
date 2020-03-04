@@ -56,7 +56,7 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
-                <li class="layui-nav-item layui-nav-itemed"><a href="/page/index">返回主页</a></li>
+                <li class="layui-nav-item layui-this"><a href="/page/index">返回主页</a></li>
                 <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">我的信息</a>
                     <dl class="layui-nav-child">
                         <dd>

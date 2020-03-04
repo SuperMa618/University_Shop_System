@@ -23,19 +23,32 @@
             <li class="layui-nav-item"><a href="/page/index">
                 <i class="layui-icon layui-icon-home" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp首页</a>
             </li>
-            <li class="layui-nav-item"><a href="">
+            <li class="layui-nav-item"><a href="/page/goods/index">
                 <i class="layui-icon layui-icon-cart" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品</a>
             </li>
             <li class="layui-nav-item"><a href="">
                 <i class="layui-icon layui-icon-face-surprised"
                    style="font-size: 20px; color: #1E9FFF;"></i>&nbsp联系我们</a>
             </li>
+            <li class="layui-nav-item">
+                <form class="layui-form">
+                    <div>
+                        <input id="search" type="text" name="search" class="layui-input"
+                               style="Float:left;height: 30px;"
+                               placeholder="请输入搜索内容" lay-verify="required" autocomplete="off"
+                               maxlength="13">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-submit
+                                lay-filter="search2-form-submit" style="position:absolute;">
+                            <i class="layui-icon layui-icon-search"></i></button>
+                    </div>
+                </form>
+            </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <c:choose>
                     <c:when test="${user.userName!=null}">
-                        <a href="javascript:0">
+                        <a href="/page/user/index">
                             <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
                         </a>
                         <dl class="layui-nav-child">
@@ -68,56 +81,27 @@
                     </div>
                     <div class="list-cont">
                         <div class="item-box layui-clear">
-                            <div class="item">
-                                    <img src="/Ushop-image/head/BaiduShurufa.jpg" style="height: 310px;width: 290px;object-fit: cover">
-                                <div class="text-box">
-                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
-                                    <p class="plic">
-                                        <span class="ciur-pic">￥100.00</span>
-                                        <span>2019.12.12</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="/Ushop-image/head/mrsptp202002021817.png" style="height: 310px;width: 290px;object-fit: cover">
-                                <div class="text-box">
-                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
-                                    <p class="plic">
-                                        <span class="ciur-pic">￥100.00</span>
-                                        <span>2019.12.12</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="/Ushop-image/head/xyjy.png" style="height: 310px;width: 290px;object-fit: cover">
-                                <div class="text-box">
-                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
-                                    <p class="plic">
-                                        <span class="ciur-pic">￥100.00</span>
-                                        <span>2019.12.12</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="/Ushop-image/head/BaiduShurufa_2020-3-2_9-6-29.png" style="height: 310px;width: 290px;object-fit: cover">
-                                <div class="text-box">
-                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
-                                    <p class="plic">
-                                        <span class="ciur-pic">￥100.00</span>
-                                        <span>2019.12.12</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="item">
-                                <img src="/Ushop-image/head/mrsptp202002021817.png" style="height: 310px;width: 290px;object-fit: cover">
-                                <div class="text-box">
-                                    <p class="title">宝宝专用硅胶环保饭碗四套+调羹+筷子自助学吃饭套装</p>
-                                    <p class="plic">
-                                        <span class="ciur-pic">￥100.00</span>
-                                        <span>2019.12.12</span>
-                                    </p>
-                                </div>
-                            </div>
+                            <c:if test="${goodsList != null}">
+                                <form>
+                                    <c:forEach var="goods" items="${goodsList}">
+                                        <div class="item">
+                                            <input id="goodsId" name="goodsId" lay-submit
+                                                   lay-filter="detail-form-submit"
+                                                   value="${goods.id}" type="image" src="${goods.picture}"
+                                                   style="height: 310px;width: 290px;object-fit: cover">
+                                                <%--                                            <img src="${goods.picture}"--%>
+                                                <%--                                                 style="height: 310px;width: 290px;object-fit: cover">--%>
+                                            <div class="text-box">
+                                                <p class="title">${goods.goodsName}</p>
+                                                <p class="plic">
+                                                    <span class="ciur-pic">￥${goods.price}</span>
+                                                    <span>${goods.time}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </form>
+                            </c:if>
                         </div>
                         <div id="demo0" style="text-align: center;"></div>
                     </div>
@@ -133,32 +117,80 @@
 
 <script>
     //JavaScript代码区域
-    layui.use(['jquery', 'layer', 'element', 'carousel'], function () {
+    layui.use(['jquery', 'layer', 'element', 'form'], function () {
         var $ = layui.$;
         var layer = layui.layer;
         var element = layui.element;
-        /*界面切换  */
-        // $("a").click(function (e) {
-        //     e.preventDefault();
-        //     $("#iframeMain").attr("src", $(this).attr("href"));
-        // });
-        //$("#souye").click();
-        //一下代码是根据窗口高度在设置iframe的高度
-        var frame = $("#iframeMain");
-        var frameheight = $(window).height();
-        //console.log(frameheight);
-        frame.css("height", frameheight);
-        var carousel = layui.carousel;
-        //建造实例
-        carousel.render({
-            elem: '#test1',
-            width: '100%',//设置容器宽度
-            autoplay: true,
-            interval: 2500,
-            arrow: 'always' //始终显示箭头
-            //,anim: 'updown' //切换动画方式
-        });
+        var form = layui.form;
+        // 搜索商品
+        form.on('submit(search2-form-submit)', function (data) {
+            // dat = sessionStorage.getItem("msg")
+            var data = {
+                search: $('#search').val(),
 
+            };
+            $.ajax({
+                url: "/goods/search",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+                        location.href = "/page/goods/indexSearch";
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
+        // 商品详细
+        form.on('submit(detail-form-submit)', function (data) {
+            var data = {
+                goodsId: $('#goodsId').val()
+            };
+            debugger;
+            $.ajax({
+                url: "/goods/detail",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+                        location.href = "/page/goods/detail";
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
     });
 
 </script>

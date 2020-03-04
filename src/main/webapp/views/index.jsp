@@ -35,12 +35,24 @@
                 <i class="layui-icon layui-icon-face-surprised"
                    style="font-size: 20px; color: #1E9FFF;"></i>&nbsp联系我们</a>
             </li>
+            <li class="layui-nav-item">
+                <form class="layui-form">
+                    <div>
+                        <input id="search" type="text" name="search" class="layui-input" style="Float:left;height: 30px;"
+                               placeholder="请输入搜索内容" lay-verify="required" autocomplete="off"
+                               maxlength="13">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-submit
+                                lay-filter="search-form-submit" style="position:absolute;">
+                            <i class="layui-icon layui-icon-search"></i></button>
+                    </div>
+                </form>
+            </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <c:choose>
                     <c:when test="${user.userName!=null}">
-                        <a href="javascript:0">
+                        <a href="/page/user/index">
                             <img src="${user.head}" class="layui-nav-img">&nbsp${user.userName}
                         </a>
                         <dl class="layui-nav-child">
@@ -61,28 +73,11 @@
                     </c:otherwise>
                 </c:choose>
             </li>
-            <%--            <li class="layui-nav-item"><a href="">--%>
-            <%--                <i class="layui-icon layui-icon-component" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp个人中心</a>--%>
-            <%--                <dl class="layui-nav-child">--%>
-            <%--                    <dd>--%>
-            <%--                        <a href=""><i class="layui-icon layui-icon-face-smile"--%>
-            <%--                                      style="font-size: 15px; color: #1E9FFF;"></i>&nbsp个人信息</a>--%>
-            <%--                    </dd>--%>
-            <%--                    <dd>--%>
-            <%--                        <a href=""><i class="layui-icon layui-icon-cart-simple"--%>
-            <%--                                      style="font-size: 20px; color: #1E9FFF;"></i>商品管理</a>--%>
-            <%--                    </dd>--%>
-            <%--                    <dd>--%>
-            <%--                        <a href=""><i class="layui-icon layui-icon-file-b"--%>
-            <%--                                      style="font-size: 20px; color: #1E9FFF;"></i>订单管理</a>--%>
-            <%--                    </dd>--%>
-            <%--                </dl>--%>
-            <%--            </li>--%>
         </ul>
     </div>
     <div class="layui-row">
         <div class="layui-col-md3" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
-            <li><a href="/page/goods/index"><img src="../images/icon/phone.png">电子产品</a><span
+            <li><a href="/goods/type?type=电子产品"><img src="../images/icon/phone.png">电子产品</a><span
                     style="font-size: 13px;color: #999999">  手机 笔记本 主机 显示器 相机 平板 外设</span></li>
             <hr class="layui-bg-red">
             <li><a href="/page/goods/index"><img src="../images/icon/book.png"> 书籍资料</a><span
@@ -174,21 +169,11 @@
 
 <script>
     //JavaScript代码区域
-    layui.use(['jquery', 'layer', 'element', 'carousel'], function () {
+    layui.use(['jquery', 'layer', 'element', 'form', 'carousel'], function () {
         var $ = layui.$;
         var layer = layui.layer;
+        var form = layui.form;
         var element = layui.element;
-        /*界面切换  */
-        // $("a").click(function (e) {
-        //     e.preventDefault();
-        //     $("#iframeMain").attr("src", $(this).attr("href"));
-        // });
-        //$("#souye").click();
-        //一下代码是根据窗口高度在设置iframe的高度
-        var frame = $("#iframeMain");
-        var frameheight = $(window).height();
-        //console.log(frameheight);
-        frame.css("height", frameheight);
         var carousel = layui.carousel;
         //建造实例
         carousel.render({
@@ -200,6 +185,39 @@
             //,anim: 'updown' //切换动画方式
         });
 
+        // 搜索商品
+        form.on('submit(search-form-submit)', function (data) {
+            var data = {
+                search: $('#search').val()
+            };
+            $.ajax({
+                url: "/goods/search",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+                        location.href = "/page/goods/indexSearch";
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
     });
 
 </script>

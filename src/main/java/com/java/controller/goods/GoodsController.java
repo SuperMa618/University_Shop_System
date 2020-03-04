@@ -6,11 +6,10 @@ import com.java.po.User;
 import com.java.service.GoodService;
 import com.java.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,13 +18,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 @RequestMapping("goods")
+@Scope("prototype")
 public class GoodsController {
 
     @Autowired
@@ -36,6 +33,78 @@ public class GoodsController {
 
     private Goods goods = null;
     private LogUtil logUtil = null;
+
+    public GoodsController() {
+        logUtil = new LogUtil();
+        goods = new Goods();
+    }
+
+    /**
+     * 商品搜索
+     * @param data
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/search",method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Map<String, Object> goodsSearch(@RequestBody Map<String, String> data,
+                                           HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        if (request.getSession().getAttribute("user") == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+        } else {
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("goodsName", data.get("search"));
+            maps.put("type", null);
+            List<Goods> goodsList=goodService.findGoods(maps);
+            request.getSession().setAttribute("goodsList", goodsList);
+            map.put("state", 1);
+        }
+        return map;
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "/detail",method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Map<String, Object> goodsDetail(@RequestBody Map<String, String> data,
+                                           HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        if (request.getSession().getAttribute("user") == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+        } else {
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("goodsName", null);
+            maps.put("type", null);
+            maps.put("id", data.get("goodsId"));
+            List<Goods> goodsList=goodService.findGoods(maps);
+            if (request.getSession().getAttribute("goods") != null) {
+                request.getSession().removeAttribute("goods");
+            }
+            request.getSession().setAttribute("goods", goodsList.get(0));
+            map.put("state", 1);
+        }
+        return map;
+    }
+
+
+
+    /**
+     * 商品种类
+     * @param type
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/type",
+            method = RequestMethod.GET, produces = "application/json; charset=utf-8")
+    public String goodsType(@RequestParam(value = "type") String type, ModelMap model) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("goodsName", null);
+        map.put("type", type);
+        List<Goods> goodsList=goodService.findGoods(map);
+        model.addAttribute("goodsList", goodsList);
+        return "goods/index";
+    }
 
     /**
      * 用户提交商品
@@ -63,13 +132,23 @@ public class GoodsController {
                 return map;
             }
             User user = (User) request.getSession().getAttribute("user");
+            String dateStr = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            String img;
+            if (data.get("images") == "" || data.get("images") == null) {
+                img = "/Ushop-image/goods/mrtp_2020-3-3_9-1-51.png";
+            } else {
+                img = data.get("images");
+            }
             goods = new Goods(user.getId(), data.get("goodsName"),
                     data.get("price"), data.get("type"),
-                    data.get("describes"), data.get("images"), new Date());
+                    data.get("describe"), img, dateStr);
 
             goodService.saveGoods(goods);
+            map.put("state", 1);
+            map.put("msg", "提交成功，等待审核！");
+
         } catch (Exception e) {
-            logMapper.insertLog("用户", logUtil.getLOGIN(), logUtil.getERROR());
+            //logMapper.insertLog("用户", logUtil.getLOGIN(), logUtil.getERROR());
             map.put("state", 0);
             map.put("msg", "发送未知错误，请联系管理员！");
             e.printStackTrace();

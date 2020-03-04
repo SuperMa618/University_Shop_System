@@ -189,7 +189,7 @@
                         <div class="layui-form-item"
                              style="text-align: center; margin-top: 40px;">
                             <div class="layui-input-block">
-                                <button class="layui-btn " lay-submit
+                                <button id="submit" class="layui-btn " lay-submit
                                         lay-filter="goods-form-submit">确认提交
                                 </button>
                                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -216,7 +216,7 @@
         //普通图片上传
         var uploadInst = upload.render({
             elem: '#image'
-            , url: '/user/upload'
+            , url: '/goods/upload'
             , accept: 'images'
             , size: 50000
             , before: function (obj) {
@@ -267,9 +267,9 @@
                             .getTime());
             });
 
-        // 用户注册表单提交
+        // 用户商品表单提交
         form.on('submit(goods-form-submit)', function (data) {
-            // ajax方式添加用户
+            // ajax方式
             var data = {
                 goodsName: $('#goodsname').val(),
                 price: $('#price').val(),
@@ -287,6 +287,7 @@
                 success: function (data) {
                     console.log(data)
                     if (data.state == 1) {
+                        $("#submit").attr("disabled","true");
                         //创建永久化数据
                         layer.open({
                             title: '提示',

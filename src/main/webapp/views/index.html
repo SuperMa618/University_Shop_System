@@ -1,134 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>新生报到首页</title>
-<link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
-<script src="/js/layui-2.5.4/layui.js"></script>
+    <meta charset="UTF-8">
+    <title>新生报到首页</title>
+    <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
+    <script src="/js/layui-2.5.4/layui.js"></script>
 </head>
 <body class="layui-layout-body">
-	<div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin">
 
-		<div class="layui-header">
-			<div class="layui-logo">龙岩-新生报到管理</div>
-			<!-- 头部区域（可配合layui已有的水平导航） -->
-			<ul class="layui-nav layui-layout-left">
-				<li class="layui-nav-item"><a id="souye" href="/student/souye">首页</a></li>
-				<li class="layui-nav-item"><a href="">学校新闻</a></li>
-				<li class="layui-nav-item"><a href="">报到流程</a></li>
-				<li class="layui-nav-item"><a href="javascript:;">学校概况</a>
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="">学校简介</a>
-						</dd>
-						<dd>
-							<a href="">学校章程</a>
-						</dd>
-						<dd>
-							<a href="">校训</a>
-						</dd>
-					</dl></li>
-			</ul>
-			<ul class="layui-nav layui-layout-right">
-				<li class="layui-nav-item"><a id="studentname">未登陆</a></li>
-				<li class="layui-nav-item"><a href="javascript:;"> <img
-						src="http://t.cn/RCzsdCq" class="layui-nav-img"> 个人中心
-				</a>
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="">基本资料</a>
-						</dd>
-						<dd>
-							<a href="">安全设置</a>
-						</dd>
-					</dl></li>
-				<li class="layui-nav-item"><a href="">退出</a></li>
-			</ul>
-		</div>
+    <div class="layui-header">
+        <div class="layui-logo">龙岩-新生报到管理</div>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a id="souye" href="/student/souye">首页</a></li>
+            <li class="layui-nav-item"><a href="">学校新闻</a></li>
+            <li class="layui-nav-item"><a href="">报到流程</a></li>
+            <li class="layui-nav-item"><a href="javascript:;">学校概况</a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="">学校简介</a>
+                    </dd>
+                    <dd>
+                        <a href="">学校章程</a>
+                    </dd>
+                    <dd>
+                        <a href="">校训</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item"><a id="studentname">未登陆</a></li>
+            <li class="layui-nav-item"><a href="javascript:;"> <img
+                    src="http://t.cn/RCzsdCq" class="layui-nav-img"> 个人中心
+            </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="">基本资料</a>
+                    </dd>
+                    <dd>
+                        <a href="">安全设置</a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退出</a></li>
+        </ul>
+    </div>
 
 
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed"><a class=""
+                                                               href="javascript:;">代办事项</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="javascript:;">学杂费</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;">选取宿舍</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;">领取物品</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="javascript:;">校园文化</a>
+                    <dl class="layui-nav-child">
+                        <dd>
+                            <a href="">校园风光</a>
+                        </dd>
+                        <dd>
+                            <a href="">学院赋</a>
+                        </dd>
+                        <dd>
+                            <a href="">社团交流</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="">校园地图</a></li>
+            </ul>
+        </div>
 
-		<div class="layui-side layui-bg-black">
-			<div class="layui-side-scroll">
-				<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-				<ul class="layui-nav layui-nav-tree" lay-filter="test">
-					<li class="layui-nav-item layui-nav-itemed"><a class=""
-						href="javascript:;">代办事项</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;">学杂费</a>
-							</dd>
-							<dd>
-								<a href="javascript:;">选取宿舍</a>
-							</dd>
-							<dd>
-								<a href="javascript:;">领取物品</a>
-							</dd>
-						</dl></li>
-					<li class="layui-nav-item"><a href="javascript:;">校园文化</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="">校园风光</a>
-							</dd>
-							<dd>
-								<a href="">学院赋</a>
-							</dd>
-							<dd>
-								<a href="">社团交流</a>
-							</dd>
-						</dl></li>
-					<li class="layui-nav-item"><a href="">校园地图</a></li>
-				</ul>
-			</div>
+    </div>
 
-		</div>
+    <div class="layui-body">
+        <iframe id="iframeMain" frameborder='no' scrolling='no' src="/student/souye"
+                style="width: 100%;" height="100%;"></iframe>
 
-		<div class="layui-body">
-			<iframe id="iframeMain" frameborder='no' scrolling='no' src="/student/souye"
-				style="width: 100%;" height="100%;"></iframe>
+    </div>
 
-		</div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © yun.com - 新生报到系统
+    </div>
 
-		<div class="layui-footer">
-			<!-- 底部固定区域 -->
-			© yun.com - 新生报到系统
-		</div>
+    <script>
+        //JavaScript代码区域
+        layui.use(['jquery', 'layer', 'element'], function () {
+            var $ = layui.$;
+            var layer = layui.layer;
+            var element = layui.element;
+            /*界面切换  */
+            $("a").click(function (e) {
+                e.preventDefault();
+                $("#iframeMain").attr("src", $(this).attr("href"));
+            });
+            //$("#souye").click();
+            //一下代码是根据窗口高度在设置iframe的高度
+            var frame = $("#iframeMain");
+            var frameheight = $(window).height();
+            //console.log(frameheight);
+            frame.css("height", frameheight);
 
-		<script>
-			//JavaScript代码区域
-			layui.use([ 'jquery', 'layer', 'element' ], function() {
-				var $ = layui.$;
-				var layer = layui.layer;
-				var element = layui.element;		
-				/*界面切换  */
-				$("a").click(function(e) {
-					e.preventDefault();
-					$("#iframeMain").attr("src", $(this).attr("href"));
-				});
-				//$("#souye").click();
-				//一下代码是根据窗口高度在设置iframe的高度
-				var frame = $("#iframeMain");
-				var frameheight = $(window).height();
-				//console.log(frameheight);
-				frame.css("height", frameheight);
+            $.ajax({
+                url: "/report/findlogin",
+                type: "GET",
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.student.username);
+                    $("#studentname").text("欢迎：" + data.student.username);
 
-				$.ajax({
-					url : "/report/findlogin",
-					type : "GET",
-					contentType : 'application/json',
-					dataType : 'json',
-					success : function(data) {
-						console.log(data.student.username);
-						$("#studentname").text("欢迎：" + data.student.username);
+                },
+                error: function () {
+                    console.log("ajax error");
+                }
+            });
+        });
+    </script>
 
-					},
-					error : function() {
-						console.log("ajax error");
-					}
-				});
-			});
-		</script>
-
-	</div>
+</div>
 </body>
 </html>

@@ -139,9 +139,15 @@ public class UserController {
                 map.put("msg", "两次密码不一致！");
                 return map;
             }
+            String img;
+            if (data.get("images") == "" || data.get("images") == null) {
+                img = "/Ushop-image/head/mrsptp202002021817.png";
+            } else {
+                img = data.get("images");
+            }
             if (data.get("tel").length() == 6 || data.get("tel").length() == 11) {
                 userService.saveUser(new User(data.get("userName"), data.get("passWord"),
-                        data.get("tel"), data.get("images")));
+                        data.get("tel"), img));
                 user = userService.findUserByName(data.get("userName"));
                 request.getSession().setAttribute("user", user);
                 map.put("state", 1);
@@ -271,11 +277,10 @@ public class UserController {
      * @param request
      * @return
      */
-    @ResponseBody
     @RequestMapping("out")
     public String out(HttpServletRequest request) {
         request.getSession().removeAttribute("user");
-        return "page/index";
+        return "index";
     }
 
     /**

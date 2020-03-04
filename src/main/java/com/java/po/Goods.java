@@ -13,13 +13,13 @@ public class Goods implements Serializable {
     private String types;
     private String describes;
     private String picture;
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
-    private Date time;
+    //@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private String time;
 
     public Goods() {
     }
 
-    public Goods(int userId, String goodsName, String price, String types, String describes, String picture, Date time) {
+    public Goods(int userId, String goodsName, String price, String types, String describes, String picture, String time) {
         this.userId = userId;
         this.goodsName = goodsName;
         this.price = price;
@@ -85,11 +85,11 @@ public class Goods implements Serializable {
         this.picture = picture;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

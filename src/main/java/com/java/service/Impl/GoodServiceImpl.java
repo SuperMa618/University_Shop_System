@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("goodService")
 public class GoodServiceImpl implements GoodService {
@@ -19,7 +20,7 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public List<Goods> findAllGoods() {
-        return goodsMapper.findAllGoods();
+    public List<Goods> findGoods(Map map) {
+        return goodsMapper.findGoods(map);
     }
 }

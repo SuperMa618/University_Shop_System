@@ -102,7 +102,7 @@
                     <!--  注册界面-->
                     <div class="layui-tab-item">
                         <form class="layui-form layui-col-md9 "
-                              lay-filter="login-student-form">
+                              lay-filter="register-student-form">
                             <div class="layui-form-item " style="margin-top: 20px"></div>
                             <div class="layui-form-item layui-col-md-offset1">
                                 <label class="layui-form-label ">用户名：</label>
@@ -226,17 +226,6 @@
             var form = layui.form;
             var element = layui.element;
             var upload = layui.upload;
-            /*界面切换  */
-            // $("a").click(function (e) {
-            //     e.preventDefault();
-            //     $("#iframeMain").attr("src", $(this).attr("href"));
-            // });
-            //$("#souye").click();
-            //一下代码是根据窗口高度在设置iframe的高度
-            var frame = $("#iframeMain");
-            var frameheight = $(window).height();
-            //console.log(frameheight);
-            frame.css("height", frameheight);
             //开启修改密码信息界面
             $('#upwd').on('click', function () {
                 layer.open({
@@ -266,7 +255,7 @@
                     }
                     //上传成功
                     var demoText = $('#demoText');
-                    demoText.html('<span style="color: #4cae4c;">上传成功</span>');
+                    // demoText.html('<span style="color: #4cae4c;">上传成功</span>');
                     // var fileupload = $(".image");
                     // fileupload.attr("value", res.data.src);
                     $("#images").val(res.data.src);
