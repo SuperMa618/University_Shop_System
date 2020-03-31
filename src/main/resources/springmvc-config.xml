@@ -27,7 +27,7 @@
 
 	<mvc:interceptors>
 		<mvc:interceptor>
-			<mvc:mapping path="/goods/**"/>
+			<mvc:mapping path="/goods/detail"/>
 			<bean id="goodsInterceptor" class="com.java.interceptor.GoodsInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>

@@ -14,11 +14,34 @@
                 and id = #{id}
             </if>
             <if test="goodsName != null and goodsName != ''">
-                and goodsName like '%${goodsName}%'
+                and goodsName like '%#{goodsName}%'
             </if>
             <if test="type != null and type != ''">
                 and type = #{type}
             </if>
         </where>
     </select>
+
+    <!--收藏商品-->
+    <insert id="goodsCollect" parameterType="Map">
+        insert into collect(userId,goodsId)
+        values (#{userId},#{goodsId})
+    </insert>
+    <!--查找是否已收藏-->
+    <select id="isGoodsCollect" parameterType="Map" resultType="java.lang.Integer">
+        select userId from goods
+        <where>
+            <if test="id != null and id != ''">
+                and userId = #{userId}
+            </if>
+            <if test="type != null and type != ''">
+                and goodsId = #{goodsId}
+            </if>
+        </where>
+    </select>
+    <!--加购物车-->
+    <insert id="goodsCart" parameterType="Map">
+        insert into cart(userId,goodsId)
+        values (#{userId},#{goodsId})
+    </insert>
 </mapper>

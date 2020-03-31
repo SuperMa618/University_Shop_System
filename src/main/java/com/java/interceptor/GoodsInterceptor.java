@@ -19,7 +19,7 @@ public class GoodsInterceptor implements HandlerInterceptor {
         }
         //获取session
         HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("USER_SESSION");
+        User user = (User) session.getAttribute("user");
         //判断session中是否有用户数据，如果有，则返回true，继续向下执行
         if (user != null) {
             return true;

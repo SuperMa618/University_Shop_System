@@ -77,61 +77,182 @@
         </div>
 
         <div class="layui-col-md4" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
-            <h1>${goods.goodsName}</h1>
-            <h1>价格：${goods.price}</h1>
+            <input type="hidden" id="goodsId" name="goodsId" value="${goods.id}"></input>
+            <h1>商品名称：${goods.goodsName}</h1><br><br>
+            <h1>价格：${goods.price}</h1><br>
+            <form id="form-submit" class="layui-form layui-form-pane"
+                  lay-filter="collect-password-form">
+                <button type="button" id="collect" class="layui-btn layui-btn-danger" lay-submit
+                        lay-filter="collect-form-submit">收藏
+                </button>
+                <button type="button" class="layui-btn layui-btn-danger" lay-submit
+                        lay-filter="cart-form-submit">加入购物车
+                </button>
+                <button type="button" class="layui-btn layui-btn-danger" lay-submit
+                        lay-filter="buy-form-submit">下订单</button>
+            </form>
         </div>
     </div>
 
 
-        <div class="layui-footer" style="left: 0px" align="center">
-            © xyjy.com 2019-2020 MYJ.All Right Reserved.
-        </div>
+    <div class="layui-footer" style="left: 0px" align="center">
+        © xyjy.com 2019-2020 MYJ.All Right Reserved.
     </div>
+</div>
 
-    <script>
-        //JavaScript代码区域
-        layui.use(['jquery', 'layer', 'element', 'form'], function () {
-            var $ = layui.$;
-            var layer = layui.layer;
-            var element = layui.element;
-            var form = layui.form;
-            // 搜索商品
-            form.on('submit(search2-form-submit)', function (data) {
-                var data = {
-                    search: $('#search').val()
-                };
-                $.ajax({
-                    url: "/goods/search",
-                    type: "POST",
-                    contentType: 'application/json',
-                    dataType: 'json',
-                    data: JSON.stringify(data),
-                    success: function (data) {
-                        if (data.state == 0) {
-                            parent.layer.msg(data.msg,
-                                {
-                                    icon: 2,
-                                    shade: 0.3,
-                                    time: 2000
-                                });
-                        } else {
-                            location.href = "/page/goods/indexSearch";
-                        }
-                    },
-                    error: function () {
-                        layer.open({
-                            title: '系统提示',
-                            content: '发生未知错误，请联系管理员！'
-                        });
+<script>
+    //JavaScript代码区域
+    layui.use(['jquery', 'layer', 'element', 'form'], function () {
+        var $ = layui.$;
+        var layer = layui.layer;
+        var element = layui.element;
+        var form = layui.form;
+        // 搜索商品
+        form.on('submit(search2-form-submit)', function (data) {
+            var data = {
+                search: $('#search').val()
+            };
+            $.ajax({
+                url: "/goods/search",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+                        location.href = "/page/goods/indexSearch";
                     }
-                });
-                // 阻止表单跳转
-                return false;
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
             });
-
+            // 阻止表单跳转
+            return false;
+        });
+        // 收藏商品
+        form.on('submit(collect-form-submit)', function (data) {
+            var data = {
+                goodsId: $('#goodsId').val()
+            };
+            debugger;
+            $.ajax({
+                url: "/goods/collect",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.3,
+                                time: 1500
+                            });
+                        $('#collect').html("已收藏");
+                        $('#collect').attr("class","layui-btn layui-btn-disabled");
+                    }else {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 1500
+                            });
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
         });
 
-    </script>
+        // 加购物车
+        form.on('submit(cart-form-submit)', function (data) {
+            var data = {
+                goodsId: $('#goodsId').val()
+            };
+            $.ajax({
+                url: "/goods/cart",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
+
+
+        // 下单
+        form.on('submit(buy-form-submit)', function (data) {
+            var data = {
+                goodsId: $('#goodsId').val()
+            };
+            $.ajax({
+                url: "/goods/buy",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 0) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    } else {
+
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
+    });
+
+</script>
 </div>
 </body>
 </html>

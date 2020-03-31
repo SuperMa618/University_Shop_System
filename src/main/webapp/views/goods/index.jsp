@@ -85,19 +85,23 @@
                                 <form>
                                     <c:forEach var="goods" items="${goodsList}">
                                         <div class="item">
-                                            <input id="goodsId" name="goodsId" lay-submit
-                                                   lay-filter="detail-form-submit"
-                                                   value="${goods.id}" type="image" src="${goods.picture}"
-                                                   style="height: 310px;width: 290px;object-fit: cover">
+<%--                                            <input id="goodsId" name="goodsId" lay-submit--%>
+<%--                                                   lay-filter="detail-form-submit"--%>
+<%--                                                   value="${goods.id}" type="image" src="${goods.picture}"--%>
+<%--                                                   style="height: 310px;width: 290px;object-fit: cover">--%>
+                                            <a href="/goods/detail?goodsId=${goods.id}">
+                                                <img src="${goods.picture}" style="height: 310px;width: 290px;object-fit: cover">
+                                                <div class="text-box">
+                                                    <p class="title">${goods.goodsName}</p>
+                                                    <p class="plic">
+                                                        <span class="ciur-pic">￥${goods.price}</span>
+                                                        <span>${goods.time}</span>
+                                                    </p>
+                                                </div>
+                                            </a>
                                                 <%--                                            <img src="${goods.picture}"--%>
                                                 <%--                                                 style="height: 310px;width: 290px;object-fit: cover">--%>
-                                            <div class="text-box">
-                                                <p class="title">${goods.goodsName}</p>
-                                                <p class="plic">
-                                                    <span class="ciur-pic">￥${goods.price}</span>
-                                                    <span>${goods.time}</span>
-                                                </p>
-                                            </div>
+
                                         </div>
                                     </c:forEach>
                                 </form>

@@ -20,6 +20,21 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
+    public void goodsCollect(Map<String, Object> maps) {
+        goodsMapper.goodsCollect(maps);
+    }
+
+    @Override
+    public int isGoodsCollect(Map<String, Object> maps) {
+        return goodsMapper.isGoodsCollect(maps);
+    }
+
+    @Override
+    public void goodsCart(Map<String, Object> maps) {
+        goodsMapper.goodsCart(maps);
+    }
+
+    @Override
     public List<Goods> findGoods(Map map) {
         return goodsMapper.findGoods(map);
     }

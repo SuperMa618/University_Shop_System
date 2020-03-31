@@ -80,37 +80,37 @@
             <li><a href="/goods/type?type=电子产品"><img src="../images/icon/phone.png">电子产品</a><span
                     style="font-size: 13px;color: #999999">  手机 笔记本 主机 显示器 相机 平板 外设</span></li>
             <hr class="layui-bg-red">
-            <li><a href="/page/goods/index"><img src="../images/icon/book.png"> 书籍资料</a><span
+            <li><a href="/goods/type?type=书籍资料"><img src="../images/icon/book.png"> 书籍资料</a><span
                     style="font-size: 13px;color: #999999">  教材 复习资料 其他</span></li>
             <hr>
-            <li><a href="/page/goods/index"><img src="../images/icon/zs.png"> 时尚装饰</a><span
+            <li><a href="/goods/type?type=时尚装饰"><img src="../images/icon/zs.png"> 时尚装饰</a><span
                     style="font-size: 13px;color: #999999">  时尚饰品 珠宝首饰 手链手镯 潮流眼镜 奇珍异宝 其他</span></li>
 
             <hr>
-            <li><a href="/page/goods/index"><img src="../images/icon/xz.png"> 男装鞋包</a><span
+            <li><a href="/goods/type?type=男装鞋包"><img src="../images/icon/xz.png"> 男装鞋包</a><span
                     style="font-size: 13px;color: #999999">  男装 男裤 男鞋 衬衫 T恤 男包 腰带 手套 帽子 其他</span></li>
 
             <hr>
-            <li><a href="/page/goods/index"><img src="../images/icon/qz.png"> 女装鞋包</a><span
+            <li><a href="/goods/type?type=女装鞋包"><img src="../images/icon/qz.png"> 女装鞋包</a><span
                     style="font-size: 13px;color: #999999">  女装 女裤 女鞋 衬衫 T恤 女包 腰带 手套 帽子 其他</span></li>
 
             <hr>
-            <li><a href="/page/goods/index"><img src="../images/icon/kh.png"> 护肤彩妆</a><span
+            <li><a href="/goods/type?type=护肤彩妆"><img src="../images/icon/kh.png"> 护肤彩妆</a><span
                     style="font-size: 13px;color: #999999">  化妆品 美发造型 美容护肤 其他</span></li>
             <hr class="layui-bg-blue">
-            <li><a href="/page/goods/index"><img src="../images/icon/bz.png"> 生活用品</a><span
+            <li><a href="/goods/type?type=生活用品"><img src="../images/icon/bz.png"> 生活用品</a><span
                     style="font-size: 13px;color: #999999">  文具 电器 耗材 其他</span></li>
             <hr class="layui-bg-green">
-            <li><a href="/page/goods/index"><img src="../images/icon/lq.png"> 运动用品</a><span
+            <li><a href="/goods/type?type=运动用品"><img src="../images/icon/lq.png"> 运动用品</a><span
                     style="font-size: 13px;color: #999999">  运动鞋 运动服 运动装备 健身用品 其他</span></li>
             <hr class="layui-bg-red">
-            <li><a href="/page/goods/index"><img src="../images/icon/td.png"> 寝室用品</a><span
+            <li><a href="/goods/type?type=寝室用品"><img src="../images/icon/td.png"> 寝室用品</a><span
                     style="font-size: 13px;color: #999999">  桌椅 挂件 帘子 收纳盒 其他</span></li>
             <hr>
-            <li><a href="/page/goods/index"><img src="../images/icon/vip.png"> 限时票卡</a><span
+            <li><a href="/goods/type?type=限时票卡"><img src="../images/icon/vip.png"> 限时票卡</a><span
                     style="font-size: 13px;color: #999999">  健身卡 会员卡 电影票 优惠券 其他</span></li>
             <hr class="layui-bg-orange">
-            <li><a href="/page/goods/index"><img src="../images/icon/kh.png">其他</a></li>
+            <li><a href="/goods/type?type=其他"><img src="../images/icon/kh.png">其他</a></li>
         </div>
 
         <div style="background-color: #009f95;margin: 10px 1px;position: relative;
@@ -136,17 +136,17 @@
                                           margin: 10px 8px;border:1px solid #c5cbc9;
                                           padding: 25px 15px">
             <!--            <i style="width:5px;height:5px;border-radius:50%;background-color:orange;display: block"></i>-->
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
             <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
             <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
             <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
             <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
             <hr class="layui-bg-orange">
-            <ul>校园大新闻滴滴滴</ul>
+            <ul>校园大新闻活动</ul>
         </div>
         <div class="layui-col-md8" style="margin: 0px 0px;border:1px solid #c5cbc9;">
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
