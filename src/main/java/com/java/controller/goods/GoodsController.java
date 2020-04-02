@@ -1,8 +1,7 @@
 package com.java.controller.goods;
 
 import com.java.mapper.LogMapper;
-import com.java.po.Goods;
-import com.java.po.User;
+import com.java.po.*;
 import com.java.service.GoodService;
 import com.java.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,7 @@ public class GoodsController {
             Map<String, Object> maps = new HashMap<>();
             maps.put("goodsName", data.get("search"));
             maps.put("type", null);
+            maps.put("id", null);
             List<Goods> goodsList = goodService.findGoods(maps);
             request.getSession().setAttribute("goodsList", goodsList);
             map.put("state", 1);
@@ -117,49 +117,165 @@ public class GoodsController {
     }
 
     /**
-     * 收藏商品
+     * 用户查看收藏的商品
      *
-     * @param goodsId
      * @param request
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/cart", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public Map<String, Object> goodsCart(@RequestParam(value = "goodsId") String goodsId,
-                                         HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-        Map<String, Object> maps = new HashMap<>();
+    @RequestMapping(value = "/selectCollect")
+    public ResultMap<List<Goods>> selectCollect(Page page, @RequestParam("limit") int limit,
+                                                HttpServletRequest request, ModelMap modelMap) {
         User user = (User) request.getSession().getAttribute("user");
-        maps.put("userId", user.getId());
-        maps.put("goodsId", goodsId);
-        goodService.goodsCart(maps);
-        map.put("state", 1);
-        map.put("msg", "已加入购物车！");
-        return map;
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Goods> collectList=goodService.selectPageList(page);
+        int totals=goodService.selectPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Goods>>("",collectList,0,totals);
     }
 
 
     /**
-     * 下单
+     * 用户查看收藏的商品详情
      *
-     * @param goodsId
      * @param request
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/buy", method = RequestMethod.GET, produces = "application/json; charset=utf-8")
-    public Map<String, Object> buy(@RequestParam(value = "goodsId") String goodsId,
-                                         HttpServletRequest request) {
+    @RequestMapping(value = "/collectDetail")
+    public Map<String, Object> collectDetail(@RequestParam String goodsId, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        maps.put("goodsName", null);
+        maps.put("type", null);
+        maps.put("id", goodsId);
+        List<Goods> goodsList = goodService.findGoods(maps);
+        if (request.getSession().getAttribute("goods") != null) {
+            request.getSession().removeAttribute("goods");
+        }
+        if (goodsList.get(0) != null) {
+            request.getSession().setAttribute("goods", goodsList.get(0));
+            map.put("state", 1);
+            return map;
+        }else{
+            map.put("state", 0);
+            map.put("msg", "服务器走丢了");
+            return map;
+        }
+    }
+
+
+    /**
+     * 用户删除收藏的商品
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/collectDelete")
+    public Map<String, Object> collectDelete(@RequestParam String goodsId, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");
         maps.put("userId", user.getId());
         maps.put("goodsId", goodsId);
-        goodService.goodsCart(maps);
+        int result = goodService.delCollect(maps);
+        if (result > 0) {
+            map.put("state", 1);
+            map.put("msg", "删除成功");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
+            return map;
+        }
+    }
 
-        map.put("state", 1);
-        map.put("msg", "下单成功！");
-        return map;
+    /**
+     * 购物车
+     *
+     * @param data
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/cart", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Map<String, Object> goodsCart(@RequestBody Map<String, String> data,
+                                         HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        maps.put("userId", user.getId());
+        maps.put("goodsId", data.get("goodsId"));
+        Integer uid = goodService.isGoodsCart(maps);
+        if (uid != null) {
+            map.put("state", 0);
+            map.put("msg", "已在购物车中");
+            return map;
+        } else {
+            goodService.goodsCart(maps);
+            map.put("state", 1);
+            map.put("msg", "已加入购物车！");
+            return map;
+        }
+    }
+
+    /**
+     * 用户删除购物车的商品
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/cartDelete")
+    public Map<String, Object> cartDelete(@RequestParam String goodsId, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        maps.put("userId", user.getId());
+        maps.put("goodsId", goodsId);
+        int result = goodService.delCart(maps);
+        if (result > 0) {
+            map.put("state", 1);
+            map.put("msg", "删除成功");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
+            return map;
+        }
+    }
+
+    /**
+     * 下单
+     *
+     * @param data
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/buy", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Map<String, Object> buy(@RequestBody Map<String, String> data,
+                                   HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        maps.put("goodsId", data.get("goodsId"));
+        List<Goods> goodsList = goodService.findGoods(maps);
+        if (goodsList.get(0).getUserId() == user.getId()) {
+            map.put("state", 0);
+            map.put("msg", "这是您自己的商品哦！");
+            return map;
+        } else {
+            maps.put("buyerId", user.getId());
+            maps.put("sellerId", goodsList.get(0).getUserId());
+            goodService.goodsBuy(maps);
+
+            map.put("state", 1);
+            map.put("msg", "下单成功！");
+            return map;
+        }
     }
 
     /**

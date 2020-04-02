@@ -36,7 +36,7 @@
                    style="font-size: 20px; color: #1E9FFF;"></i>&nbsp联系我们</a>
             </li>
             <li class="layui-nav-item">
-                <form class="layui-form">
+                <form class="layui-form layui-form-pane">
                     <div>
                         <input id="search" type="text" name="search" class="layui-input" style="Float:left;height: 30px;"
                                placeholder="请输入搜索内容" lay-verify="required" autocomplete="off"
@@ -119,8 +119,8 @@
                         float: left;width: 47%">
             <div class="layui-carousel" id="test1">
                 <div carousel-item>
-                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_9-6-29.png" style="width: 100%;height: 100%">
-                    </div>
+                    <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-44.png"
+                              style="width: 100%;height: 100%"></div>
                     <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-29.png"
                               style="width: 100%;height: 100%"></div>
                     <div><img src="/Ushop-image/head/BaiduShurufa_2020-3-2_11-34-44.png"

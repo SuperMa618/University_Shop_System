@@ -49,6 +49,12 @@ public class PageController {
 		return "user/update";
 	}
 
+	/** 跳转至用户收藏夹 */
+	@RequestMapping("/user/collect")
+	public String userCollect() {
+		return "/user/collect";
+	}
+
     /** 跳转至用户提交商品 */
     @RequestMapping("/user/submitGoods")
     public String goodsSubmitGoods() {

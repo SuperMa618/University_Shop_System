@@ -166,7 +166,6 @@
             var data = {
                 goodsId: $('#goodsId').val()
             };
-            debugger;
             $.ajax({
                 url: "/goods/detail",
                 type: "POST",

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.java.mapper.GoodsMapper">
+
+    <sql id="field">
+        id, userId, goodsName, price,
+        type, describes, picture, time
+    </sql>
+
+
     <!-- 提交要发布的商品 -->
     <insert id="saveGoods" parameterType="Goods">
-        insert into goods(userId,goodsName,price,types,describes,picture,time)
-        values(#{goods.userId},#{goods.goodsName},#{goods.price},#{goods.types},#{goods.describes},#{goods.picture},#{goods.time})
+        insert into goods(userId,goodsName,price,type,describes,picture,time,isBuy)
+        values(#{goods.userId},#{goods.goodsName},#{goods.price},#{goods.type},#{goods.describes},#{goods.picture},#{goods.time},0)
     </insert>
     <!--查找商品-->
     <select id="findGoods" parameterType="Map" resultType="Goods">
@@ -14,11 +21,12 @@
                 and id = #{id}
             </if>
             <if test="goodsName != null and goodsName != ''">
-                and goodsName like '%#{goodsName}%'
+                and goodsName like '%${goodsName}%'
             </if>
             <if test="type != null and type != ''">
                 and type = #{type}
             </if>
+            and isBuy = 0
         </where>
     </select>
 
@@ -29,19 +37,90 @@
     </insert>
     <!--查找是否已收藏-->
     <select id="isGoodsCollect" parameterType="Map" resultType="java.lang.Integer">
-        select userId from goods
+        select userId from collect
         <where>
-            <if test="id != null and id != ''">
+            <if test="userId != null and userId != ''">
                 and userId = #{userId}
             </if>
-            <if test="type != null and type != ''">
+            <if test="goodsId != null and goodsId != ''">
                 and goodsId = #{goodsId}
             </if>
+            limit 1
         </where>
     </select>
+
+
+    <!-- 通过条件分页查询，返回数据集 -->
+    <select id="selectPageList" parameterType="com.java.po.Page" resultType="Goods" >
+        select g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time, g.isBuy
+        from collect c
+        join goods g on g.id = c.goodsId
+        <where>
+            <if test="userId!=null and userId !=''">AND c.userId = #{userId}</if>
+            and g.isBuy = 0
+        </where>
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <!-- 通过条件分页查询，返回总记录数 -->
+    <select id="selectPageCount" parameterType="com.java.po.Page"  resultType="java.lang.Integer">
+        select count(1) from goods
+        <where>
+            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
+            and isBuy = 0
+        </where>
+    </select>
+
+    <!-- 删除收藏记录-->
+    <delete id="delCollect" parameterType="java.lang.Integer">
+      delete from collect
+        <where>
+            <if test="goodsId!=null and goodsId !=''">AND  goodsId= #{goodsId}</if>
+            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
+        </where>
+   </delete>
+
+
     <!--加购物车-->
     <insert id="goodsCart" parameterType="Map">
         insert into cart(userId,goodsId)
         values (#{userId},#{goodsId})
     </insert>
+
+    <!--查找是否已加购-->
+    <select id="isGoodsCart" parameterType="Map" resultType="java.lang.Integer">
+        select userId from cart
+        <where>
+            <if test="userId != null and userId != ''">
+                and userId = #{userId}
+            </if>
+            <if test="goodsId != null and goodsId != ''">
+                and goodsId = #{goodsId}
+            </if>
+            limit 1
+        </where>
+    </select>
+
+    <!-- 删除收藏记录-->
+    <delete id="delCart" parameterType="java.lang.Integer">
+        delete from cart
+        <where>
+            <if test="goodsId!=null and goodsId !=''">AND  goodsId= #{goodsId}</if>
+            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
+        </where>
+    </delete>
+
+    <!--下订单-->
+    <insert id="goodsBuy" parameterType="Map">
+        insert into order(sellerId,goodsId,buyerId)
+        values (#{sellerId},#{goodsId},#{buyerId})
+    </insert>
+
+<!--    <sql id="field">-->
+<!--        g.id,g.userId, g.goodsName, g.price,-->
+<!--         g.type, g.describes, g.picture, g.time, g.isBuy-->
+<!--    </sql>-->
+
 </mapper>

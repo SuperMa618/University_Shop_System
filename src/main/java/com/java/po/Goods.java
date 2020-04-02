@@ -10,7 +10,7 @@ public class Goods implements Serializable {
     private int userId;
     private String goodsName;
     private String price;
-    private String types;
+    private String type;
     private String describes;
     private String picture;
     //@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
@@ -19,11 +19,11 @@ public class Goods implements Serializable {
     public Goods() {
     }
 
-    public Goods(int userId, String goodsName, String price, String types, String describes, String picture, String time) {
+    public Goods(int userId, String goodsName, String price, String type, String describes, String picture, String time) {
         this.userId = userId;
         this.goodsName = goodsName;
         this.price = price;
-        this.types = types;
+        this.type = type;
         this.describes = describes;
         this.picture = picture;
         this.time = time;
@@ -61,12 +61,12 @@ public class Goods implements Serializable {
         this.price = price;
     }
 
-    public String getTypes() {
-        return types;
+    public String getType() {
+        return type;
     }
 
-    public void setTypes(String types) {
-        this.types = types;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescribes() {

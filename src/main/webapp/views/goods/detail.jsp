@@ -76,21 +76,34 @@
             <img src="${goods.picture}" style="height: 320px;width: 320px;object-fit: cover">
         </div>
 
-        <div class="layui-col-md4" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
+        <div class="layui-col-md4" style="height: 360px;width: 360px;margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
             <input type="hidden" id="goodsId" name="goodsId" value="${goods.id}"></input>
-            <h1>商品名称：${goods.goodsName}</h1><br><br>
-            <h1>价格：${goods.price}</h1><br>
+            <h3>商品名称：${goods.goodsName}</h3><br>
+            <h2 style="color: #ee0000">价格：${goods.price}</h2><br>
+            <h3>商品描述：${goods.describes}</h3><br>
+            <h4>发布时间：${goods.time}</h4><br>
             <form id="form-submit" class="layui-form layui-form-pane"
                   lay-filter="collect-password-form">
                 <button type="button" id="collect" class="layui-btn layui-btn-danger" lay-submit
                         lay-filter="collect-form-submit">收藏
                 </button>
-                <button type="button" class="layui-btn layui-btn-danger" lay-submit
+                <button type="button" id="cart" class="layui-btn layui-btn-danger" lay-submit
                         lay-filter="cart-form-submit">加入购物车
                 </button>
-                <button type="button" class="layui-btn layui-btn-danger" lay-submit
+                <button type="button" id="order" class="layui-btn layui-btn-danger" lay-submit
                         lay-filter="buy-form-submit">下订单</button>
             </form>
+        </div>
+
+        <div class="layui-col-md8" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
+            <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                <ul class="layui-tab-title">
+                    <li class="layui-this">用户留言</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">内容1</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -194,15 +207,22 @@
                 dataType: 'json',
                 data: JSON.stringify(data),
                 success: function (data) {
-                    if (data.state == 0) {
+                    if (data.state == 1) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                        $('#cart').html("已加购");
+                        $('#cart').attr("class","layui-btn layui-btn-disabled");
+                    } else {
                         parent.layer.msg(data.msg,
                             {
                                 icon: 2,
                                 shade: 0.3,
                                 time: 2000
                             });
-                    } else {
-
                     }
                 },
                 error: function () {
@@ -229,15 +249,22 @@
                 dataType: 'json',
                 data: JSON.stringify(data),
                 success: function (data) {
-                    if (data.state == 0) {
+                    if (data.state == 1) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                        $('#order').html("已下单");
+                        $('#order').attr("class","layui-btn layui-btn-disabled");
+                    } else {
                         parent.layer.msg(data.msg,
                             {
                                 icon: 2,
                                 shade: 0.3,
                                 time: 2000
                             });
-                    } else {
-
                     }
                 },
                 error: function () {

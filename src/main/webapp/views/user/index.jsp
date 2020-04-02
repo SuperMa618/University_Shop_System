@@ -74,6 +74,12 @@
                             <a href="/page/user/submitGoods">提交商品</a>
                         </dd>
                         <dd>
+                            <a href="/page/user/collect">收藏夹</a>
+                        </dd>
+                        <dd>
+                            <a href="">购物车</a>
+                        </dd>
+                        <dd>
                             <a href="">已发布商品</a>
                         </dd>
                         <dd>
