@@ -108,23 +108,18 @@
         <div class="layui-tab layui-tab-brief" lay-filter="demoTitle">
             <ul class="layui-tab-title site-demo-title">
                 <li class="layui-this"><i class="layui-icon layui-icon-home"
-                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp购物车
+                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp历史订单
                 </li>
             </ul>
         </div>
 
-        <table class="layui-hide" id="Cart" lay-filter="Cart"></table>
+        <table class="layui-hide" id="orders" lay-filter="orders"></table>
     </div>
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
 <%--图片模板--%>
 <script type="text/html" id="imgtmp">
     <img src="{{d.picture}}"/>
-</script>
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-danger layui-btn-sm" id="buy" lay-event="buy">下单</button>
-    </div>
 </script>
 
 <script>
@@ -137,14 +132,14 @@
 
         //方法级渲染
         table.render({
-            elem: '#Cart'  //绑定table表格
+            elem: '#orders'  //绑定table表格
             , height: 450
             , skin: 'line' //行边框风格
             , even: true //开启隔行背景
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/goods/selectCart' //后台springmvc接收路径
+            , url: '/goods/selectSell' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -155,10 +150,9 @@
               }*/
 //            ,where:{rows:limit} //传参数
             , limit: 10
-            , id: 'cartTable'
+            , id: 'ordersTable'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'id', width: 80, fixed: 'left', unresize: true, sort: true}
                 , {field: 'goodsName', title: '商品名称', width: 120, edit: 'text'}
                 , {field: 'type', title: '种类', width: 100}
                 , {field: 'describes', title: '描述', width: 380}
@@ -172,9 +166,8 @@
                     totalRow: true
                 }
                 , {
-                    fixed: 'right', width: 120, align: 'center', templet: function () {
-                        return ' <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>\
-                                   <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                    fixed: 'right', width: 200, align: 'center', templet: function () {
+                        return '\<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
                     }
                 }
             ]]
@@ -204,13 +197,13 @@
         });
 
         //监听数据操作(其中tableID就是页面中的lay-filter)
-        table.on('tool(Cart)', function (obj) {
+        table.on('tool(orders)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的删除行么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/cartDelete',
+                        url: '/goods/ordersDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id
@@ -237,17 +230,23 @@
                     });
                     layer.close(index);
                 });
-            } else if (obj.event === 'detail') {
+            } else if (obj.event === 'comp') {
                 $.ajax({
-                    url: '/goods/collectDetail',
+                    url: '/goods/completeOrders',
                     type: "get",
                     data: {
                         "goodsId": data.id
                     },
                     success: function (d) {
                         if (d.state == 1) {
-                            location.href = "/page/goods/detail";
-                        } else {
+                            obj.del();
+                            layer.msg(d.msg,
+                                {
+                                    icon: 1,
+                                    shade: 0.3,
+                                    time: 1500
+                                });
+                        }else {
                             layer.msg(d.msg,
                                 {
                                     icon: 2,
@@ -268,7 +267,7 @@
         });
 
         //头工具栏事件
-        table.on('toolbar(Cart)', function (obj) {
+        table.on('toolbar(orders)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
             switch (obj.event) {
                 case 'buy':
@@ -280,8 +279,6 @@
                         for(var i=0;i<data.length;i++){
                             ids += data[i].id+",";
                         }
-                        debugger;
-                        parent.layer.msg('下单中...', {icon: 16,shade: 0.3,time:200});
                         $.ajax({
                             url: "/goods/batchBuy",
                             type: "post",
@@ -318,7 +315,6 @@
             }
             ;
         });
-
         var $ = layui.$, active = {};
     });
 

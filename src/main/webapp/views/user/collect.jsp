@@ -203,8 +203,7 @@
                         url: '/goods/collectDelete',
                         type: "get",
                         data: {
-                            "goodsId": data.id,
-                            "userId": userid
+                            "goodsId": data.id
                         },
                         success: function(d) {
                             if (d.state == 1) {
@@ -308,17 +307,7 @@
         $('.demoTable .layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
-        });
-
-
-        /* 设置验证码宽高 */
-        var input_width = $("input[name=code]").width();//获取当前文本框的长度
-        var code_width = parseInt(input_width + 10);
-        //console.log(input_width);
-        $(".code").attr({
-            "width": code_width,
-            "height": "39px"
-        });
+        })
 
     });
 

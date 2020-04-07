@@ -57,7 +57,7 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
                 <li class="layui-nav-item layui-this"><a href="/page/index">返回主页</a></li>
-                <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">我的信息</a>
+                <li class="layui-nav-item layui-nav-itemed"><a>我的信息</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="/page/user/update">修改信息</a>
@@ -68,7 +68,7 @@
                     </dl>
                 </li>
 
-                <li class="layui-nav-item layui-nav-itemed"><a >我的商品</a>
+                <li class="layui-nav-item layui-nav-itemed"><a>我的商品</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="/page/user/submitGoods">提交商品</a>
@@ -77,17 +77,25 @@
                             <a href="/page/user/collect">收藏夹</a>
                         </dd>
                         <dd>
-                            <a href="">购物车</a>
+                            <a href="/page/user/cart">购物车</a>
                         </dd>
                         <dd>
                             <a href="">已发布商品</a>
                         </dd>
                         <dd>
-                            <a href="">已购商品</a>
+                            <a href="">历史交易</a>
                         </dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a >我的订单</a>
+                    <dl class="layui-nav-child layui-nav-itemed">
+                        <dd>
+                            <a href="/page/user/ordersell">我的发布</a>
+                        </dd>
+                        <dd>
+                            <a href="/page/user/orders">我买的</a>
+                        </dd>
+                    </dl>
                 </li>
                 <li class="layui-nav-item"><a >我的留言</a></li>
                 <li class="layui-nav-item" style="display: none;"><a

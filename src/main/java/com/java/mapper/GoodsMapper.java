@@ -1,6 +1,7 @@
 package com.java.mapper;
 
 import com.java.po.Goods;
+import com.java.po.Orders;
 import com.java.po.Page;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,8 +22,6 @@ public interface GoodsMapper {
 
     Integer isGoodsCart(Map<String, Object> maps);
 
-    void goodsBuy(Map<String, Object> maps);
-
     List<Goods> selectPageList(Page page);
 
     int selectPageCount(Page page);
@@ -30,4 +29,26 @@ public interface GoodsMapper {
     int delCollect(Map<String, Object> maps);
 
     int delCart(Map<String, Object> maps);
+
+    List<Goods> selectCartPageList(Page page);
+
+    int selectCartPageCount(Page page);
+
+    int goodsBuy(Map<String, Object> maps);
+
+    void changeGoodsState(String goodsId);
+
+    List<Orders> selectOrdersPageList(Page page);
+
+    int selectOrdersPageCount(Page page);
+
+    Integer isGoodsOrders(Map<String, Object> maps);
+
+    List<Orders> selectSellPageList(Page page);
+
+    int selectSellPageCount(Page page);
+
+    int delOrders(Map<String, Object> maps);
+
+    int compOrders(Map<String, Object> maps);
 }

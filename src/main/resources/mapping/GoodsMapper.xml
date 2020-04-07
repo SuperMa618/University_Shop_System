@@ -13,12 +13,13 @@
         insert into goods(userId,goodsName,price,type,describes,picture,time,isBuy)
         values(#{goods.userId},#{goods.goodsName},#{goods.price},#{goods.type},#{goods.describes},#{goods.picture},#{goods.time},0)
     </insert>
+
     <!--查找商品-->
     <select id="findGoods" parameterType="Map" resultType="Goods">
         select * from goods
         <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
+            <if test="goodsId != null and goodsId != ''">
+                and id = #{goodsId}
             </if>
             <if test="goodsName != null and goodsName != ''">
                 and goodsName like '%${goodsName}%'
@@ -51,7 +52,7 @@
 
 
     <!-- 通过条件分页查询，返回数据集 -->
-    <select id="selectPageList" parameterType="com.java.po.Page" resultType="Goods" >
+    <select id="selectPageList" parameterType="com.java.po.Page" resultType="Goods">
         select g.id, g.userId, g.goodsName, g.price,
         g.type, g.describes, g.picture, g.time, g.isBuy
         from collect c
@@ -65,22 +66,24 @@
     </select>
 
     <!-- 通过条件分页查询，返回总记录数 -->
-    <select id="selectPageCount" parameterType="com.java.po.Page"  resultType="java.lang.Integer">
-        select count(1) from goods
+    <select id="selectPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goods
         <where>
-            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
-            and isBuy = 0
+            id in
+            (select goodsId from collect
+            where userId = #{userId})
+            and isBuy=0
         </where>
     </select>
 
     <!-- 删除收藏记录-->
     <delete id="delCollect" parameterType="java.lang.Integer">
-      delete from collect
+        delete from collect
         <where>
-            <if test="goodsId!=null and goodsId !=''">AND  goodsId= #{goodsId}</if>
-            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
+            <if test="goodsId!=null and goodsId !=''">AND goodsId= #{goodsId}</if>
+            <if test="userId!=null and userId !=''">AND userId = #{userId}</if>
         </where>
-   </delete>
+    </delete>
 
 
     <!--加购物车-->
@@ -103,24 +106,134 @@
         </where>
     </select>
 
-    <!-- 删除收藏记录-->
-    <delete id="delCart" parameterType="java.lang.Integer">
-        delete from cart
+    <!-- 通过条件分页查询，返回数据集 -->
+    <select id="selectCartPageList" parameterType="com.java.po.Page" resultType="Goods">
+        select g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time, g.isBuy
+        from cart c
+        join goods g on g.id = c.goodsId
         <where>
-            <if test="goodsId!=null and goodsId !=''">AND  goodsId= #{goodsId}</if>
-            <if test="userId!=null and userId !=''">AND  userId = #{userId}</if>
+            <if test="userId!=null and userId !=''">AND c.userId = #{userId}</if>
+            and g.isBuy = 0
         </where>
-    </delete>
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <!-- 通过条件分页查询，返回总记录数 -->
+    <select id="selectCartPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goods
+        <where>
+            id in
+            (select goodsId from cart
+            where userId = #{userId})
+            and isBuy=0
+        </where>
+    </select>
 
     <!--下订单-->
     <insert id="goodsBuy" parameterType="Map">
-        insert into order(sellerId,goodsId,buyerId)
-        values (#{sellerId},#{goodsId},#{buyerId})
+        insert into orders(sellerId,goodsId,buyerId,buyerTel,date,state)
+        values (#{sellerId},#{goodsId},#{buyerId},#{buyerTel},now(),0)
     </insert>
 
-<!--    <sql id="field">-->
-<!--        g.id,g.userId, g.goodsName, g.price,-->
-<!--         g.type, g.describes, g.picture, g.time, g.isBuy-->
-<!--    </sql>-->
+
+    <!--查找是否已下单-->
+    <select id="isGoodsOrders" parameterType="Map" resultType="java.lang.Integer">
+        select goodsId from orders
+        <where>
+            <if test="goodsId != null and goodsId != ''">
+                and goodsId = #{goodsId}
+            </if>
+            limit 1
+        </where>
+    </select>
+
+    <!-- 通过条件分页查询，返回订单数据集 -->
+    <select id="selectOrdersPageList" parameterType="com.java.po.Page" resultType="Orders">
+        SELECT g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time,u.tel
+        FROM orders o,goods g,s_user u
+        <where>
+            and g.id in (SELECT goodsId from orders where buyerId = #{userId})
+            and u.id in (SELECT sellerId from orders where buyerId = #{userId})
+            and o.state = 0
+        </where>
+        GROUP BY g.id
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <!-- 通过条件分页查询，返回用户订单总记录数 -->
+    <select id="selectOrdersPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goods
+        <where>
+            id in
+            (select goodsId from orders
+            where buyerId = #{userId})
+            and isBuy=1
+        </where>
+    </select>
+
+    <!-- 通过条件分页查询，返回订单数据集 -->
+    <select id="selectSellPageList" parameterType="com.java.po.Page" resultType="Orders">
+        SELECT g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time,o.buyerTel tel
+        FROM orders o left join goods g on g.id = o.goodsId
+        <where>
+            and g.id in (SELECT goodsId from orders where sellerId = #{userId})
+            and o.buyerTel in (SELECT buyerTel from orders where sellerId = #{userId})
+            and o.state = 0
+        </where>
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <!-- 通过条件分页查询，返回用户订单总记录数 -->
+    <select id="selectSellPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goods
+        <where>
+            id in
+            (select goodsId from orders
+            where sellerId = #{userId})
+            and isBuy=1
+        </where>
+    </select>
+    <!-- 删除订单记录-->
+    <update id="delOrders" parameterType="java.lang.Integer">
+        update orders set state = 2
+        <where>
+            goodsId = #{goodsId}
+        </where>
+    </update>
+    <!--    改变商品为被下订单状态-->
+    <update id="changeGoodsState" parameterType="Map">
+        update goods set isBuy = 1
+        <where>
+            id = #{goodsId}
+        </where>
+    </update>
+
+    <!-- 下单后或在购物车中删除商品记录-->
+    <delete id="delCart" parameterType="java.lang.Integer">
+        delete from cart
+        <where>
+            <if test="goodsId!=null and goodsId !=''">AND goodsId= #{goodsId}</if>
+            <if test="buyerId!=null and buyerId !=''">AND userId = #{buyerId}</if>
+        </where>
+    </delete>
+
+    <!--    改变商品为被下订单状态-->
+    <update id="compOrders" parameterType="Map">
+        update orders set state = 1
+        <where>
+            goodsId = #{goodsId}
+        </where>
+    </update>
+
+    <!--    <sql id="field">-->
+    <!--        g.id,g.userId, g.goodsName, g.price,-->
+    <!--         g.type, g.describes, g.picture, g.time, g.isBuy-->
+    <!--    </sql>-->
 
 </mapper>

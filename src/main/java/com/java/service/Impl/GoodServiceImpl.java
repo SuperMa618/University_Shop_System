@@ -2,6 +2,7 @@ package com.java.service.Impl;
 
 import com.java.mapper.GoodsMapper;
 import com.java.po.Goods;
+import com.java.po.Orders;
 import com.java.po.Page;
 import com.java.service.GoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,69 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
+    public List<Goods> selectCartPageList(Page page) {
+        return goodsMapper.selectCartPageList(page);
+    }
+
+    @Override
+    public void goodsBuy(Map<String, Object> maps) {
+        //加入订单
+        goodsMapper.goodsBuy(maps);
+        //改变商品状态
+        goodsMapper.changeGoodsState(maps.get("goodsId").toString());
+    }
+
+    @Override
+    public int compOrders(Map<String, Object> maps) {
+        return goodsMapper.compOrders(maps);
+    }
+
+    @Override
+    public void batchBuy(Map<String, Object> maps) {
+        //加入订单
+        goodsMapper.goodsBuy(maps);
+        //改变商品状态
+        goodsMapper.changeGoodsState(maps.get("goodsId").toString());
+        //下单后删除购物车相应的商品
+        goodsMapper.delCart(maps);
+    }
+
+    @Override
+    public int delOrders(Map<String, Object> maps) {
+        return goodsMapper.delOrders(maps);
+    }
+
+    @Override
+    public int selectSellPageCount(Page page) {
+        return goodsMapper.selectSellPageCount(page);
+    }
+
+    @Override
+    public List<Orders> selectSellPageList(Page page) {
+        return goodsMapper.selectSellPageList(page);
+    }
+
+    @Override
+    public Integer isGoodsOrders(Map<String, Object> maps) {
+        return goodsMapper.isGoodsOrders(maps);
+    }
+
+    @Override
+    public int selectOrdersPageCount(Page page) {
+        return goodsMapper.selectOrdersPageCount(page);
+    }
+
+    @Override
+    public List<Orders> selectOrdersPageList(Page page) {
+        return goodsMapper.selectOrdersPageList(page);
+    }
+
+    @Override
+    public int selectCartPageCount(Page page) {
+        return goodsMapper.selectCartPageCount(page);
+    }
+
+    @Override
     public int delCart(Map<String, Object> maps) {
         return goodsMapper.delCart(maps);
     }
@@ -43,11 +107,6 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public List<Goods> selectPageList(Page page) {
         return goodsMapper.selectPageList(page);
-    }
-
-    @Override
-    public void goodsBuy(Map<String, Object> maps) {
-        goodsMapper.goodsBuy(maps);
     }
 
     @Override

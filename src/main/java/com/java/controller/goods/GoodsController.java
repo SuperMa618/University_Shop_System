@@ -56,7 +56,7 @@ public class GoodsController {
             Map<String, Object> maps = new HashMap<>();
             maps.put("goodsName", data.get("search"));
             maps.put("type", null);
-            maps.put("id", null);
+            maps.put("goodsId", null);
             List<Goods> goodsList = goodService.findGoods(maps);
             request.getSession().setAttribute("goodsList", goodsList);
             map.put("state", 1);
@@ -78,7 +78,7 @@ public class GoodsController {
         Map<String, Object> maps = new HashMap<>();
         maps.put("goodsName", null);
         maps.put("type", null);
-        maps.put("id", goodsId);
+        maps.put("goodsId", goodsId);
         List<Goods> goodsList = goodService.findGoods(maps);
         if (request.getSession().getAttribute("goods") != null) {
             request.getSession().removeAttribute("goods");
@@ -103,6 +103,12 @@ public class GoodsController {
         User user = (User) request.getSession().getAttribute("user");
         maps.put("userId", user.getId());
         maps.put("goodsId", data.get("goodsId"));
+        List<Goods> goodsList = goodService.findGoods(maps);
+        if (goodsList.size() < 1) {
+            map.put("state", 1);
+            map.put("msg", "该商品已被下单，不能收藏！");
+            return map;
+        }
         Integer uid = goodService.isGoodsCollect(maps);
         if (uid != null) {
             map.put("state", 1);
@@ -129,15 +135,15 @@ public class GoodsController {
         User user = (User) request.getSession().getAttribute("user");
         page.setRows(limit);
         page.setUserId(user.getId());
-        List<Goods> collectList=goodService.selectPageList(page);
-        int totals=goodService.selectPageCount(page);
+        List<Goods> collectList = goodService.selectPageList(page);
+        int totals = goodService.selectPageCount(page);
         page.setTotalRecord(totals);
-        return new ResultMap<List<Goods>>("",collectList,0,totals);
+        return new ResultMap<List<Goods>>("", collectList, 0, totals);
     }
 
 
     /**
-     * 用户查看收藏的商品详情
+     * 用户查看收藏或购物车的商品详情
      *
      * @param request
      * @return
@@ -149,7 +155,7 @@ public class GoodsController {
         Map<String, Object> maps = new HashMap<>();
         maps.put("goodsName", null);
         maps.put("type", null);
-        maps.put("id", goodsId);
+        maps.put("goodsId", goodsId);
         List<Goods> goodsList = goodService.findGoods(maps);
         if (request.getSession().getAttribute("goods") != null) {
             request.getSession().removeAttribute("goods");
@@ -158,7 +164,7 @@ public class GoodsController {
             request.getSession().setAttribute("goods", goodsList.get(0));
             map.put("state", 1);
             return map;
-        }else{
+        } else {
             map.put("state", 0);
             map.put("msg", "服务器走丢了");
             return map;
@@ -193,7 +199,7 @@ public class GoodsController {
     }
 
     /**
-     * 购物车
+     * 加入购物车
      *
      * @param data
      * @param request
@@ -206,8 +212,19 @@ public class GoodsController {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");
-        maps.put("userId", user.getId());
         maps.put("goodsId", data.get("goodsId"));
+        List<Goods> goodsList = goodService.findGoods(maps);
+        if (goodsList.size() < 1) {
+            map.put("state", 0);
+            map.put("msg", "该商品已被下单，不能加购！");
+            return map;
+        }
+        if (goodsList.size() > 0 && goodsList.get(0).getUserId() == user.getId()) {
+            map.put("state", 0);
+            map.put("msg", "这是您自己的商品哦！");
+            return map;
+        }
+        maps.put("userId", user.getId());
         Integer uid = goodService.isGoodsCart(maps);
         if (uid != null) {
             map.put("state", 0);
@@ -219,6 +236,25 @@ public class GoodsController {
             map.put("msg", "已加入购物车！");
             return map;
         }
+    }
+
+    /**
+     * 用户查看购物车的商品
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/selectCart")
+    public ResultMap<List<Goods>> selectCart(Page page, @RequestParam("limit") int limit,
+                                             HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Goods> collectList = goodService.selectCartPageList(page);
+        int totals = goodService.selectCartPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Goods>>("", collectList, 0, totals);
     }
 
     /**
@@ -247,6 +283,39 @@ public class GoodsController {
         }
     }
 
+
+    /**
+     * 购物车批量下单
+     *
+     * @param data
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/batchBuy", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
+    public Map<String, Object> batchBuy(@RequestBody Map<String, String> data,
+                                        HttpServletRequest request) {
+        //返回值
+        Map<String, Object> map = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        String id = data.get("ids").toString();
+        String ids[] = id.split(",");
+        for (int i = 0; i < ids.length; i++) {
+            //后台传参
+            Map<String, Object> maps = new HashMap<>();
+            maps.put("buyerId", user.getId());
+            maps.put("goodsId", ids[i]);
+            maps.put("buyerTel", user.getTel());
+            List<Goods> goodsList = goodService.findGoods(maps);
+            maps.put("sellerId", goodsList.get(0).getUserId());
+            goodService.batchBuy(maps);
+        }
+        map.put("state", 1);
+        map.put("msg", "已下单 请在七天内完成交易！");
+        return map;
+    }
+
+
     /**
      * 下单
      *
@@ -262,21 +331,124 @@ public class GoodsController {
         Map<String, Object> maps = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");
         maps.put("goodsId", data.get("goodsId"));
+        Integer uid = goodService.isGoodsOrders(maps);
+        if (uid != null) {
+            map.put("state", 0);
+            map.put("msg", "已下单");
+            return map;
+        }
         List<Goods> goodsList = goodService.findGoods(maps);
-        if (goodsList.get(0).getUserId() == user.getId()) {
+        if (goodsList.size() > 0 && goodsList.get(0).getUserId() == user.getId()) {
             map.put("state", 0);
             map.put("msg", "这是您自己的商品哦！");
             return map;
-        } else {
-            maps.put("buyerId", user.getId());
-            maps.put("sellerId", goodsList.get(0).getUserId());
-            goodService.goodsBuy(maps);
+        }
+        maps.put("buyerId", user.getId());
+        maps.put("sellerId", goodsList.get(0).getUserId());
+        maps.put("buyerTel", user.getTel());
+        goodService.goodsBuy(maps);
 
+        map.put("state", 1);
+        map.put("msg", "下单成功，请在七天内完成交易！");
+        return map;
+
+    }
+
+    /**
+     * 用户删除订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/ordersDelete")
+    public Map<String, Object> ordersDelete(@RequestParam String goodsId, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        if (request.getSession().getAttribute("user") == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+            return map;
+        }
+        maps.put("goodsId", goodsId);
+        int result = goodService.delOrders(maps);
+        if (result > 0) {
             map.put("state", 1);
-            map.put("msg", "下单成功！");
+            map.put("msg", "删除成功");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
             return map;
         }
     }
+    /**
+     * 用户查看自己下的订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/selectOrders")
+    public ResultMap<List<Orders>> selectOrders(Page page, @RequestParam("limit") int limit,
+                                                HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Orders> collectList = goodService.selectOrdersPageList(page);
+        int totals = goodService.selectOrdersPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Orders>>("", collectList, 0, totals);
+    }
+
+    /**
+     * 用户查看自己发布的商品订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/selectSell")
+    public ResultMap<List<Orders>> selectSell(Page page, @RequestParam("limit") int limit,
+                                                HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Orders> collectList = goodService.selectSellPageList(page);
+        int totals = goodService.selectSellPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Orders>>("", collectList, 0, totals);
+    }
+
+    /**
+     * 用户查看自己发布的商品订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/completeOrders")
+    public Map<String, Object> completeOrders(@RequestParam String goodsId,HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        if (request.getSession().getAttribute("user") == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+            return map;
+        }
+        maps.put("goodsId", goodsId);
+        int result = goodService.compOrders(maps);
+        if (result > 0) {
+            map.put("state", 1);
+            map.put("msg", "交易完成");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
+            return map;
+        }
+    }
+
 
     /**
      * 商品种类

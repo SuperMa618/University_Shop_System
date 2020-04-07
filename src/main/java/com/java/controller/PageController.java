@@ -55,6 +55,25 @@ public class PageController {
 		return "/user/collect";
 	}
 
+	/** 跳转至用户购物车 */
+	@RequestMapping("/user/cart")
+	public String userCart() {
+		return "/user/cart";
+	}
+
+	/** 跳转至用户卖方订单 */
+	@RequestMapping("user/ordersell")
+	public String userSell() {
+		return "user/ordersell";
+	}
+
+	/** 跳转至用户买方订单 */
+	@RequestMapping("/user/orders")
+	public String userOrders() {
+		return "/user/orders";
+	}
+
+
     /** 跳转至用户提交商品 */
     @RequestMapping("/user/submitGoods")
     public String goodsSubmitGoods() {
