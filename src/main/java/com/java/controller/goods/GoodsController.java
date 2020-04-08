@@ -355,23 +355,25 @@ public class GoodsController {
     }
 
     /**
-     * 用户删除订单
+     * 买家删除订单
      *
      * @param request
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/ordersDelete")
-    public Map<String, Object> ordersDelete(@RequestParam String goodsId, HttpServletRequest request) {
+    @RequestMapping(value = "/buyerDelete")
+    public Map<String, Object> buyerDelete(@RequestParam String goodsId, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
-        if (request.getSession().getAttribute("user") == null) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             map.put("state", 0);
             map.put("msg", "未登录");
             return map;
         }
+        maps.put("buyerId", user.getId());
         maps.put("goodsId", goodsId);
-        int result = goodService.delOrders(maps);
+        int result = goodService.delOrdersByBuyer(maps);
         if (result > 0) {
             map.put("state", 1);
             map.put("msg", "删除成功");
@@ -382,6 +384,38 @@ public class GoodsController {
             return map;
         }
     }
+
+    /**
+     * 卖家删除订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/sellerDelete")
+    public Map<String, Object> sellerDelete(@RequestParam String goodsId, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+            return map;
+        }
+        maps.put("sellerId", user.getId());
+        maps.put("goodsId", goodsId);
+        int result = goodService.delOrdersBySeller(maps);
+        if (result > 0) {
+            map.put("state", 1);
+            map.put("msg", "删除成功");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
+            return map;
+        }
+    }
+
     /**
      * 用户查看自己下的订单
      *
@@ -421,7 +455,7 @@ public class GoodsController {
     }
 
     /**
-     * 用户查看自己发布的商品订单
+     * 用户 完成 自己发布的商品订单
      *
      * @param request
      * @return
@@ -449,6 +483,25 @@ public class GoodsController {
         }
     }
 
+
+    /**
+     * 用户查看历史订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/historyOrders")
+    public ResultMap<List<Orders>> historyOrders(Page page, @RequestParam("limit") int limit,
+                                             HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Orders> collectList = goodService.selectHistoryPageList(page);
+        int totals = goodService.selectHistoryPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Orders>>("", collectList, 0, totals);
+    }
 
     /**
      * 商品种类

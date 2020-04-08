@@ -36,11 +36,12 @@ public class GoodServiceImpl implements GoodService {
         //加入订单
         goodsMapper.goodsBuy(maps);
         //改变商品状态
-        goodsMapper.changeGoodsState(maps.get("goodsId").toString());
+        goodsMapper.changeGoodsStateOne(maps.get("goodsId").toString());
     }
 
     @Override
     public int compOrders(Map<String, Object> maps) {
+        goodsMapper.changeGoodsStateTwo(maps.get("goodsId").toString());
         return goodsMapper.compOrders(maps);
     }
 
@@ -49,14 +50,31 @@ public class GoodServiceImpl implements GoodService {
         //加入订单
         goodsMapper.goodsBuy(maps);
         //改变商品状态
-        goodsMapper.changeGoodsState(maps.get("goodsId").toString());
+        goodsMapper.changeGoodsStateOne(maps.get("goodsId").toString());
         //下单后删除购物车相应的商品
         goodsMapper.delCart(maps);
     }
 
     @Override
-    public int delOrders(Map<String, Object> maps) {
-        return goodsMapper.delOrders(maps);
+    public int delOrdersByBuyer(Map<String, Object> maps) {
+        goodsMapper.changeGoodsStateZero(maps.get("goodsId").toString());
+        return goodsMapper.delOrdersByBuyer(maps);
+    }
+
+    @Override
+    public int selectHistoryPageCount(Page page) {
+        return goodsMapper.selectHistoryPageCount(page);
+    }
+
+    @Override
+    public List<Orders> selectHistoryPageList(Page page) {
+        return goodsMapper.selectHistoryPageList(page);
+    }
+
+    @Override
+    public int delOrdersBySeller(Map<String, Object> maps) {
+        goodsMapper.changeGoodsStateZero(maps.get("goodsId").toString());
+        return goodsMapper.delOrdersBySeller(maps);
     }
 
     @Override

@@ -45,9 +45,15 @@ public interface GoodService {
 
     int selectSellPageCount(Page page);
 
-    int delOrders(Map<String, Object> maps);
-
     void batchBuy(Map<String, Object> maps);
 
     int compOrders(Map<String, Object> maps);
+
+    int delOrdersByBuyer(Map<String, Object> maps);
+
+    int delOrdersBySeller(Map<String, Object> maps);
+
+    List<Orders> selectHistoryPageList(Page page);
+
+    int selectHistoryPageCount(Page page);
 }

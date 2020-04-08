@@ -83,7 +83,7 @@
                             <a href="">已发布商品</a>
                         </dd>
                         <dd>
-                            <a href="">历史交易</a>
+                            <a href="/page/user/orderHistory">历史交易</a>
                         </dd>
                     </dl>
                 </li>

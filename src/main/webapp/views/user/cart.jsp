@@ -280,8 +280,6 @@
                         for(var i=0;i<data.length;i++){
                             ids += data[i].id+",";
                         }
-                        debugger;
-                        parent.layer.msg('下单中...', {icon: 16,shade: 0.3,time:200});
                         $.ajax({
                             url: "/goods/batchBuy",
                             type: "post",

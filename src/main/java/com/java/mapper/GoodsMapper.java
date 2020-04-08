@@ -36,8 +36,6 @@ public interface GoodsMapper {
 
     int goodsBuy(Map<String, Object> maps);
 
-    void changeGoodsState(String goodsId);
-
     List<Orders> selectOrdersPageList(Page page);
 
     int selectOrdersPageCount(Page page);
@@ -48,7 +46,19 @@ public interface GoodsMapper {
 
     int selectSellPageCount(Page page);
 
-    int delOrders(Map<String, Object> maps);
-
     int compOrders(Map<String, Object> maps);
+
+    int delOrdersByBuyer(Map<String, Object> maps);
+
+    int delOrdersBySeller(Map<String, Object> maps);
+
+    void changeGoodsStateZero(String goodsId);
+
+    void changeGoodsStateOne(String goodsId);
+
+    void changeGoodsStateTwo(String goodsId);
+
+    List<Orders> selectHistoryPageList(Page page);
+
+    int selectHistoryPageCount(Page page);
 }

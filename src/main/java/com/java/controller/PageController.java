@@ -73,6 +73,11 @@ public class PageController {
 		return "/user/orders";
 	}
 
+	/** 跳转至用户买方订单 */
+	@RequestMapping("/user/orderHistory")
+	public String userHistory() {
+		return "/user/orderHistory";
+	}
 
     /** 跳转至用户提交商品 */
     @RequestMapping("/user/submitGoods")

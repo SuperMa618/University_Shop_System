@@ -66,23 +66,25 @@ public class OrdersController {
     }
 
     /**
-     * 用户删除订单
+     * 买家删除订单
      *
      * @param request
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/ordersDelete")
-    public Map<String, Object> ordersDelete(@RequestParam String goodsId, HttpServletRequest request) {
+    @RequestMapping(value = "/buyerDelete")
+    public Map<String, Object> buyerDelete(@RequestParam String goodsId, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
-        if (request.getSession().getAttribute("user") == null) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
             map.put("state", 0);
             map.put("msg", "未登录");
             return map;
         }
+        maps.put("buyerId", user.getId());
         maps.put("goodsId", goodsId);
-        int result = goodService.delOrders(maps);
+        int result = goodService.delOrdersByBuyer(maps);
         if (result > 0) {
             map.put("state", 1);
             map.put("msg", "删除成功");
@@ -93,6 +95,37 @@ public class OrdersController {
             return map;
         }
     }
+    /**
+     * 卖家删除订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/sellerDelete")
+    public Map<String, Object> sellerDelete(@RequestParam String goodsId, HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> maps = new HashMap<>();
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            map.put("state", 0);
+            map.put("msg", "未登录");
+            return map;
+        }
+        maps.put("sellerId", user.getId());
+        maps.put("goodsId", goodsId);
+        int result = goodService.delOrdersBySeller(maps);
+        if (result > 0) {
+            map.put("state", 1);
+            map.put("msg", "删除成功");
+            return map;
+        } else {
+            map.put("state", 0);
+            map.put("msg", "删除失败");
+            return map;
+        }
+    }
+
     /**
      * 用户查看自己下的订单
      *

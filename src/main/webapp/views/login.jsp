@@ -331,7 +331,7 @@
                     error: function () {
                         layer.open({
                             title: '系统提示',
-                            content: '发生未知错误，请联系管理员2！'
+                            content: '发生未知错误，请联系管理员！'
                         });
                         $('.code').click();
                     }

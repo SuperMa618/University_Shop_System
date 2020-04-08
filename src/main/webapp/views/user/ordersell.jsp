@@ -205,7 +205,7 @@
                 layer.confirm('真的删除行么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/ordersDelete',
+                        url: '/goods/sellerDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id

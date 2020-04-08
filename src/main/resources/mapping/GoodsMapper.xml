@@ -144,6 +144,7 @@
         <where>
             <if test="goodsId != null and goodsId != ''">
                 and goodsId = #{goodsId}
+                and state = 0
             </if>
             limit 1
         </where>
@@ -153,10 +154,10 @@
     <select id="selectOrdersPageList" parameterType="com.java.po.Page" resultType="Orders">
         SELECT g.id, g.userId, g.goodsName, g.price,
         g.type, g.describes, g.picture, g.time,u.tel
-        FROM orders o,goods g,s_user u
+        FROM (orders o left join goods g on g.id = o.goodsId) left join s_user u on u.id = o.sellerId
         <where>
-            and g.id in (SELECT goodsId from orders where buyerId = #{userId})
-            and u.id in (SELECT sellerId from orders where buyerId = #{userId})
+            and g.id in (SELECT goodsId from orders where buyerId = #{userId} and state = 0)
+            and u.id in (SELECT sellerId from orders where buyerId = #{userId} and state = 0)
             and o.state = 0
         </where>
         GROUP BY g.id
@@ -170,7 +171,7 @@
         <where>
             id in
             (select goodsId from orders
-            where buyerId = #{userId})
+            where buyerId = #{userId} and state = 0)
             and isBuy=1
         </where>
     </select>
@@ -181,8 +182,8 @@
         g.type, g.describes, g.picture, g.time,o.buyerTel tel
         FROM orders o left join goods g on g.id = o.goodsId
         <where>
-            and g.id in (SELECT goodsId from orders where sellerId = #{userId})
-            and o.buyerTel in (SELECT buyerTel from orders where sellerId = #{userId})
+            and g.id in (SELECT goodsId from orders where sellerId = #{userId} and state = 0)
+            and o.buyerTel in (SELECT buyerTel from orders where sellerId = #{userId} and state = 0)
             and o.state = 0
         </where>
         order by g.id DESC
@@ -195,20 +196,39 @@
         <where>
             id in
             (select goodsId from orders
-            where sellerId = #{userId})
+            where sellerId = #{userId} and state = 0)
             and isBuy=1
         </where>
     </select>
-    <!-- 删除订单记录-->
-    <update id="delOrders" parameterType="java.lang.Integer">
+    <!-- 买家删除订单记录-->
+    <update id="delOrdersByBuyer" parameterType="java.lang.Integer">
         update orders set state = 2
         <where>
             goodsId = #{goodsId}
+            and buyerId=#{buyerId}
+            and state = 0
+        </where>
+    </update>
+    <!-- 卖家删除订单记录-->
+    <update id="delOrdersBySeller" parameterType="java.lang.Integer">
+        update orders set state = 2
+        <where>
+            goodsId = #{goodsId}
+            and sellerId=#{sellerId}
+            and state = 0
         </where>
     </update>
     <!--    改变商品为被下订单状态-->
-    <update id="changeGoodsState" parameterType="Map">
+    <update id="changeGoodsStateOne" parameterType="Map">
         update goods set isBuy = 1
+        <where>
+            id = #{goodsId}
+        </where>
+    </update>
+
+    <!--    改变商品为出售状态-->
+    <update id="changeGoodsStateZero" parameterType="Map">
+        update goods set isBuy = 0
         <where>
             id = #{goodsId}
         </where>
@@ -223,14 +243,40 @@
         </where>
     </delete>
 
-    <!--    改变商品为被下订单状态-->
+    <!--    改变订单为完成状态-->
     <update id="compOrders" parameterType="Map">
         update orders set state = 1
         <where>
             goodsId = #{goodsId}
+            and state = 0
+        </where>
+    </update>
+    <update id="changeGoodsStateTwo" parameterType="Map">
+        update goods set isBuy = 2
+        <where>
+            id = #{goodsId}
         </where>
     </update>
 
+    <!-- 历史订单 -->
+    <select id="selectHistoryPageList" parameterType="com.java.po.Page" resultType="Orders">
+        SELECT g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time,o.state state
+        FROM goods g left join orders o on g.id = o.goodsId
+        <where>
+            and g.isBuy in (0,2)
+            and g.id in (SELECT goodsId from orders where buyerId = #{userId} and state in(1,2))
+        </where>
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <select id="selectHistoryPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from orders
+        <where>
+            and buyerId = #{userId} and state in(1,2)
+        </where>
+    </select>
     <!--    <sql id="field">-->
     <!--        g.id,g.userId, g.goodsName, g.price,-->
     <!--         g.type, g.describes, g.picture, g.time, g.isBuy-->
