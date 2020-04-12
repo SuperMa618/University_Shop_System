@@ -10,8 +10,86 @@
     <link rel="stylesheet" href="/js/layui-2.5.4/css/main.css">
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
+    <style type="text/css">
+        .fly-panel {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px 0 rgba(0, 9, 65, 0.99);
+        }
+
+        .detail-about-reply {
+            padding: 0 0 0 35px;
+            background: none;
+        }
+
+        .detail-body {
+            margin: 10px 0 0;
+            min-height: 306px;
+            line-height: 26px;
+            font-size: 16px;
+            color: #333;
+            word-wrap: break-word;
+        }
+
+        .jieda {
+            margin-bottom: 30px;
+        }
+
+        .jieda-reply span {
+            padding-right: 20px;
+            color: #999;
+            cursor: pointer;
+        }
+
+        .jieda-reply {
+            position: relative;
+        }
+
+        .jieda-body {
+            margin: 10px 0 20px;
+            min-height: 0;
+            line-height: 24px;
+            font-size: 14px;
+        }
+
+        .fly-avatar img {
+            display: block;
+            width: 45px;
+            height: 45px;
+            margin: 0;
+            border-radius: 2px;
+        }
+
+        .detail-about {
+            position: relative;
+            line-height: 20px;
+            padding: 0px 0px 0px 75px;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .detail-about-reply .fly-avatar {
+            left: 0;
+            top: 0;
+        }
+
+        .fly-avatar {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+        }
+
+        .fly-link {
+            color: #01AAED;
+        }
+
+        .layui-icon {
+            font-size: 10px;
+            color: grey;
+        }
+    </style>
 </head>
-<body>
+<body style="background-color: #f1f8ff">
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header" style="background-color: #426078">
@@ -76,8 +154,10 @@
             <img src="${goods.picture}" style="height: 320px;width: 320px;object-fit: cover">
         </div>
 
-        <div class="layui-col-md4" style="height: 360px;width: 360px;margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
-            <input type="hidden" id="goodsId" name="goodsId" value="${goods.id}"></input>
+        <div class="layui-col-md4"
+             style="height: 360px;width: 420px;margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
+            <input type="hidden" id="goodsId" name="goodsId" value="${goods.id}">
+            <input type="hidden" id="sellerId" name="sellerId" value="${goods.userId}">
             <h3>商品名称：${goods.goodsName}</h3><br>
             <h2 style="color: #ee0000">价格：${goods.price}</h2><br>
             <h3>商品描述：${goods.describes}</h3><br>
@@ -91,17 +171,54 @@
                         lay-filter="cart-form-submit">加入购物车
                 </button>
                 <button type="button" id="order" class="layui-btn layui-btn-danger" lay-submit
-                        lay-filter="buy-form-submit">下订单</button>
+                        lay-filter="buy-form-submit">下订单
+                </button>
             </form>
         </div>
-
         <div class="layui-col-md8" style="margin: 10px 10px;border:1px solid #c5cbc9;padding: 20px 15px">
+            <div class="fly-panel detail-box" id="flyReply">
+                <fieldset class="layui-elem-field layui-field-title" style="text-align: center;">
+                    <legend>对卖家的留言</legend>
+                </fieldset>
+            </div>
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">用户留言</li>
-                </ul>
+                <%--                <ul class="layui-tab-title">--%>
+                <%--                    <li class="layui-this">用户留言</li>--%>
+                <%--                </ul>--%>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">内容1</div>
+                    <ul class="jieda" id="jieda">
+                        <c:if test="${commentList != null}">
+                            <c:forEach items="${commentList}" var="comment">
+                                <li>
+                                    <div class="detail-about detail-about-reply"><a class="fly-avatar">
+                                        <img src="${comment.sHead}" class="layui-nav-img"></a>
+                                        <div class="fly-detail-user"><a class="fly-link">
+                                            <cite>匿名用户</cite>
+                                        </a></div>
+                                        <div class="detail-hits"><span>${comment.date}</span></div>
+                                    </div>
+                                    <div class="detail-body layui-text jieda-body photos"> ${comment.content}</div>
+
+                                        <%--                            <div class="jieda-reply"><span class="jieda-zan " type="zan"> <i--%>
+                                        <%--                                    class="iconfont icon-zan"></i> <em>0</em> </span> <span type="reply"> <i--%>
+                                        <%--                                    class="iconfont icon-svgmoban53"></i> 回复 </span></div>--%>
+                                </li>
+                            </c:forEach>
+                        </c:if>
+                    </ul>
+
+                    <form class="layui-form layui-form-pane">
+                        <div class="layui-form-item layui-form-text">
+                            <label class="layui-form-label">留言</label>
+                            <div class="layui-input-block">
+                                <textarea id="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <button id="commit" class="layui-btn" lay-submit
+                                    lay-filter="comment-form-submit">提交</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -136,7 +253,7 @@
                         parent.layer.msg(data.msg,
                             {
                                 icon: 2,
-                                shade: 0.3,
+                                shade: 0.4,
                                 time: 2000
                             });
                     } else {
@@ -160,26 +277,26 @@
             };
             debugger;
             $.ajax({
-                url: "/goods/collect",
+                url: "/collect/collect",
                 type: "POST",
                 contentType: 'application/json',
                 dataType: 'json',
                 data: JSON.stringify(data),
                 success: function (data) {
                     if (data.state == 0) {
-                        parent.layer.msg(data.msg,
+                        layer.msg(data.msg,
                             {
                                 icon: 1,
-                                shade: 0.3,
+                                shade: 0.4,
                                 time: 1500
                             });
                         $('#collect').html("已收藏");
-                        $('#collect').attr("class","layui-btn layui-btn-disabled");
-                    }else {
-                        parent.layer.msg(data.msg,
+                        $('#collect').attr("class", "layui-btn layui-btn-disabled");
+                    } else {
+                        layer.msg(data.msg,
                             {
                                 icon: 2,
-                                shade: 0.3,
+                                shade: 0.4,
                                 time: 1500
                             });
                     }
@@ -201,7 +318,7 @@
                 goodsId: $('#goodsId').val()
             };
             $.ajax({
-                url: "/goods/cart",
+                url: "/cart/cart",
                 type: "POST",
                 contentType: 'application/json',
                 dataType: 'json',
@@ -215,7 +332,7 @@
                                 time: 2000
                             });
                         $('#cart').html("已加购");
-                        $('#cart').attr("class","layui-btn layui-btn-disabled");
+                        $('#cart').attr("class", "layui-btn layui-btn-disabled");
                     } else {
                         parent.layer.msg(data.msg,
                             {
@@ -236,14 +353,13 @@
             return false;
         });
 
-
         // 下单
         form.on('submit(buy-form-submit)', function (data) {
             var data = {
                 goodsId: $('#goodsId').val()
             };
             $.ajax({
-                url: "/goods/buy",
+                url: "/orders/buy",
                 type: "POST",
                 contentType: 'application/json',
                 dataType: 'json',
@@ -257,7 +373,50 @@
                                 time: 2000
                             });
                         $('#order').html("已下单");
-                        $('#order').attr("class","layui-btn layui-btn-disabled");
+                        $('#order').attr("class", "layui-btn layui-btn-disabled");
+                    } else {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 2000
+                            });
+                    }
+                },
+                error: function () {
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+            });
+            // 阻止表单跳转
+            return false;
+        });
+
+        // 留言
+        form.on('submit(comment-form-submit)', function (data) {
+            var data = {
+                content: $('#content').val(),
+                sellerId: $('#sellerId').val()
+            };
+            $.ajax({
+                url: "/comment/commit",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (data) {
+                    if (data.state == 1) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.3,
+                                time: 1000,
+                                end: function () {
+                                    location.href = "/goods/detail?goodsId=${goods.id}&sellerId=${goods.userId}";
+                                }
+                            });
                     } else {
                         parent.layer.msg(data.msg,
                             {

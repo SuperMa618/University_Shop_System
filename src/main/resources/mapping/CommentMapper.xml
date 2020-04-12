@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.CommentMapper">
+
+    <delete id="delComment">
+        delete from comment
+        <where>
+            <if test="id!=null and id !=''">AND id= #{id}</if>
+        </where>
+    </delete>
+
+    <!--    商品页显示留言-->
+    <select id="goodsShowComment" parameterType="Map" resultType="com.java.po.Comment">
+        select * from comment
+        <where>
+            sellerId=#{sellerId}
+        </where>
+    </select>
+    <select id="buyCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from orders
+        <where>
+            and buyerId = #{id}
+            and state = 1
+        </where>
+    </select>
+
+    <select id="comCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(*) from comment
+        <where>
+            and buyerId = #{id}
+        </where>
+    </select>
+<!--    获取我的留言总数-->
+    <select id="selectBCommentPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from comment
+        <where>
+            and buyerId = #{userId}
+        </where>
+    </select>
+<!--获取我的留言列表-->
+    <select id="selectBCommentPageList" parameterType="com.java.po.Page" resultType="com.java.po.Comment">
+        SELECT * FROM comment
+        <where>
+            and buyerId = #{userId}
+        </where>
+        limit #{start},#{rows}
+    </select>
+<!--去留言页-->
+    <select id="findGoodsForComment" parameterType="Map" resultType="com.java.po.Goods">
+        select * from goods
+        <where>
+            <if test="sellerId != null and sellerId != ''">
+                and userId = #{sellerId}
+            </if>
+            and isBuy = 0
+            limit 1
+        </where>
+    </select>
+<!--    获取给卖家的留言-->
+    <select id="selectSCommentPageList" parameterType="com.java.po.Page" resultType="com.java.po.CommentView">
+        SELECT c.content,c.date,u.tel FROM comment c join s_user u on c.buyerId=u.id
+        <where>
+            and sellerId = #{userId}
+        </where>
+        limit #{start},#{rows}
+    </select>
+<!--    给卖家留言数量-->
+    <select id="selectSCommentPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from comment
+        <where>
+            and sellerId = #{userId}
+        </where>
+    </select>
+<!--提交留言-->
+    <insert id="commit" parameterType="Comment">
+        insert into comment(buyerId,sellerId,content,date,sHead)
+        values(#{comment.buyerId},#{comment.sellerId},#{comment.content},now(),#{comment.sHead})
+    </insert>
+
+</mapper>

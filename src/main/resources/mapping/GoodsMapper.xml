@@ -200,6 +200,8 @@
             and isBuy=1
         </where>
     </select>
+
+
     <!-- 买家删除订单记录-->
     <update id="delOrdersByBuyer" parameterType="java.lang.Integer">
         update orders set state = 2
@@ -243,7 +245,7 @@
         </where>
     </delete>
 
-    <!--    改变订单为完成状态-->
+    <!--    改变订单为完成状态 1-->
     <update id="compOrders" parameterType="Map">
         update orders set state = 1
         <where>
@@ -251,6 +253,7 @@
             and state = 0
         </where>
     </update>
+    <!--    改变商品为已交易状态 2-->
     <update id="changeGoodsStateTwo" parameterType="Map">
         update goods set isBuy = 2
         <where>
@@ -277,6 +280,34 @@
             and buyerId = #{userId} and state in(1,2)
         </where>
     </select>
+
+    <!-- 通过条件分页查询，返回订单数据集 -->
+    <select id="selectPublishPageList" parameterType="com.java.po.Page" resultType="Orders">
+        SELECT g.id, g.userId, g.goodsName, g.price,
+        g.type, g.describes, g.picture, g.time, g.isBuy state
+        FROM  goods g
+        <where>
+            and userId = #{userId}
+        </where>
+        order by g.id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <!-- 通过条件分页查询，返回用户订单总记录数 -->
+    <select id="selectPublishPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goods
+        <where>
+            and userId = #{userId}
+        </where>
+    </select>
+
+    <!-- 删除已发布的商品 正在交易的不能删除 -->
+    <delete id="delPublish"  parameterType="java.lang.Integer">
+        delete from goods
+        <where>
+            <if test="goodsId!=null and goodsId !=''">AND id= #{goodsId}</if>
+        </where>
+    </delete>
     <!--    <sql id="field">-->
     <!--        g.id,g.userId, g.goodsName, g.price,-->
     <!--         g.type, g.describes, g.picture, g.time, g.isBuy-->

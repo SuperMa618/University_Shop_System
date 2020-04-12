@@ -120,9 +120,6 @@
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
 
-<script type="text/html" id="imgtmp">
-    <img src="{{d.picture}}"/>
-</script>
 <script>
     //JavaScript代码区域
     layui.use(['jquery', 'table', 'layer', 'element', 'carousel', 'form', 'upload'], function () {
@@ -139,7 +136,7 @@
             ,skin: 'line' //行边框风格
             ,even: true //开启隔行背景
             ,size: 'lg' //da尺寸的表格
-            , url: '/goods/selectCollect' //后台springmvc接收路径
+            , url: '/collect/selectCollect' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -197,10 +194,10 @@
             var data = obj.data;
             var userid = "${sessionScope.user.id}";
             if (obj.event === 'del') {
-                layer.confirm('真的删除么', function (index) {
+                layer.confirm('真的要删除么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/collectDelete',
+                        url: '/collect/collectDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id
@@ -229,7 +226,7 @@
                 });
             } else if (obj.event === 'detail') {
                 $.ajax({
-                    url: '/goods/collectDetail',
+                    url: '/collect/collectDetail',
                     type: "get",
                     data: {
                         "goodsId": data.id

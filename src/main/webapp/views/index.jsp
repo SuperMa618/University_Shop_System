@@ -16,7 +16,7 @@
         }
     </style>
 </head>
-<body class="layui-layout-body">
+<body class="layui-layout-body"  style="background-color: #f1f8ff">
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header" style="background-color: #426078">

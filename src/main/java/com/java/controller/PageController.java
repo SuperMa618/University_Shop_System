@@ -73,10 +73,16 @@ public class PageController {
 		return "/user/orders";
 	}
 
-	/** 跳转至用户买方订单 */
+	/** 跳转至用户历史订单 */
 	@RequestMapping("/user/orderHistory")
 	public String userHistory() {
 		return "/user/orderHistory";
+	}
+
+	/** 跳转至用户发布的商品 */
+	@RequestMapping("/user/orderPublish")
+	public String userPublish() {
+		return "/user/orderPublish";
 	}
 
     /** 跳转至用户提交商品 */
@@ -85,7 +91,17 @@ public class PageController {
         return "user/submitGoods";
     }
 
+	/** 跳转至我的留言 */
+	@RequestMapping("/user/comment")
+	public String myComment() {
+		return "user/comment";
+	}
 
+	/** 跳转至买家的留言 */
+	@RequestMapping("/user/commentForS")
+	public String commentForS() {
+		return "user/commentForS";
+	}
 
 	/** 跳转至商品首页 */
 	@RequestMapping("/goods/index")
@@ -103,7 +119,7 @@ public class PageController {
         return "goods/index";
     }
 
-    /** 搜索后跳转至商品首页 */
+    /** 跳转至商品详情 */
     @RequestMapping("/goods/detail")
     public String goodsDetail() {
         return "goods/detail";

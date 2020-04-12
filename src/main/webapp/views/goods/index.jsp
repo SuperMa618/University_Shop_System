@@ -10,6 +10,37 @@
     <link rel="stylesheet" href="/js/layui-2.5.4/css/main.css">
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
+    <style type="text/css">
+        .name {
+            position: absolute;
+            top: 2px;
+            left: 15px;
+            font-size: 2em;
+            margin-bottom: 15px;
+            border-radius: 2px;
+            background-color: #fff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+        }
+        .mfont {
+            position: absolute;
+            top: 40px;
+            left: 15px;
+            font-size: 20px;
+            color: orangered;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+        }
+        .time {
+            position: absolute;
+            top: 50px;
+            right: 5px;
+            font-size: 1em;
+            color: #426078;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+        }
+        .box {
+            position: relative;
+        }
+    </style>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
@@ -74,28 +105,33 @@
 
     <div class="content content-nav-base buytoday-content">
         <div id="list-cont">
-            <div class="product-list-box">
+            <div class="product-list-box" style="background-color: #f1f8ff">
                 <div class="product-list w1200">
                     <div class="tab-title">
-                        <a href="javascript:;" class="active tuang">商品</a>
+                        <c:choose>
+                            <c:when test="${goodsList.size()>0}">
+                                <a href="javascript:;" class="active tuang">商品</a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="javascript:;" class="active tuang">没有您要的商品哦~</a>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="list-cont">
-                        <div class="item-box layui-clear">
+                        <div class="item-box layui-clear" style="padding: 3px 3px">
                             <c:if test="${goodsList != null}">
                                 <form>
                                     <c:forEach var="goods" items="${goodsList}">
-                                        <div class="item">
-<%--                                            <input id="goodsId" name="goodsId" lay-submit--%>
-<%--                                                   lay-filter="detail-form-submit"--%>
-<%--                                                   value="${goods.id}" type="image" src="${goods.picture}"--%>
-<%--                                                   style="height: 310px;width: 290px;object-fit: cover">--%>
-                                            <a href="/goods/detail?goodsId=${goods.id}">
-                                                <img src="${goods.picture}" style="height: 310px;width: 290px;object-fit: cover">
-                                                <div class="text-box">
-                                                    <p class="title">${goods.goodsName}</p>
-                                                    <p class="plic">
-                                                        <span class="ciur-pic">￥${goods.price}</span>
-                                                        <span>${goods.time}</span>
+                                        <div style="border: 3px solid #c5cbc9;padding: 3px 3px;
+                                         width: 270px; height: 380px; float: left;
+                                          margin:0 20px 30px 0; text-align: center; background: #fff;">
+                                            <a href="/goods/detail?goodsId=${goods.id}&sellerId=${goods.userId}">
+                                                <img src="${goods.picture}" style="height: 310px;width: 270px;object-fit: cover">
+                                                <div class="box">
+                                                    <p class="name">${goods.goodsName}</p>
+                                                    <p>
+                                                        <span class="mfont">￥${goods.price}</span>
+                                                        <span class="time">${goods.time}</span>
                                                     </p>
                                                 </div>
                                             </a>
@@ -162,38 +198,39 @@
             return false;
         });
         // 商品详细
-        form.on('submit(detail-form-submit)', function (data) {
-            var data = {
-                goodsId: $('#goodsId').val()
-            };
-            $.ajax({
-                url: "/goods/detail",
-                type: "POST",
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                success: function (data) {
-                    if (data.state == 0) {
-                        parent.layer.msg(data.msg,
-                            {
-                                icon: 2,
-                                shade: 0.3,
-                                time: 2000
-                            });
-                    } else {
-                        location.href = "/page/goods/detail";
-                    }
-                },
-                error: function () {
-                    layer.open({
-                        title: '系统提示',
-                        content: '发生未知错误，请联系管理员！'
-                    });
-                }
-            });
-            // 阻止表单跳转
-            return false;
-        });
+        // form.on('submit(detail-form-submit)', function (data) {
+        //     var data = {
+        //         goodsId: $('#goodsId').val(),
+        //         sellerId: $('#sellerId').val()
+        //     };
+        //     $.ajax({
+        //         url: "/goods/detail",
+        //         type: "POST",
+        //         contentType: 'application/json',
+        //         dataType: 'json',
+        //         data: JSON.stringify(data),
+        //         success: function (data) {
+        //             if (data.state == 0) {
+        //                 parent.layer.msg(data.msg,
+        //                     {
+        //                         icon: 2,
+        //                         shade: 0.3,
+        //                         time: 2000
+        //                     });
+        //             } else {
+        //                 location.href = "/page/goods/detail";
+        //             }
+        //         },
+        //         error: function () {
+        //             layer.open({
+        //                 title: '系统提示',
+        //                 content: '发生未知错误，请联系管理员！'
+        //             });
+        //         }
+        //     });
+        //     // 阻止表单跳转
+        //     return false;
+        // });
     });
 
 </script>

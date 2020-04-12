@@ -1,5 +1,6 @@
 package com.java.service;
 
+import com.java.po.Comment;
 import com.java.po.Goods;
 import com.java.po.Orders;
 import com.java.po.Page;
@@ -56,4 +57,11 @@ public interface GoodService {
     List<Orders> selectHistoryPageList(Page page);
 
     int selectHistoryPageCount(Page page);
+
+    List<Orders> selectPublishPageList(Page page);
+
+    int selectPublishPageCount(Page page);
+
+    int delPublish(Map<String, Object> maps);
+
 }

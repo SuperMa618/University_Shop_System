@@ -139,7 +139,7 @@
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/goods/selectOrders' //后台springmvc接收路径
+            , url: '/orders/selectOrders' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -201,10 +201,10 @@
         table.on('tool(orders)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('真的要删除么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/buyerDelete',
+                        url: '/orders/buyerDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id

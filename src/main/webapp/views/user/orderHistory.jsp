@@ -139,16 +139,8 @@
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/goods/historyOrders' //后台springmvc接收路径
+            , url: '/orders/historyOrders' //后台springmvc接收路径
             , page: true    //true表示分页
-            /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                 //,curr: 5 //设定初始在第 5 页
-                 ,groups: 3 //只显示 1 个连续页码
-                 ,first: true //不显示首页
-                 ,last: true //不显示尾页
-              }*/
-//            ,where:{rows:limit} //传参数
             , limit: 10
             , id: 'ordersTable'
             , cols: [[
@@ -157,9 +149,10 @@
                 , {field: 'describes', title: '描述', width: 320}
                 , {field: 'picture', title: '图片', width: 140, templet: "#imgtmp", totalRowText: '合计'}
                 , {field: 'price', title: '价格', width: 120, edit: 'text', sort: true, totalRow: true}
-                ,{field: 'state', title: '状态', align: 'center',width: 120,templet: function (d) {
+                ,{field: 'state', title: '订单状态', align: 'center',width: 120,templet: function (d) {
                         if (d.state === '1'){
-                            return '<span class="layui-badge layui-bg-green">完成</span>'
+                            return '<span class="layui-badge layui-bg-green">完成</span>\
+                            <a class="layui-btn layui-btn-xs" lay-event="comment">留言</a>'
                         }else {
                             return '<span class="layui-badge">未完成</span>'
                         }
@@ -189,7 +182,47 @@
                 , field = obj.field; //得到字段
 
         });
+//监听数据操作(其中tableID就是页面中的lay-filter)
+        table.on('tool(orders)', function (obj) {
+            var data = obj.data;
+            <%--var userid = "${sessionScope.user.id}";--%>
+            if (obj.event === 'comment') {
+                $.ajax({
+                    url: '/comment/goWriteComment',
+                    type: "post",
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    success: function(d) {
+                        if (d.state == 1) {
+                            layer.msg(d.msg,
+                                {
+                                    icon: 1,
+                                    shade: 0.3,
+                                    time: 800,
+                                    end: function () {
+                                        location.href = "/page/goods/detail";
+                                    }
+                                });
+                        } else {
+                            layer.msg(d.msg,
+                                {
+                                    icon: 2,
+                                    shade: 0.3,
+                                    time: 1500
+                                });
+                        }
+                    },
+                    error: function () {
+                        layer.open({
+                            title: '系统提示',
+                            content: '发生未知错误，请联系管理员！'
+                        });
+                    }
+                });
+            }
 
+        });
         var $ = layui.$, active = {};
     });
 

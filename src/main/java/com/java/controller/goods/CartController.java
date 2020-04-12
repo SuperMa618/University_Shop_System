@@ -27,18 +27,6 @@ public class CartController {
     @Autowired
     private GoodService goodService;
 
-    @Autowired
-    private LogMapper logMapper;
-
-    private Goods goods = null;
-    private LogUtil logUtil = null;
-
-    public CartController() {
-        logUtil = new LogUtil();
-        goods = new Goods();
-    }
-
-
 
     /**
      * 用户查看收藏或购物车的商品详情
@@ -169,7 +157,7 @@ public class CartController {
         //返回值
         Map<String, Object> map = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");
-        String id = data.get("ids").toString();
+        String id = data.get("ids");
         String ids[] = id.split(",");
         for (int i = 0; i < ids.length; i++) {
             //后台传参

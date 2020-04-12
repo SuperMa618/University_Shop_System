@@ -74,7 +74,7 @@ public class UserController {
             char lv = data.get("logintype").charAt(1);
             if (lv == 'u') {
                 user = userService.findUserByName(data.get("userName"));
-                if (user.getPassWord().equals(data.get("passWord"))) {
+                if (user !=null && user.getPassWord().equals(data.get("passWord"))) {
                     request.getSession().setAttribute("user", user);
                     map.put("state", 1);
                     map.put("msg", "登陆成功！");
@@ -84,7 +84,7 @@ public class UserController {
                 }
             } else {
                 Admin admin = adminService.findAdminByName(data.get("userName"));
-                if (admin.getPassWord().equals(data.get("passWord"))) {
+                if (admin != null && admin.getPassWord().equals(data.get("passWord"))) {
                     request.getSession().setAttribute("admin", admin);
                     map.put("state", 1);
                     map.put("msg", "登陆成功！");

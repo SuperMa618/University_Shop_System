@@ -1,6 +1,7 @@
 package com.java.service.Impl;
 
 import com.java.mapper.GoodsMapper;
+import com.java.po.Comment;
 import com.java.po.Goods;
 import com.java.po.Orders;
 import com.java.po.Page;
@@ -59,6 +60,25 @@ public class GoodServiceImpl implements GoodService {
     public int delOrdersByBuyer(Map<String, Object> maps) {
         goodsMapper.changeGoodsStateZero(maps.get("goodsId").toString());
         return goodsMapper.delOrdersByBuyer(maps);
+    }
+
+    //用户查看自己已发布的商品
+    @Override
+    public List<Orders> selectPublishPageList(Page page) {
+        return goodsMapper.selectPublishPageList(page);
+    }
+
+
+
+    @Override
+    public int delPublish(Map<String, Object> maps) {
+        return goodsMapper.delPublish(maps);
+    }
+
+    //用户查看自己已发布的商品
+    @Override
+    public int selectPublishPageCount(Page page) {
+        return goodsMapper.selectPublishPageCount(page);
     }
 
     @Override

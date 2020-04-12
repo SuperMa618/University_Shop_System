@@ -229,7 +229,7 @@ i{font-style: normal;}
 .buytoday-content .product-list .tab-title a{line-height: 56px; color: #666666; font-size: 20px; display: inline-block;}
 .buytoday-content .product-list .tab-title a.tuang{margin-right: 70px;}
 .buytoday-content .product-list .tab-title a.active{color: #693ca4; border-bottom: 2px solid #cfb2f6;}
-.buytoday-content .list-cont .item{width: 290px; height: 420px; float: left; margin:0 12px 20px 0; text-align: left; background: #fff;}
+.buytoday-content .list-cont .item{width: 280px; height: 420px; float: left; margin:0 12px 20px 0; text-align: left; background: #fff;}
 .buytoday-content .list-cont .item-box{width: 1220px; padding-bottom: 30px;}
 .buytoday-content .list-cont .item .text-box{ padding:12px; box-sizing: border-box;}
 .buytoday-content .list-cont .item .text-box .title{line-height: 24px; font-size: 16px; color: #666666; margin-bottom: 6px;}

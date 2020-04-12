@@ -61,4 +61,10 @@ public interface GoodsMapper {
     List<Orders> selectHistoryPageList(Page page);
 
     int selectHistoryPageCount(Page page);
+
+    List<Orders> selectPublishPageList(Page page);
+
+    int selectPublishPageCount(Page page);
+
+    int delPublish(Map<String, Object> maps);
 }

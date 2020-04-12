@@ -139,7 +139,7 @@
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/goods/selectSell' //后台springmvc接收路径
+            , url: '/orders/selectSell' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -202,10 +202,10 @@
         table.on('tool(orders)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('真的要删除么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/sellerDelete',
+                        url: '/orders/sellerDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id
@@ -234,7 +234,7 @@
                 });
             } else if (obj.event === 'comp') {
                 $.ajax({
-                    url: '/goods/completeOrders',
+                    url: '/orders/completeOrders',
                     type: "get",
                     data: {
                         "goodsId": data.id
@@ -265,111 +265,9 @@
                     }
                 });
             }
-
         });
 
-        //头工具栏事件
-        table.on('toolbar(orders)', function (obj) {
-            var checkStatus = table.checkStatus(obj.config.id);
-            switch (obj.event) {
-                case 'buy':
-                    var data = checkStatus.data;
-                    if (data.length < 1) {
-                        layer.msg('请选择商品');
-                    } else {
-                        var ids = "";
-                        for(var i=0;i<data.length;i++){
-                            ids += data[i].id+",";
-                        }
-                        debugger;
-                        parent.layer.msg('下单中...', {icon: 16,shade: 0.3,time:200});
-                        $.ajax({
-                            url: "/goods/batchBuy",
-                            type: "post",
-                            data: JSON.stringify({"ids":ids}),
-                            contentType: 'application/json',
-                            dataType: 'json',
-                            success: function (d) {
-                                if (d.state == 1) {
-                                    obj.del();
-                                    parent.layer.msg(d.msg,
-                                        {
-                                            icon: 1,
-                                            shade: 0.3,
-                                            time: 1500
-                                        });
-                                } else {
-                                    layer.msg(d.msg,
-                                        {
-                                            icon: 1,
-                                            shade: 0.3,
-                                            time: 1500
-                                        });
-                                }
-                            },
-                            error: function () {
-                                layer.open({
-                                    title: '系统提示',
-                                    content: '发生未知错误，请联系管理员！'
-                                });
-                            }
-                        });
-                    }
-                    break;
-            }
-            ;
-        });
-
-        var $ = layui.$, active = {
-            // buy: function () {//获取选中数据
-            //     var checkStatus = table.checkStatus('orders')
-            //         , data = checkStatus.data;
-            //     layer.alert(JSON.stringify(data));
-            // }
-            // , getCheckLength: function () {//获取选中数目
-            //     var checkStatus = table.checkStatus('orders')
-            //         , data = checkStatus.data;
-            //     layer.msg('选中了：' + data.length + ' 个');
-            // }
-            // , isAll: function () {
-            //     验证是否全选
-            //     var checkStatus = table.checkStatus('orders');
-            //     layer.msg(checkStatus.isAll ? '全选' : '未全选')
-            // }
-            // , parseTable: function () {
-            //     table.init('parse-table-demo', {
-            //         limit: 3
-            //     });
-            // }
-            // , add: function () {
-            //     table.addRow('test')
-            // }
-            // , delete: function () {
-            //     layer.confirm('确认删除吗？', function (index) {
-            //         table.deleteRow('test')
-            //         layer.close(index);
-            //     });
-            // }
-            // , reload: function () {
-            //     var keyWord = $("#keyWord").val();
-            //     var keyType = $("#key_type option:selected").val();
-            //     table.reload('ordersTable', {
-            //         where: {keyWord: keyWord, keyType: keyType}
-            //     });
-            // }
-        };
-        // $('i').on('click', function () {
-        //     var type = $(this).data('type');
-        //     active[type] ? active[type].call(this) : '';
-        // });
-        // $('.layui-btn').on('click', function () {
-        //     var type = $(this).data('type');
-        //     active[type] ? active[type].call(this) : '';
-        // });
-        // $('.demoTable .layui-btn').on('click', function () {
-        //     var type = $(this).data('type');
-        //     active[type] ? active[type].call(this) : '';
-        // });
+        var $ = layui.$, active = {};
     });
 
 </script>

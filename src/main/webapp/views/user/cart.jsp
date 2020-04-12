@@ -144,7 +144,7 @@
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/goods/selectCart' //后台springmvc接收路径
+            , url: '/cart/selectCart' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -207,10 +207,10 @@
         table.on('tool(Cart)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
+                layer.confirm('真的要删除么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/goods/cartDelete',
+                        url: '/cart/cartDelete',
                         type: "get",
                         data: {
                             "goodsId": data.id
@@ -239,7 +239,7 @@
                 });
             } else if (obj.event === 'detail') {
                 $.ajax({
-                    url: '/goods/collectDetail',
+                    url: '/cart/collectDetail',
                     type: "get",
                     data: {
                         "goodsId": data.id
@@ -281,19 +281,21 @@
                             ids += data[i].id+",";
                         }
                         $.ajax({
-                            url: "/goods/batchBuy",
+                            url: "/cart/batchBuy",
                             type: "post",
                             data: JSON.stringify({"ids":ids}),
                             contentType: 'application/json',
                             dataType: 'json',
                             success: function (d) {
                                 if (d.state == 1) {
-                                    obj.del();
                                     parent.layer.msg(d.msg,
                                         {
                                             icon: 1,
                                             shade: 0.3,
-                                            time: 1500
+                                            time: 1500,
+                                            end: function () {
+                                                location.reload();
+                                            }
                                         });
                                 } else {
                                     layer.msg(d.msg,
@@ -313,8 +315,7 @@
                         });
                     }
                     break;
-            }
-            ;
+            };
         });
 
         var $ = layui.$, active = {};

@@ -95,6 +95,7 @@ public class OrdersController {
             return map;
         }
     }
+
     /**
      * 卖家删除订单
      *
@@ -154,7 +155,7 @@ public class OrdersController {
     @ResponseBody
     @RequestMapping(value = "/selectSell")
     public ResultMap<List<Orders>> selectSell(Page page, @RequestParam("limit") int limit,
-                                                HttpServletRequest request) {
+                                              HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         page.setRows(limit);
         page.setUserId(user.getId());
@@ -165,7 +166,7 @@ public class OrdersController {
     }
 
     /**
-     * 用户完成自己发布的商品订单
+     * 用户 完成 自己发布的商品订单
      *
      * @param request
      * @return
@@ -192,5 +193,26 @@ public class OrdersController {
             return map;
         }
     }
+
+
+    /**
+     * 用户查看历史订单
+     *
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/historyOrders")
+    public ResultMap<List<Orders>> historyOrders(Page page, @RequestParam("limit") int limit,
+                                                 HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        page.setRows(limit);
+        page.setUserId(user.getId());
+        List<Orders> collectList = goodService.selectHistoryPageList(page);
+        int totals = goodService.selectHistoryPageCount(page);
+        page.setTotalRecord(totals);
+        return new ResultMap<List<Orders>>("", collectList, 0, totals);
+    }
+
 
 }

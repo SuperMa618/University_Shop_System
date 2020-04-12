@@ -27,17 +27,6 @@ public class CollectController {
     @Autowired
     private GoodService goodService;
 
-    @Autowired
-    private LogMapper logMapper;
-
-    private Goods goods = null;
-    private LogUtil logUtil = null;
-
-    public CollectController() {
-        logUtil = new LogUtil();
-        goods = new Goods();
-    }
-
     /**
      * 收藏商品
      *
