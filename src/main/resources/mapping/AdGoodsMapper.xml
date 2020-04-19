@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.AdGoodsMapper">
+<!--    删除用户会同时删除该用户的其他记录-->
+    <delete id="delGoods" parameterType="java.lang.Integer">
+        delete from goods
+        <where>
+            <if test="goodsId !=0">and id = #{goodsId}</if>
+        </where>
+    </delete>
+    <delete id="delGoodsById" parameterType="java.lang.Integer">
+        delete from goods
+        <where>
+            <if test="goodsId !=0">and id = #{goodsId}</if>
+        </where>
+    </delete>
+    <delete id="delOrderByGoodsId">
+        delete from orders
+        <where>
+            <if test="goodsId !=0">
+                and goodsId = #{goodsId}
+            </if>
+        </where>
+    </delete>
+    <delete id="delCartByGoodsId">
+        delete from cart
+        <where>
+            <if test="goodsId !=0">
+                and goodsId = #{goodsId}
+            </if>
+        </where>
+    </delete>
+    <delete id="delCollectByGoodsId">
+        delete from collect
+        <where>
+            <if test="goodsId !=0">
+                and goodsId = #{goodsId}
+            </if>
+        </where>
+    </delete>
+
+
+    <select id="getGoodsPageList" resultType="com.java.po.Goods">
+        select * from goods
+        <where>
+            <if test="keyWord != null and keyWord != ''">and goodsName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+        order by id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <select id="getGoodsPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from goods
+        <where>
+            <if test="keyWord != null and keyWord != ''">and goodsName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+    </select>
+
+</mapper>

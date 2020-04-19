@@ -1,9 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.java.mapper.AdminMapper">
-	<!-- 管理员登录 -->
-	<select id="findAdminByName" parameterType="Admin" resultType="Admin">
+<!--    删除用户会同时删除该用户的其他记录-->
+    <delete id="delUser" parameterType="java.lang.Integer">
+        delete from s_user
+        <where>
+            <if test="userId !=0">and id = #{userId}</if>
+        </where>
+    </delete>
+    <delete id="delGoodsByUserId" parameterType="java.lang.Integer">
+        delete from goods
+        <where>
+            <if test="userId !=0">and userId = #{userId}</if>
+        </where>
+    </delete>
+    <delete id="delOrderByUserId" parameterType="java.lang.Integer">
+        delete from orders
+        <where>
+            <if test="userId !=0">
+                and sellerId = #{userId}
+                or buyerId = #{userId}
+            </if>
+        </where>
+    </delete>
+    <delete id="delCartByUserId" parameterType="java.lang.Integer">
+        delete from cart
+        <where>
+            <if test="userId !=0">
+                and userId = #{userId}
+            </if>
+        </where>
+    </delete>
+    <delete id="delCollectByUserId" parameterType="java.lang.Integer">
+        delete from collect
+        <where>
+            <if test="userId !=0">
+                and userId = #{userId}
+            </if>
+        </where>
+    </delete>
+
+    <!-- 管理员登录 -->
+    <select id="findAdminByName" parameterType="Admin" resultType="Admin">
         select * from admin where adminName=#{adminName}
+    </select>
+
+    <select id="getUserPageList" resultType="com.java.po.User">
+        select * from s_user
+        <where>
+            <if test="keyWord != null and keyWord != ''">and userName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+        order by id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <select id="getUserPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from s_user
+        <where>
+            <if test="keyWord != null and keyWord != ''">and userName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
     </select>
 
 </mapper>

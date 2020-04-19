@@ -2893,7 +2893,7 @@ a cite {
 }
 
 .layui-table-view .layui-table[lay-size=sm] .layui-table-cell {
-    height: 20px;
+    height: auto;
     line-height: 20px
 }
 

@@ -318,12 +318,22 @@
                                     location.href = "/page/index";
                                 }
                             });
+                    } else if (data.state == 2) {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.4,
+                                time: 1000,
+                                end: function () {
+                                    location.href = "/page/admin/user";
+                                }
+                            });
                     } else {
                         parent.layer.msg(data.msg,
                             {
                                 icon: 2,
                                 shade: 0.4,
-                                time: 2000
+                                time: 1000
                             });
                         $('.code').click();
                     }
@@ -393,7 +403,7 @@
             return false;
         });
 
-        // 密码重置表单提交
+        // 密码找回表单提交
         form.on('submit(forget-password-form-submit)', function (data) {
             var data = {
                 tel: $('#telForFind').val(),

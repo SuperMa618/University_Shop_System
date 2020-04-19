@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.AdCommentMapper">
+<!--    删除留言记录-->
+
+    <delete id="delCommentById" parameterType="java.lang.Integer">
+        delete from comment
+        <where>
+            <if test="commentId !=0">and id = #{commentId}</if>
+        </where>
+    </delete>
+
+
+    <select id="getCommentPageList" resultType="com.java.po.CommentView">
+        select c.id id, u1.userName buyer, u2.userName seller ,u1.tel tel, c.content content, c.date date from comment c
+        left join s_user u1 on c.buyerId = u1.id
+        right join s_user u2 on c.sellerId = u2.id
+        <where>
+            <if test="keyWord != null and keyWord != ''">and content like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+            and c.id > 0
+        </where>
+        order by id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <select id="getCommentPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from comment
+        <where>
+            <if test="keyWord != null and keyWord != ''">and content like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+    </select>
+
+</mapper>

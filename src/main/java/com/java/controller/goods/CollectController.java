@@ -89,8 +89,8 @@ public class CollectController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/collectDetail")
-    public Map<String, Object> collectDetail(@RequestParam String goodsId, HttpServletRequest request) {
+    @RequestMapping(value = "/goodsDetail")
+    public Map<String, Object> goodsDetail(@RequestParam String goodsId, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
         maps.put("goodsName", null);

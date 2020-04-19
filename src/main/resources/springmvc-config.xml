@@ -30,6 +30,10 @@
 			<mvc:mapping path="/goods/detail"/>
 			<bean id="goodsInterceptor" class="com.java.interceptor.GoodsInterceptor"/>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/admin/**"/>
+			<bean id="adminInterceptor" class="com.java.interceptor.AdminInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	<!--    配置文件上传最大值-->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

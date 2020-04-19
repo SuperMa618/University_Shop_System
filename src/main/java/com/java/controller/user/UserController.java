@@ -86,7 +86,7 @@ public class UserController {
                 Admin admin = adminService.findAdminByName(data.get("userName"));
                 if (admin != null && admin.getPassWord().equals(data.get("passWord"))) {
                     request.getSession().setAttribute("admin", admin);
-                    map.put("state", 1);
+                    map.put("state", 2);
                     map.put("msg", "登陆成功！");
                 } else {
                     map.put("state", 0);

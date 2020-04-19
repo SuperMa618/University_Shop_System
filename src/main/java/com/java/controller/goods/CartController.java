@@ -35,8 +35,8 @@ public class CartController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/collectDetail")
-    public Map<String, Object> collectDetail(@RequestParam String goodsId, HttpServletRequest request) {
+    @RequestMapping(value = "/goodsDetail")
+    public Map<String, Object> goodsDetail(@RequestParam String goodsId, HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         Map<String, Object> maps = new HashMap<>();
         maps.put("goodsName", null);
@@ -152,8 +152,7 @@ public class CartController {
      */
     @ResponseBody
     @RequestMapping(value = "/batchBuy", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
-    public Map<String, Object> batchBuy(@RequestBody Map<String, String> data,
-                                        HttpServletRequest request) {
+    public Map<String, Object> batchBuy(@RequestBody Map<String, String> data, HttpServletRequest request) {
         //返回值
         Map<String, Object> map = new HashMap<>();
         User user = (User) request.getSession().getAttribute("user");

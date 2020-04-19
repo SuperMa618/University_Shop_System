@@ -21,6 +21,7 @@
         label {
             width: 50px
         }
+
     </style>
 </head>
 <body class="layui-layout-body">
@@ -120,6 +121,11 @@
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
 
+
+<script type="text/html" id="imgtmp">
+    <img src="{{d.picture}}" />
+</script>
+
 <script>
     //JavaScript代码区域
     layui.use(['jquery', 'table', 'layer', 'element', 'carousel', 'form', 'upload'], function () {
@@ -151,10 +157,9 @@
             , toolbar: '#toolbarDemo'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'id', width: 80, fixed: 'left', unresize: true, sort: true}
-                , {field: 'goodsName', title: '商品名称', width: 120}
+                , {field: 'goodsName', title: '商品名称', width: 150}
                 , {field: 'price', title: '价格', width: 80, sort: true}
-                , {field: 'type', title: '种类', width: 100}
+                , {field: 'type', title: '种类', width: 120}
                 , {field: 'describes', title: '描述', width: 380}
                 , {field: 'picture', title: '图片', width: 120,templet:"#imgtmp"}
                 , {
@@ -226,7 +231,7 @@
                 });
             } else if (obj.event === 'detail') {
                 $.ajax({
-                    url: '/collect/collectDetail',
+                    url: '/collect/goodsDetail',
                     type: "get",
                     data: {
                         "goodsId": data.id

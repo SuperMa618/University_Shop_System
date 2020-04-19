@@ -36,6 +36,18 @@ public class PageController {
 	}
 
 
+	/** 后台跳转至用户管理 */
+	@RequestMapping("/admin/user")
+	public String adminUser() {
+		return "/admin/user";
+	}
+
+	/** 后台跳转至商品管理*/
+	@RequestMapping("/admin/goods")
+	public String adminGoods() {
+		return "/admin/goods";
+	}
+
 	
 	/** 跳转至用户首页 */
 	@RequestMapping("/user/index")

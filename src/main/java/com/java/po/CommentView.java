@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class CommentView implements Serializable {
 
     private int id;
-    private int buyerId;
-    private int sellerId;
+    private String buyer;
+    private String seller;
     private String tel;
     private String content;
     //@JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
@@ -15,13 +15,29 @@ public class CommentView implements Serializable {
     public CommentView() {
     }
 
-    public CommentView(int id, int buyerId, int sellerId, String tel, String content, String date) {
+    public CommentView(int id, String buyer, String seller, String tel, String content, String date) {
         this.id = id;
-        this.buyerId = buyerId;
-        this.sellerId = sellerId;
+        this.buyer = buyer;
+        this.seller = seller;
         this.tel = tel;
         this.content = content;
         this.date = date;
+    }
+
+    public String getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(String buyer) {
+        this.buyer = buyer;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public String getTel() {
@@ -40,21 +56,6 @@ public class CommentView implements Serializable {
         this.id = id;
     }
 
-    public int getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(int buyerId) {
-        this.buyerId = buyerId;
-    }
-
-    public int getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(int sellerId) {
-        this.sellerId = sellerId;
-    }
 
     public String getContent() {
         return content;
