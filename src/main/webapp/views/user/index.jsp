@@ -80,14 +80,14 @@
                             <a href="/page/user/orderPublish">已发布</a>
                         </dd>
                         <dd>
-                            <a href="/page/user/orderPublish">审核中</a>
+                            <a href="/page/user/review">审核中</a>
                         </dd>
                         <dd>
                             <a href="/page/user/orderHistory">历史交易</a>
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a>我的订单</a>
+                <li class="layui-nav-item layui-nav-itemed"><a>我的订单</a>
                     <dl class="layui-nav-child layui-nav-itemed">
                         <dd>
                             <a href="/page/user/ordersell">发布</a>
@@ -97,7 +97,7 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a>留言</a>
+                <li class="layui-nav-item layui-nav-itemed"><a>留言</a>
                     <dl class="layui-nav-child layui-nav-itemed">
                         <dd>
                             <a href="/page/user/comment">我的留言</a>
@@ -107,11 +107,6 @@
                         </dd>
                     </dl>
                 </li>
-
-                <li class="layui-nav-item" style="display: none;"><a
-                        data-url="" data-id="4" data-title="test"
-                        id="test" class="site-demo-active" href="javascript:;"
-                        data-type="tabAdd">test</a></li>
             </ul>
         </div>
 

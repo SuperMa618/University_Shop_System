@@ -57,10 +57,7 @@
             <li class="layui-nav-item"><a href="/page/goods/index">
                 <i class="layui-icon layui-icon-cart" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品</a>
             </li>
-            <li class="layui-nav-item"><a href="">
-                <i class="layui-icon layui-icon-face-surprised"
-                   style="font-size: 20px; color: #1E9FFF;"></i>&nbsp联系我们</a>
-            </li>
+
             <li class="layui-nav-item">
                 <form class="layui-form">
                     <div>

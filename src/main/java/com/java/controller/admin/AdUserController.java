@@ -49,12 +49,11 @@ public class AdUserController {
     /**
      * 删除用户     删除用户会同时删除该用户的其他记录
      *
-     * @param request
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/delUser")
-    public Map<String, Object> delUser(@RequestParam Integer userId, HttpServletRequest request) {
+    public Map<String, Object> delUser(@RequestParam Integer userId) {
         Map<String, Object> map = new HashMap<>();
         int result = adminService.delUser(userId);
         if (result > 0) {

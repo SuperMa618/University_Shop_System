@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.AdCarouselMapper">
+
+    <insert id="insertCarousel" parameterType="Carousel">
+        insert into carousel(picture,state,date)
+        values (#{carousel.picture},#{carousel.state},now())
+    </insert>
+
+    <update id="changeState" parameterType="Map">
+        update carousel set
+        <if test=" state !=0 ">
+            state = 0
+        </if>
+        <if test="state !=1 ">
+            state = 1
+        </if>
+        where id = #{id}
+    </update>
+
+    <delete id="delCarouselById" parameterType="java.lang.Integer">
+        delete from carousel
+        <where>
+            <if test="id !=0">and id = #{id}</if>
+        </where>
+    </delete>
+
+
+    <select id="getCarouselPageList" resultType="com.java.po.Carousel">
+        select * from carousel
+        <where>
+            <if test="keyWord != null and keyWord != ''">and date like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+        order by id DESC
+        limit #{start},#{rows}
+    </select>
+
+    <select id="getCarouselPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from carousel
+        <where>
+            <if test="keyWord != null and keyWord != ''">and date like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+        </where>
+    </select>
+
+</mapper>

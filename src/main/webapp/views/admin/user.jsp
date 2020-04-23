@@ -56,7 +56,7 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
-                <li class="layui-nav-item layui-nav-itemed"><a href="/page/index">返回主页</a></li>
+<%--                <li class="layui-nav-item layui-nav-itemed"><a href="/page/index">返回主页</a></li>--%>
                 <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">信息管理</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this">
@@ -66,17 +66,17 @@
                             <a href="/page/admin/goods">商品</a>
                         </dd>
                         <dd>
-                            <a href="">留言</a>
+                            <a href="/page/admin/comment">留言</a>
                         </dd>
                         <dd>
-                            <a href="">轮播图</a>
+                            <a href="/page/admin/carousel">轮播图</a>
                         </dd>
                         <dd>
                             <a href="">校园活动</a>
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item layui-nav-itemed"><a>审核</a></li>
+                <li class="layui-nav-item layui-nav-itemed"><a href="/page/admin/review">审核</a></li>
                 <li class="layui-nav-item"><a>用户反馈</a></li>
             </ul>
         </div>

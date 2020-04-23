@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>首页内容</title>
+    <title>首页</title>
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
 
@@ -16,7 +16,7 @@
         }
     </style>
 </head>
-<body class="layui-layout-body"  style="background-color: #f1f8ff">
+<body class="layui-layout-body" style="background-color: #f1f8ff">
 <div class="layui-layout layui-layout-admin">
 
     <div class="layui-header" style="background-color: #426078">
@@ -31,14 +31,11 @@
             <li class="layui-nav-item"><a href="/page/goods/index">
                 <i class="layui-icon layui-icon-cart" style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品</a>
             </li>
-            <li class="layui-nav-item"><a href="">
-                <i class="layui-icon layui-icon-face-surprised"
-                   style="font-size: 20px; color: #1E9FFF;"></i>&nbsp联系我们</a>
-            </li>
             <li class="layui-nav-item">
                 <form class="layui-form layui-form-pane">
                     <div>
-                        <input id="search" type="text" name="search" class="layui-input" style="Float:left;height: 30px;"
+                        <input id="search" type="text" name="search" class="layui-input"
+                               style="Float:left;height: 30px;"
                                placeholder="请输入搜索内容" lay-verify="required" autocomplete="off"
                                maxlength="13">
                         <button class="layui-btn layui-btn-normal layui-btn-sm" lay-submit
@@ -151,12 +148,36 @@
         <div class="layui-col-md8" style="margin: 0px 0px;border:1px solid #c5cbc9;">
             <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
                 <ul class="layui-tab-title">
-                    <li class="layui-this">网站设置</li>
-                    <li>用户管理</li>
+                    <li class="layui-this">首页推荐</li>
                 </ul>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">内容1</div>
-                    <div class="layui-tab-item">内容2</div>
+                    <div class="layui-tab-item layui-show layui-form-item">
+                        <div class="layui-input-inline">
+                            <img src="/Ushop-image/goods/2020-04-12-9f055ef3-8114-4530-96ee-fb9d5613e3de.png"
+                                 style="height: 140px;width: 140px;object-fit: cover;margin-left: 30px"><br>
+                            <h2 style="text-align: center">雅马哈R15</h2>
+                        </div>
+                        <div class="layui-input-inline">
+                            <img src="/Ushop-image/goods/2020-04-20-a87622f1-57bd-4e1a-a4db-cc1521fd2cd0.png"
+                                 style="height: 140px;width: 140px;object-fit: cover;margin-left: 30px"><br>
+                            <h2 style="text-align: center">小宝贝</h2>
+                        </div>
+                        <div class="layui-input-inline">
+                            <img src="/Ushop-image/goods/2020-04-12-97d67cdf-3d0a-4e00-b8ab-3815507011ad.png"
+                                 style="height: 140px;width: 140px;object-fit: cover;margin-left: 30px"><br>
+                            <h2 style="text-align: center">雅马哈R15</h2>
+                        </div>
+                        <div class="layui-input-inline">
+                            <img src="/Ushop-image/goods/2020-04-12-b52cc5d0-dc72-4a2e-8601-1b032f54854e.png"
+                                 style="height: 140px;width: 140px;object-fit: cover;margin-left: 30px"><br>
+                            <h2 style="text-align: center">小宝贝</h2>
+                        </div>
+                        <div class="layui-input-inline">
+                            <img src="/Ushop-image/goods/2020-04-20-a87622f1-57bd-4e1a-a4db-cc1521fd2cd0.png"
+                                 style="height: 140px;width: 140px;object-fit: cover;margin-left: 30px"><br>
+                            <h2 style="text-align: center">小宝贝</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

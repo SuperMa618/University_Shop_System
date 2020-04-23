@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>首页内容</title>
+    <title>轮播图管理</title>
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
 
@@ -87,20 +87,44 @@
         <div class="layui-tab layui-tab-brief" lay-filter="demoTitle">
             <ul class="layui-tab-title site-demo-title">
                 <li class="layui-this"><i class="layui-icon layui-icon-home"
-                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品管理
+                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp轮播图管理
                 </li>
             </ul>
         </div>
 
+
+
         <div class="searchTable">
-            搜索商品：
+            按时间搜索：
             <div class="layui-inline">
-                <input class="layui-input" id="keyword" name="keyword" id="demoReload" placeholder="请输入商品名称"
+                <input class="layui-input" id="keyword" name="keyword" id="demoReload" placeholder="请输入日期"
                        autocomplete="off">
             </div>
             <button class="layui-btn" data-type="reload">搜索</button>
         </div>
-        <table class="layui-hide" id="Goods" lay-filter="Goods"></table>
+        <table class="layui-hide" id="Carousel" lay-filter="Carousel"></table>
+    </div>
+    <div id="add-layer" style="display: none; padding: 20px">
+        <form id="add-form-submit" class="layui-form layui-form-pane"
+              lay-filter="add-form-submit">
+            <%--上传图片--%>
+            <input type="hidden" id="images" name="images" value="">
+            <div class="layui-form-item layui-col-md-offset1">
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="image">上传图片</button>
+                    <div class="layui-upload-list">
+                        <img id="demo1" style="height: 50px;margin-left: 40%">
+                        <p id="demoText" style="margin-left: 40%"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style="text-align: center;">
+                <button class="layui-btn" lay-submit
+                        lay-filter="add-form-submit">提交
+                </button>
+                <button class="layui-btn layui-btn-primary" type="reset">重置</button>
+            </div>
+        </form>
     </div>
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
@@ -111,7 +135,7 @@
 
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-danger layui-btn-sm" id="batchDel" lay-event="batchDel">批量删除</button>
+        <button class="layui-btn layui-btn-danger layui-btn-sm" id="add" >添加</button>
     </div>
 </script>
 <script>
@@ -121,17 +145,18 @@
         var form = layui.form;
         var element = layui.element;
         var table = layui.table;
+        var upload = layui.upload;
 
         //方法级渲染
         table.render({
-            elem: '#Goods'  //绑定table表格
+            elem: '#Carousel'  //绑定table表格
             , height: 450
             , skin: 'line' //行边框风格
             , even: true //开启隔行背景
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/adGoods/getGoods' //后台springmvc接收路径
+            , url: '/adCarousel/getCarousel' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -142,28 +167,25 @@
               }*/
             //,where:{search : $('#keyword').val()} //传参数
             , limit: 10
-            , id: 'goodsTable'
+            , id: 'carouselTable'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
                 , {field: 'id', title: 'id', width: 70, fixed: 'left', unresize: true, sort: true}
-                , {field: 'goodsName', title: '商品名称', width: 200, edit: 'text'}
-                , {field: 'price', title: '价格', width: 100, edit: 'text'}
-                , {field: 'type', title: '种类', width: 100, edit: 'text'}
-                , {field: 'describes', title: '介绍', width: 200}
-                , {field: 'picture', title: '图片', width: 100, templet: "#imgtmp"}
-                , {field: 'time', title: '发布时间', width: 130, edit: 'text'}
+                , {field: 'picture', title: '图片', width: 220, templet: "#imgtmp"}
+                , {field: 'date', title: '发布时间', width: 200, edit: 'text'}
                 , {
-                    fixed: 'right', width: 120, align: 'center', templet: function (d) {
-                        if (d.isBuy === 0) {
-                            return '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">查看</a>\
-                            <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>'
-                        } else if(d.isBuy === 2){
-                            return '<span class="layui-badge">已交易</span>\
-                            <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>'
-                        } else {
-                            return '<span class="layui-badge">交易中</span>\
-                            <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>'
+                    field: 'state', title: '状态', align: 'center', width: 120, templet: function (d) {
+                        if (d.state == '1') {
+                            return '<span class="layui-badge layui-bg-green">发布</span>'
+                        } else if (d.state == '0') {
+                            return '<span class="layui-badge">未发布</span>'
                         }
+                    }
+                }
+                , {
+                    fixed: 'right', width: 200, align: 'center', templet: function (d) {
+                        return '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="mod">修改状态</a>\
+                            <a class="layui-btn  layui-btn-xs" lay-event="del">删除</a>'
                     }
                 }
             ]]
@@ -172,7 +194,7 @@
         var $ = layui.$, active = {
             reload: function () {
                 var keyword = $('#keyword').val();
-                table.reload('goodsTable', {
+                table.reload('carouselTable', {
                     where: {keyword: keyword}
                 });
             }
@@ -198,16 +220,16 @@
         });
 
         //监听数据操作(其中tableID就是页面中的lay-filter)
-        table.on('tool(Goods)', function (obj) {
+        table.on('tool(Carousel)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('确定删除吗？', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/adGoods/delGoods',
+                        url: '/adCarousel/delCarousel',
                         type: "get",
                         data: {
-                            "goodsId": data.id
+                            "id": data.id
                         },
                         success: function (d) {
                             if (d.state == 1) {
@@ -236,16 +258,16 @@
                     });
                     layer.close(index);
                 });
-            } else if (obj.event === 'detail') {
+            } else if (obj.event === 'mod') {
                 $.ajax({
-                    url: '/collect/goodsDetail',
-                    type: "get",
-                    data: {
-                        "goodsId": data.id
-                    },
+                    url: '/adCarousel/changeState',
+                    type: "POST",
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    dataType: 'json',
                     success: function (d) {
                         if (d.state == 1) {
-                            location.href = "/page/goods/detail";
+                            location.reload();
                         } else {
                             layer.msg(d.msg,
                                 {
@@ -265,60 +287,96 @@
             }
         });
 
-
-        //头工具栏事件
-        table.on('toolbar(Goods)', function (obj) {
-            var checkStatus = table.checkStatus(obj.config.id);
-            switch (obj.event) {
-                case 'batchDel':
-                    var data = checkStatus.data;
-                    if (data.length < 1) {
-                        layer.msg('请选择商品');
-                    } else {
-                        var ids = "";
-                        for(var i=0;i<data.length;i++){
-                            ids += data[i].id+",";
-                        }
-                        $.ajax({
-                            url: "/adGoods/batchDel",
-                            type: "post",
-                            data: JSON.stringify({"ids":ids}),
-                            contentType: 'application/json',
-                            dataType: 'json',
-                            success: function (d) {
-                                if (d.state == 1) {
-                                    parent.layer.msg(d.msg,
-                                        {
-                                            icon: 1,
-                                            shade: 0.3,
-                                            time: 1500,
-                                            end: function () {
-                                                location.reload();
-                                            }
-                                        });
-                                } else {
-                                    layer.msg(d.msg,
-                                        {
-                                            icon: 1,
-                                            shade: 0.3,
-                                            time: 1500
-                                        });
-                                }
-                            },
-                            error: function () {
-                                layer.open({
-                                    title: '系统提示',
-                                    content: '发生未知错误，请联系管理员！'
-                                });
-                            }
-                        });
-                    }
-                    break;
-            };
-        });
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
+        });
+
+
+        //开启添加轮播图界面
+        $('#add').on('click', function () {
+            layer.open({
+                type: 1,
+                title: '添加轮播图',
+                skin: 'layui-layer-molv',
+                area: ['300px'],
+                content: $('#add-layer')
+            });
+        })
+
+        // 添加轮播图
+        form.on('submit(add-form-submit)', function (data) {
+            var data = {
+                images: $('#images').val()
+            }
+            $.ajax({
+                url: "/adCarousel/addCarousel",
+                type: "POST",
+                data: JSON.stringify(data),
+                contentType: 'application/json',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.state == 1) {
+                        layer.close(layer.index);
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 1,
+                                shade: 0.3,
+                                time: 700,
+                                end:function () {
+                                    location.reload();
+                                }
+                            });
+                    } else {
+                        parent.layer.msg(data.msg,
+                            {
+                                icon: 2,
+                                shade: 0.3,
+                                time: 1000
+                            });
+                    }
+                },
+                error: function () {
+                    layer.close(layer.index);
+                    layer.open({
+                        title: '系统提示',
+                        content: '发生未知错误，请联系管理员！'
+                    });
+                }
+
+            });
+            // 阻止表单跳转
+            return false;
+        });
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#image'
+            , url: '/adCarousel/upload'
+            , accept: 'images'
+            , size: 50000
+            , before: function (obj) {
+                obj.preview(function (index, file, result) {
+
+                    $('#demo1').attr('src', result);
+                });
+            }
+            , done: function (res) {
+                //如果上传失败
+                if (res.code > 0) {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+                var demoText = $('#demoText');
+                $("#images").val(res.data.src);
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
         });
     });
 </script>

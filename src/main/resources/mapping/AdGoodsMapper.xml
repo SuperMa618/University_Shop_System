@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.java.mapper.AdGoodsMapper">
-<!--    删除用户会同时删除该用户的其他记录-->
+    <insert id="goodsPublish">
+        insert into goods(userId,goodsName,price,type,describes,picture,time,isBuy)
+        values(#{goods.userId},#{goods.goodsName},#{goods.price},#{goods.type},#{goods.describes},#{goods.picture},#{goods.time},0)
+    </insert>
+    <update id="changeReviewStateById">
+        update goodsreview set state = 1
+        <where>
+            id = #{goodsId}
+        </where>
+    </update>
+    <!--    删除用户会同时删除该用户的其他记录-->
     <delete id="delGoods" parameterType="java.lang.Integer">
         delete from goods
         <where>
@@ -39,6 +49,15 @@
         </where>
     </delete>
 
+    <delete id="delReviewById">
+        delete from goodsreview
+        <where>
+            <if test="id !=0">
+                and id = #{id}
+            </if>
+        </where>
+    </delete>
+
 
     <select id="getGoodsPageList" resultType="com.java.po.Goods">
         select * from goods
@@ -53,9 +72,30 @@
     <select id="getGoodsPageCount" resultType="java.lang.Integer">
         SELECT count(1) from goods
         <where>
-            <if test="keyWord != null and keyWord != ''">and goodsName like CONCAT( "%", #{keyWord}, "%" )
+            <if test="keyWord != null and keyWord != ''">
+                and goodsName like CONCAT( "%", #{keyWord}, "%" )
             </if>
         </where>
+    </select>
+    <select id="getGoodsReviewPageCount" resultType="java.lang.Integer">
+        SELECT count(1) from goodsreview
+        <where>
+            <if test="keyWord != null and keyWord != ''">
+                and goodsName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+            and state = 0
+        </where>
+    </select>
+    <select id="getGoodsReviewPageList" resultType="com.java.po.GoodsReview">
+        select * from goodsreview
+        <where>
+            <if test="keyWord != null and keyWord != ''">
+                and goodsName like CONCAT( "%", #{keyWord}, "%" )
+            </if>
+            and state = 0
+        </where>
+        order by id DESC
+        limit #{start},#{rows}
     </select>
 
 </mapper>

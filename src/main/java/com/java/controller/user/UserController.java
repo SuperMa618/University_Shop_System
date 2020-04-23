@@ -164,7 +164,6 @@ public class UserController {
             map.put("msg", "发送未知错误，请联系管理员！");
             e.printStackTrace();
         }
-
         return map;
     }
 

@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>首页内容</title>
+    <title>审核</title>
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
 
@@ -38,7 +38,7 @@
                         <dl class="layui-nav-child">
                             <dd>
                                 <a href="/admin/adminOut"><i class="layui-icon layui-icon-return"
-                                                       style="font-size: 15px; color: #1E9FFF;"></i>&nbsp退出登录</a>
+                                                             style="font-size: 15px; color: #1E9FFF;"></i>&nbsp退出登录</a>
                             </dd>
                         </dl>
                     </c:when>
@@ -60,10 +60,10 @@
                 <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">信息管理</a>
                     <dl class="layui-nav-child">
                         <dd class="layui-this">
-                            <a href="/page/admin/user">用户</a>
+                            <a href="/page/user/update">用户</a>
                         </dd>
                         <dd>
-                            <a href="/page/admin/goods">商品</a>
+                            <a href="">商品</a>
                         </dd>
                         <dd>
                             <a href="">留言</a>
@@ -87,32 +87,27 @@
         <div class="layui-tab layui-tab-brief" lay-filter="demoTitle">
             <ul class="layui-tab-title site-demo-title">
                 <li class="layui-this"><i class="layui-icon layui-icon-home"
-                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp留言管理
+                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp商品审核
                 </li>
             </ul>
         </div>
 
         <div class="searchTable">
-            搜索用户：
+            搜索商品：
             <div class="layui-inline">
-                <input class="layui-input" id="keyword" name="keyword" id="demoReload" placeholder="请输入用户名" autocomplete="off">
+                <input class="layui-input" id="keyword" name="keyword" id="demoReload" placeholder="请输入商品名称"
+                       autocomplete="off">
             </div>
             <button class="layui-btn" data-type="reload">搜索</button>
         </div>
-        <table class="layui-hide" id="Comment" lay-filter="Comment"></table>
+        <table class="layui-hide" id="GoodsReview" lay-filter="GoodsReview"></table>
     </div>
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
-<style type="text/css">
-    .layui-table-cell{
-        text-align:center;
-        height: auto;
-        white-space: normal;
-    }
-    .layui-table img{
-        max-width:200px
-    }
-</style>
+<%--图片模板--%>
+<script type="text/html" id="imgtmp">
+    <img src="{{d.picture}}" style="height: 50px;"/>
+</script>
 <script>
     //JavaScript代码区域
     layui.use(['jquery', 'table', 'layer', 'element', 'carousel', 'form', 'upload'], function () {
@@ -123,14 +118,14 @@
 
         //方法级渲染
         table.render({
-            elem: '#Comment'  //绑定table表格
+            elem: '#GoodsReview'  //绑定table表格
             , height: 450
             , skin: 'line' //行边框风格
             , even: true //开启隔行背景
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/adComment/getComment' //后台springmvc接收路径
+            , url: '/adGoods/getGoodsReview' //后台springmvc接收路径
             , page: true    //true表示分页
             /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
              layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
@@ -141,26 +136,30 @@
               }*/
             //,where:{search : $('#keyword').val()} //传参数
             , limit: 10
-            , id: 'commentTable'
+            , id: 'goodsTable'
             , cols: [[
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'id', width: 80, fixed: 'left', unresize: true, sort: true}
-                , {field: 'buyer', title: '买方用户名', width: 120, edit: 'text'}
-                , {field: 'seller', title: '卖方用户名', width: 120, edit: 'text'}
-                , {field: 'tel', title: '买方联系电话', width: 140}
-                , {field: 'content', title: '留言内容', width: 400, edit: 'text'}
-                , {field: 'date', title: '日期', width: 170, edit: 'text'}
+                , {field: 'id', title: 'id', width: 70, fixed: 'left', unresize: true, sort: true}
+                , {field: 'userId', title: '用户Id', width: 100, edit: 'text'}
+                , {field: 'goodsName', title: '商品名称', width: 100, edit: 'text'}
+                , {field: 'price', title: '价格', width: 100, edit: 'text'}
+                , {field: 'type', title: '种类', width: 100, edit: 'text'}
+                , {field: 'describes', title: '介绍', width: 200}
+                , {field: 'picture', title: '图片', width: 100, templet: "#imgtmp"}
+                , {field: 'time', title: '发布时间', width: 130, edit: 'text'}
                 , {
-                    fixed: 'right', width: 120, align: 'center', templet: function () {
-                        return ' \<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                    fixed: 'right', width: 200, align: 'center', templet: function (d) {
+                        return '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="yes">通过</a>\
+                            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="no">不通过</a>'
                     }
                 }
             ]]
         });
+        //搜索
         var $ = layui.$, active = {
-            reload: function() {
+            reload: function () {
                 var keyword = $('#keyword').val();
-                table.reload('commentTable', {
+                table.reload('goodsTable', {
                     where: {keyword: keyword}
                 });
             }
@@ -186,46 +185,76 @@
         });
 
         //监听数据操作(其中tableID就是页面中的lay-filter)
-        table.on('tool(Comment)', function (obj) {
+        table.on('tool(GoodsReview)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'del') {
-                layer.confirm('确定删除吗？', function (index) {
-                    //确认删除发送ajax请求
-                    $.ajax({
-                        url: '/adComment/delComment',
-                        type: "get",
-                        data: {
-                            "commentId": data.id
-                        },
-                        success: function (d) {
-                            if (d.state == 1) {
-                                obj.del();
-                                parent.layer.msg(d.msg,
-                                    {
-                                        icon: 1,
-                                        shade: 0.3,
-                                        time: 1000
-                                    });
-                            } else {
-                                parent.layer.msg(d.msg,
-                                    {
-                                        icon: 2,
-                                        shade: 0.3,
-                                        time: 1000
-                                    });
-                            }
-                        },
-                        error: function () {
-                            layer.open({
-                                title: '系统提示',
-                                content: '发生未知错误，请联系管理员！'
-                            });
+            if (obj.event === 'yes') {
+                //确认删除发送ajax请求
+                $.ajax({
+                    url: '/adGoods/goodsYes',
+                    type: "post",
+                    data: JSON.stringify(data),
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    success: function (d) {
+                        if (d.state == 1) {
+                            obj.del();
+                            parent.layer.msg(d.msg,
+                                {
+                                    icon: 1,
+                                    shade: 0.3,
+                                    time: 1000
+                                });
+                        } else {
+                            parent.layer.msg(d.msg,
+                                {
+                                    icon: 2,
+                                    shade: 0.3,
+                                    time: 1000
+                                });
                         }
-                    });
-                    layer.close(index);
+                    },
+                    error: function () {
+                        layer.open({
+                            title: '系统提示',
+                            content: '发生未知错误，请联系管理员！'
+                        });
+                    }
+                });
+            } else if (obj.event === 'no') {
+                $.ajax({
+                    url: '/adGoods/goodsNo',
+                    type: "get",
+                    data: {
+                        "goodsId": data.id
+                    },
+                    success: function (d) {
+                        if (d.state == 1) {
+                            obj.del();
+                            parent.layer.msg(d.msg,
+                                {
+                                    icon: 1,
+                                    shade: 0.3,
+                                    time: 1000
+                                });
+                        } else {
+                            layer.msg(d.msg,
+                                {
+                                    icon: 2,
+                                    shade: 0.3,
+                                    time: 1500
+                                });
+                        }
+                    },
+                    error: function () {
+                        layer.open({
+                            title: '系统提示',
+                            content: '发生未知错误，请联系管理员！'
+                        });
+                    }
                 });
             }
         });
+
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';

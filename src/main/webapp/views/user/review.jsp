@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>首页内容</title>
+    <title>审核</title>
     <link rel="stylesheet" href="/js/layui-2.5.4/css/layui.css">
     <script src="/js/layui-2.5.4/layui.js"></script>
 
@@ -122,18 +122,18 @@
         <div class="layui-tab layui-tab-brief" lay-filter="demoTitle">
             <ul class="layui-tab-title site-demo-title">
                 <li class="layui-this"><i class="layui-icon layui-icon-home"
-                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp我买的
+                                          style="font-size: 20px; color: #1E9FFF;"></i>&nbsp审核
                 </li>
             </ul>
         </div>
 
-        <table class="layui-hide" id="orders" lay-filter="orders"></table>
+        <table class="layui-hide" id="review" lay-filter="review"></table>
     </div>
     <div class="layui-footer" align="center">© xyjy.com 2019-2020 MYJ.All Right Reserved.</div>
 </div>
 <%--图片模板--%>
 <script type="text/html" id="imgtmp">
-    <img src="{{d.picture}}"/>
+    <img src="{{d.picture}}" style="height: 50px;"/>
 </script>
 
 <script>
@@ -146,42 +146,35 @@
 
         //方法级渲染
         table.render({
-            elem: '#orders'  //绑定table表格
+            elem: '#review'  //绑定table表格
             , height: 450
             , skin: 'line' //行边框风格
             , even: true //开启隔行背景
             , size: 'lg' //da尺寸的表格
             , totalRow: true
             , toolbar: '#toolbarDemo'
-            , url: '/orders/selectOrders' //后台springmvc接收路径
+            , url: '/review/getReview' //后台springmvc接收路径
             , page: true    //true表示分页
-            /* page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
-             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                 //,curr: 5 //设定初始在第 5 页
-                 ,groups: 3 //只显示 1 个连续页码
-                 ,first: true //不显示首页
-                 ,last: true //不显示尾页
-              }*/
-//            ,where:{rows:limit} //传参数
             , limit: 10
             , id: 'ordersTable'
             , cols: [[
-                {type: 'checkbox', fixed: 'left'}
-                , {field: 'goodsName', title: '商品名称', width: 120, edit: 'text'}
-                , {field: 'type', title: '种类', width: 100}
-                , {field: 'describes', title: '描述', width: 380}
-                , {field: 'picture', title: '图片', width: 120, templet: "#imgtmp", totalRowText: '合计'}
+                {field: 'goodsName', title: '商品名称', width: 130, edit: 'text'}
+                , {field: 'type', title: '种类', width: 120}
+                , {field: 'describes', title: '描述', width: 320}
+                , {field: 'picture', title: '图片', width: 140, templet: "#imgtmp", totalRowText: '合计'}
+                , {field: 'price', title: '价格', width: 120, edit: 'text', sort: true, totalRow: true}
+                , {field: 'time', title: '发布时间', width: 120, edit: 'text', sort: true, totalRow: true}
                 , {
-                    field: 'price',
-                    title: '价格',
-                    width: 120,
-                    edit: 'text',
-                    sort: true,
-                    totalRow: true
+                    field: 'state', title: '状态', align: 'center', width: 120, templet: function (d) {
+                        if (d.state == '0') {
+                            return '<span class="layui-badge layui-bg-green">待审核</span>'
+                        } else if (d.state == '1') {
+                            return '<span class="layui-badge">未通过</span>'
+                        }
+                    }
                 }
-                , {field: 'tel', title: '卖方联系方式', width: 150}
                 , {
-                    fixed: 'right', width: 200, align: 'center', templet: function () {
+                    fixed: 'right', title: '操作', width: 200, align: 'center', templet: function (d) {
                         return '\<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
                     }
                 }
@@ -210,18 +203,17 @@
                 , field = obj.field; //得到字段
 
         });
-
-        //监听数据操作(其中tableID就是页面中的lay-filter)
-        table.on('tool(orders)', function (obj) {
+//监听数据操作(其中tableID就是页面中的lay-filter)
+        table.on('tool(review)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
                 layer.confirm('真的要删除么', function (index) {
                     //确认删除发送ajax请求
                     $.ajax({
-                        url: '/orders/buyerDelete',
+                        url: '/review/delReview',
                         type: "get",
                         data: {
-                            "goodsId": data.id
+                            "id": data.id
                         },
                         success: function (d) {
                             if (d.state == 1) {
@@ -247,7 +239,6 @@
                 });
             }
         });
-
         var $ = layui.$, active = {};
     });
 

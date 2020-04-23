@@ -10,7 +10,7 @@
 
     <!-- 提交要发布的商品 -->
     <insert id="saveGoods" parameterType="Goods">
-        insert into goods(userId,goodsName,price,type,describes,picture,time,isBuy)
+        insert into goodsreview(userId,goodsName,price,type,describes,picture,time,state)
         values(#{goods.userId},#{goods.goodsName},#{goods.price},#{goods.type},#{goods.describes},#{goods.picture},#{goods.time},0)
     </insert>
 

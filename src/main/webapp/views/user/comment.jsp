@@ -63,43 +63,57 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree">
-                <li class="layui-nav-item layui-nav-itemed"><a href="/page/index">返回主页</a></li>
-                <li class="layui-nav-item layui-nav-itemed"><a class="javascript:;" href="javascript:;">我的信息</a>
+                <li class="layui-nav-item layui-bg-green"><a href="/page/index">返回主页</a></li>
+                <li class="layui-nav-item layui-nav-itemed"><a>我的信息</a>
                     <dl class="layui-nav-child">
                         <dd>
                             <a href="/page/user/update">修改信息</a>
                         </dd>
-                        <dd>
-                            <a href="">查看信息</a>
-                        </dd>
                     </dl>
                 </li>
+
                 <li class="layui-nav-item layui-nav-itemed"><a>我的商品</a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="/page/user/submitGoods">提交商品</a>
-                        </dd>
-                        <dd class="layui-this">
-                            <a href="">收藏夹</a>
+                            <a href="/page/user/submitGoods">提交</a>
                         </dd>
                         <dd>
-                            <a href="">购物车</a>
+                            <a href="/page/user/collect">收藏夹</a>
                         </dd>
                         <dd>
-                            <a href="">已发布商品</a>
+                            <a href="/page/user/cart">购物车</a>
                         </dd>
                         <dd>
-                            <a href="">已购商品</a>
+                            <a href="/page/user/orderPublish">已发布</a>
+                        </dd>
+                        <dd>
+                            <a href="/page/user/review">审核中</a>
+                        </dd>
+                        <dd>
+                            <a href="/page/user/orderHistory">历史交易</a>
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a>我的订单</a>
+                <li class="layui-nav-item layui-nav-itemed"><a>我的订单</a>
+                    <dl class="layui-nav-child layui-nav-itemed">
+                        <dd>
+                            <a href="/page/user/ordersell">发布</a>
+                        </dd>
+                        <dd>
+                            <a href="/page/user/orders">我买的</a>
+                        </dd>
+                    </dl>
                 </li>
-                <li class="layui-nav-item"><a>我的留言</a></li>
-                <li class="layui-nav-item" style="display: none;"><a
-                        data-url="" data-id="4" data-title="test"
-                        id="test" class="site-demo-active" href="javascript:;"
-                        data-type="tabAdd">test</a></li>
+                <li class="layui-nav-item layui-nav-itemed"><a>留言</a>
+                    <dl class="layui-nav-child layui-nav-itemed">
+                        <dd>
+                            <a href="/page/user/comment">我的留言</a>
+                        </dd>
+                        <dd>
+                            <a href="/page/user/commentForS">买家留言</a>
+                        </dd>
+                    </dl>
+                </li>
             </ul>
         </div>
 

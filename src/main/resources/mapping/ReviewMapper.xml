@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.java.mapper.ReviewMapper">
+
+    <delete id="delReview">
+        delete from goodsreview
+        <where>
+            <if test="id!=null and id !=''">AND id= #{id}</if>
+        </where>
+    </delete>
+
+    <select id="getReviewPageList" parameterType="com.java.po.Page" resultType="com.java.po.GoodsReview">
+        SELECT * FROM goodsreview
+        <where>
+            and userId = #{userId}
+        </where>
+        limit #{start},#{rows}
+    </select>
+
+    <select id="getReviewPageCount" parameterType="com.java.po.Page" resultType="java.lang.Integer">
+        SELECT count(1) from goodsreview
+        <where>
+            and userId = #{userId}
+        </where>
+    </select>
+
+</mapper>

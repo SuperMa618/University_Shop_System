@@ -1,9 +1,6 @@
 package com.java.mapper;
 
-import com.java.po.Admin;
-import com.java.po.Goods;
-import com.java.po.Page;
-import com.java.po.User;
+import com.java.po.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -24,4 +21,14 @@ public interface AdGoodsMapper {
 	void delCartByGoodsId(@Param("goodsId") Integer goodsId);
 
 	void delCollectByGoodsId(@Param("goodsId") Integer goodsId);
+
+    int getGoodsReviewPageCount(Page page);
+
+	List<GoodsReview> getGoodsReviewPageList(Page page);
+
+	int changeReviewStateById(@Param("goodsId") int goodsId);
+
+	void goodsPublish(@Param("goods") Goods goods);
+
+	void delReviewById(@Param("id") String id);
 }

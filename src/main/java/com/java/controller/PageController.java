@@ -48,7 +48,25 @@ public class PageController {
 		return "/admin/goods";
 	}
 
-	
+	/** 后台跳转至留言管理*/
+	@RequestMapping("/admin/comment")
+	public String adminComment() {
+		return "/admin/comment";
+	}
+
+	/** 后台跳转至留言管理*/
+	@RequestMapping("/admin/review")
+	public String adminReview() {
+		return "/admin/review";
+	}
+
+	/** 后台跳转至留言管理*/
+	@RequestMapping("/admin/carousel")
+	public String adminCarousel() {
+		return "/admin/carousel";
+	}
+
+
 	/** 跳转至用户首页 */
 	@RequestMapping("/user/index")
 	public String userIndex() {
@@ -95,6 +113,12 @@ public class PageController {
 	@RequestMapping("/user/orderPublish")
 	public String userPublish() {
 		return "/user/orderPublish";
+	}
+
+	/** 跳转至用户发布的商品 */
+	@RequestMapping("/user/review")
+	public String userReview() {
+		return "/user/review";
 	}
 
     /** 跳转至用户提交商品 */
