@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-			<version>4.3.25.RELEASE</version>
+			<version>5.2.20.RELEASE</version>
 		</dependency>
 
 		<!-- Spring创建和管理bean，进行IOC、DI操作 -->
